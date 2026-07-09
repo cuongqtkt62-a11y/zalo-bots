@@ -1,0 +1,289 @@
+{
+  "121548013469673403": {
+    "id": "121548013469673403",
+    "displayName": "Group Chat",
+    "firstContact": "2026-06-08T04:32:54.478Z",
+    "lastContact": "2026-06-08T10:11:56.409Z",
+    "messageCount": 8,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "8965000346949558142": {
+    "id": "8965000346949558142",
+    "displayName": "Group Chat",
+    "firstContact": "2026-06-08T04:42:49.356Z",
+    "lastContact": "2026-06-08T04:43:35.013Z",
+    "messageCount": 5,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "4371856145529151167": {
+    "id": "4371856145529151167",
+    "displayName": "Unknown",
+    "firstContact": "2026-06-08T04:52:13.271Z",
+    "lastContact": "2026-06-10T11:01:04.235Z",
+    "messageCount": 36,
+    "leadScore": 31,
+    "leadNotes": [
+      {
+        "date": "2026-06-08T04:52:13.277Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:52:22.023Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:52:28.267Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:52:36.898Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:53:02.690Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:53:23.932Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T04:53:45.749Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-08T09:40:59.686Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:36:05.226Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:36:19.326Z",
+        "change": 5,
+        "reason": "Quan tâm: \"Khóa học\""
+      },
+      {
+        "date": "2026-06-09T01:36:46.833Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:37:08.885Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:37:55.105Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-10T10:57:57.038Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-10T10:58:57.427Z",
+        "change": 10,
+        "reason": "Gửi SĐT: 0944703379"
+      },
+      {
+        "date": "2026-06-10T10:59:12.526Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-10T10:59:29.704Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-10T11:01:04.234Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      }
+    ],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "7328356299048345511": {
+    "id": "7328356299048345511",
+    "displayName": "Group Chat",
+    "firstContact": "2026-06-08T08:59:21.103Z",
+    "lastContact": "2026-06-08T08:59:21.103Z",
+    "messageCount": 1,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 2
+  },
+  "4034486046448206825": {
+    "id": "4034486046448206825",
+    "displayName": "Group Chat",
+    "firstContact": "2026-06-08T10:44:49.529Z",
+    "lastContact": "2026-06-09T01:49:49.238Z",
+    "messageCount": 41,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "6261001031686995191": {
+    "id": "6261001031686995191",
+    "displayName": "Unknown",
+    "firstContact": "2026-06-09T01:39:33.014Z",
+    "lastContact": "2026-06-09T01:41:59.199Z",
+    "messageCount": 14,
+    "leadScore": 7,
+    "leadNotes": [
+      {
+        "date": "2026-06-09T01:39:33.015Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:40:09.285Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:40:22.204Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:40:46.464Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:40:55.796Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:41:25.183Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-09T01:41:59.199Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      }
+    ],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "6114894381239760462": {
+    "id": "6114894381239760462",
+    "displayName": "Unknown",
+    "firstContact": "2026-06-14T05:46:41.249Z",
+    "lastContact": "2026-06-14T05:49:27.826Z",
+    "messageCount": 14,
+    "leadScore": 11,
+    "leadNotes": [
+      {
+        "date": "2026-06-14T05:46:41.250Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-14T05:46:53.549Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-14T05:47:07.108Z",
+        "change": 5,
+        "reason": "Quan tâm: \"Khóa học\""
+      },
+      {
+        "date": "2026-06-14T05:47:54.334Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-14T05:48:15.428Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-14T05:48:40.607Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      },
+      {
+        "date": "2026-06-14T05:49:27.826Z",
+        "change": 1,
+        "reason": "Gửi tin nhắn"
+      }
+    ],
+    "tags": [],
+    "greetingStep": 3,
+    "lastNurtured": "2026-06-22T02:00:00.289Z"
+  },
+  "7805550608938156224": {
+    "id": "7805550608938156224",
+    "displayName": "CỔ MÁY KIẾM 💰FACEBOOK",
+    "firstContact": "2026-06-14T05:59:11.814Z",
+    "lastContact": "2026-06-25T01:11:32.495Z",
+    "messageCount": 7,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 3
+  },
+  "6543586159264721757": {
+    "id": "6543586159264721757",
+    "displayName": "Unknown",
+    "firstContact": "2026-06-15T09:40:36.410Z",
+    "lastContact": "2026-06-15T09:40:36.583Z",
+    "messageCount": 2,
+    "leadScore": 20,
+    "leadNotes": [
+      {
+        "date": "2026-06-15T09:40:36.417Z",
+        "change": 10,
+        "reason": "Gửi SĐT: 0378329052"
+      },
+      {
+        "date": "2026-06-15T09:40:36.418Z",
+        "change": 10,
+        "reason": "Phân loại: Khách hàng tiềm năng"
+      }
+    ],
+    "tags": [
+      "Khách hàng tiềm năng"
+    ],
+    "greetingStep": 1
+  },
+  "1048266502209272862": {
+    "id": "1048266502209272862",
+    "displayName": "LÀM CHỦ AI",
+    "firstContact": "2026-06-25T05:35:53.279Z",
+    "lastContact": "2026-06-25T05:35:53.279Z",
+    "messageCount": 1,
+    "leadScore": 0,
+    "leadNotes": [],
+    "tags": [],
+    "greetingStep": 2
+  }
+}

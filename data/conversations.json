@@ -1,0 +1,30 @@
+{
+  "test_user_1": [
+    {
+      "role": "user",
+      "content": "hi em"
+    },
+    {
+      "role": "assistant",
+      "content": "Chào anh/chị! Em là trợ lý AI của anh Cường. Rất vui được hỗ trợ anh/chị hôm nay ạ. 😊\n\nAnh/chị đang quan tâm đến lĩnh vực nào hay có câu hỏi gì cần em giải đáp không ạ?"
+    }
+  ],
+  "test_user_id_123": [
+    {
+      "role": "user",
+      "content": "hi bot"
+    },
+    {
+      "role": "assistant",
+      "content": "Chào bạn! Em là trợ lý của anh Cường đây ạ. Rất vui được hỗ trợ bạn. 😊\n\nBạn đang quan tâm đến lĩnh vực nào ạ?\n*   **Trading** (Hệ thống SMC-4EMA, VSA-ICT-H5, Trading Bot tín hiệu 24/7)\n*   **Tự động hóa Doanh nghiệp một người (OPC)** tích hợp AI Automation\n*   Hay bạn có câu hỏi chung nào khác không ạ?\n\nHãy cho em biết nhé!"
+    },
+    {
+      "role": "user",
+      "content": "hi bot"
+    },
+    {
+      "role": "assistant",
+      "content": "Chào bạn! Em là trợ lý của anh Cường đây ạ. Rất vui được được hỗ trợ bạn. 😊\n\nBạn có câu hỏi hoặc đang muốn tìm hiểu về mảng nào không ạ? Em có thể hỗ trợ bạn về:\n*   **Trading** (phương pháp SMC-4EMA, VSA-ICT-H5, Trading Bot tín hiệu 24/7)\n*   **Tự động hóa Doanh nghiệp một người (OPC)**\n*   Hoặc các vấn đề khác liên quan đến trading và hệ thống của anh Cường.\n\nHãy cho em biết nhé!"
+    }
+  ]
+}

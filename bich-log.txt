@@ -1,0 +1,267 @@
+--- BICH ERROR LOG ---
+
+❌ Không thể kết nối Zalo. Có thể credentials đã hết hạn.
+   Hãy đăng nhập lại: npm run login
+
+
+❌ Không thể kết nối Zalo. Có thể credentials đã hết hạn.
+   Hãy đăng nhập lại: npm run login
+
+
+❌ Không thể kết nối Zalo. Có thể credentials đã hết hạn.
+   Hãy đăng nhập lại: npm run login
+
+
+❌ Không thể kết nối Zalo. Có thể credentials đã hết hạn.
+   Hãy đăng nhập lại: npm run login
+
+
+--- BICH OUT LOG ---
+           ║
+║  Reply Delay:  1500-4000ms                            ║
+║                                                          ║
+║  Admin Commands:                                         ║
+║    #id #baocao #testcare                                 ║
+║    #duyet [groupId] [mục đích]                           ║
+║    #mucdich [groupId] [mục đích mới]                     ║
+║    #kichban [groupId] [scenarioId]                       ║
+║    #kichban ai [groupId] (AI sinh bài đăng)              ║
+║  User Commands:                                          ║
+║    #menu #khoa_hoc #tu_van #faq                          ║
+║                                                          ║
+║  Cron Schedule:                                          ║
+║    08:00 CEO Briefing                                    ║
+║    08:01 Group Care (sáng)                               ║
+║    08:30 Follow-up Engine                                ║
+║    09:00 Contact Nurturing                               ║
+║    10:00 Làm chủ AI Group Care                           ║
+║    12:00 Group Care (trưa)                               ║
+║    19:00 Group Care (tối) & Content Creator (T3, T5)     ║
+║                                                          ║
+║  Press Ctrl+C to stop                                    ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-08 12:15:03 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+2026-07-08 12:15:04 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+2026-07-08 12:15:04 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+[31mERROR[0m
+[31mERROR[0m Another connection is opened, closing this one
+[31mERROR[0m
+2026-07-08 12:15:05 [[33mwarn[39m] 🔌 Listener connection closed
+  {
+  "service": "zalo-ai-assistant",
+  "code": 1000,
+  "reason": "NORMAL_CLOSURE"
+}
+2026-07-08 12:15:05 [[32minfo[39m] 🔌 Connection closed with code 1000 — không cần reconnect.
+2026-07-08 13:15:00 [[32minfo[39m] 🛑 Shutting down (SIGINT/Ctrl+C)...
+2026-07-08 13:15:00 [[32minfo[39m] 💾 Data saved to disk
+
+╔══════════════════════════════════════════════════════════╗
+║       🤖 ZALO AI ASSISTANT — TRỢ LÝ CÔ LƯU BÍCH       ║
+║       9 Skills — Full Automation                         ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-08 13:15:02 [[32minfo[39m] 📁 Loaded credentials
+  {
+  "service": "zalo-ai-assistant",
+  "loginTime": "2026-07-08T07:07:01.498Z"
+}
+2026-07-08 13:15:02 [[32minfo[39m] 🔌 Connecting to Zalo...
+
+╔══════════════════════════════════════════════════════════╗
+║       🤖 ZALO AI ASSISTANT — TRỢ LÝ CÔ LƯU BÍCH       ║
+║       9 Skills — Full Automation                         ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-08 13:15:02 [[32minfo[39m] 📁 Loaded credentials
+  {
+  "service": "zalo-ai-assistant",
+  "loginTime": "2026-07-08T07:07:01.498Z"
+}
+2026-07-08 13:15:02 [[32minfo[39m] 🔌 Connecting to Zalo...
+[34mINFO[0m zca-js is up to date
+[34mINFO[0m zca-js is up to date
+[31mERROR[0m Login failed: TypeError: fetch failed
+    at node:internal/deps/undici/undici:14976:13
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async request (file:///app/bich-bot/node_modules/zca-js/dist/utils.js:265:22)
+    at async login (file:///app/bich-bot/node_modules/zca-js/dist/apis/login.js:6:26)
+    at async Zalo.loginCookie (file:///app/bich-bot/node_modules/zca-js/dist/zalo.js:57:27)
+    at async startBot (file:///app/bich-bot/src/index.js:91:11) {
+  [cause]: AggregateError [ETIMEDOUT]: 
+      at internalConnectMultiple (node:net:1122:18)
+      at internalConnectMultiple (node:net:1190:5)
+      at Timeout.internalConnectMultipleTimeout (node:net:1716:5)
+      at listOnTimeout (node:internal/timers:583:11)
+      at process.processTimers (node:internal/timers:519:7) {
+    code: 'ETIMEDOUT',
+    [errors]: [ [Error], [Error], [Error], [Error] ]
+  }
+}
+2026-07-08 13:15:03 [[31merror[39m] ❌ Failed to connect to Zalo
+  {
+  "service": "zalo-ai-assistant",
+  "error": "fetch failed"
+}
+2026-07-08 13:15:03 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+2026-07-08 13:15:03 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+
+╔══════════════════════════════════════════════════════════╗
+║       🤖 ZALO AI ASSISTANT — TRỢ LÝ CÔ LƯU BÍCH       ║
+║       9 Skills — Full Automation                         ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-08 13:15:04 [[32minfo[39m] 📁 Loaded credentials
+  {
+  "service": "zalo-ai-assistant",
+  "loginTime": "2026-07-08T07:07:01.498Z"
+}
+2026-07-08 13:15:04 [[32minfo[39m] 🔌 Connecting to Zalo...
+[34mINFO[0m Logged in as 1922958484263586621
+2026-07-08 13:15:04 [[32minfo[39m] ✅ Connected to Zalo successfully!
+2026-07-08 13:15:04 [[32minfo[39m] 👂 Listening for messages...
+
+╔══════════════════════════════════════════════════════════╗
+║       🎉 BOT IS RUNNING — TRỢ LÝ CÔ LƯU BÍCH!         ║
+╠══════════════════════════════════════════════════════════╣
+║  AI Provider:  gemini                                 ║
+║  Rate Limit:   8 msg/min                             ║
+║  Reply Delay:  1500-4000ms                            ║
+║                                                          ║
+║  Admin Commands:                                         ║
+║    #id #baocao #testcare                                 ║
+║    #duyet [groupId] [mục đích]                           ║
+║    #mucdich [groupId] [mục đích mới]                     ║
+║    #kichban [groupId] [scenarioId]                       ║
+║    #kichban ai [groupId] (AI sinh bài đăng)              ║
+║  User Commands:                                          ║
+║    #menu #khoa_hoc #tu_van #faq                          ║
+║                                                          ║
+║  Cron Schedule:                                          ║
+║    08:00 CEO Briefing                                    ║
+║    08:01 Group Care (sáng)                               ║
+║    08:30 Follow-up Engine                                ║
+║    09:00 Contact Nurturing                               ║
+[34mINFO[0m zca-js is up to date
+║    10:00 Làm chủ AI Group Care                           ║
+║    12:00 Group Care (trưa)                               ║
+║    19:00 Group Care (tối) & Content Creator (T3, T5)     ║
+║                                                          ║
+║  Press Ctrl+C to stop                                    ║
+╚══════════════════════════════════════════════════════════╝
+
+2026-07-08 13:15:04 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+2026-07-08 13:15:04 [[32minfo[39m] 📊 Stats
+  {
+  "service": "zalo-ai-assistant",
+  "date": "2026-07-08",
+  "uniqueUsers": 1,
+  "totalMessages": 2,
+  "incoming": 1,
+  "outgoing": 1,
+  "totalUsersAllTime": 11,
+  "totalMessagesAllTime": 106
+}
+[34mINFO[0m Logged in as 1922958484263586621
+2026-07-08 13:15:06 [[32minfo[39m] ✅ Connected to Zalo successfully!
+2026-07-08 13:15:06 [[32minfo[39m] 👂 Listening for messages...
+
+╔══════════════════════════════════════════════════════════╗
+║       🎉 BOT IS RUNNING — TRỢ LÝ CÔ LƯU BÍCH!         ║
+╠══════════════════════════════════════════════════════════╣
+║  AI Provider:  gemini                                 ║
+║  Rate Limit:   8 msg/min                             ║
+║  Reply Delay:  1500-4000ms                            ║
+║                                                          ║
+║  Admin Commands:                                         ║
+║    #id #baocao #testcare                                 ║
+║    #duyet [groupId] [mục đích]                           ║
+║    #mucdich [groupId] [mục đích mới]                     ║
+║    #kichban [groupId] [scenarioId]                       ║
+║    #kichban ai [groupId] (AI sinh bài đăng)              ║
+║  User Commands:                                          ║
+║    #menu #khoa_hoc #tu_van #faq                          ║
+║                                                          ║
+║  Cron Schedule:                                          ║
+║    08:00 CEO Briefing                                    ║
+║    08:01 Group Care (sáng)                               ║
+║    08:30 Follow-up Engine                                ║
+║    09:00 Contact Nurturing                               ║
+║    10:00 Làm chủ AI Group Care                           ║
+║    12:00 Group Care (trưa)                               ║
+║    19:00 Group Care (tối) & Content Creator (T3, T5)     ║
+║                                                          ║
+║  Press Ctrl+C to stop                                    ║
+╚══════════════════════════════════════════════════════════╝
+
+[31mERROR[0m
+[31mERROR[0m Another connection is opened, closing this one
+[31mERROR[0m
+2026-07-08 13:15:08 [[33mwarn[39m] 🔌 Listener connection closed
+  {
+  "service": "zalo-ai-assistant",
+  "code": 1000,
+  "reason": "NORMAL_CLOSURE"
+}
+2026-07-08 13:15:08 [[32minfo[39m] 🔌 Connection closed with code 1000 — không cần reconnect.

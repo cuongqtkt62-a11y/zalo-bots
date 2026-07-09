@@ -1,0 +1,14 @@
+node_modules/
+*.log
+qr.png
+bich-bot/qr.png
+cuong-bot/qr.png
+*.pdf
+bich-bot/data/logos/
+cuong-bot/data/logos/
+bich-bot/data/fonts/
+bich-bot/data/portraits/
+assets/*.mp3
+*.png
+
+*.mp3

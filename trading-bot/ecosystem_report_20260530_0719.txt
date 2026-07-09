@@ -1,0 +1,323 @@
+======================================================================
+🔥🔥🔥 BÁO CÁO DÒNG TIỀN THEO HỆ SINH THÁI
+📅 2026-05-30 07:19
+📊 Tổng: 64 token có dòng tiền mạnh (score ≥ 25)
+======================================================================
+
+=====================🏆 TOP 20 DÒNG TIỀN MẠNH NHẤT=====================
+#   Token      Score       24h      3d      7d   Vol↑   RSI
+------------------------------------------------------------
+🥇1  HEI        85       +82.8%  +80.2%  +61.1%   3.3x   78
+🥇2  HOOD       83       +10.1%  +26.3%  +29.0%   1.3x   90
+🥇3  XLM        82       +30.7%  +81.3%  +90.1%   0.9x   92
+🥈4  ID         79       +36.1%  +30.1%  +23.6%   2.1x   72
+🥈5  PLTR       73        +8.0%  +15.2%  +15.4%   0.5x   89
+🥈6  IOTA       73       +12.2%  +20.2%  +20.8%   0.9x   85
+🥉7  ALLO       72       +66.3% +202.3% +212.7%   0.8x   84
+🥉8  DYDX       70       +12.4%   +7.7%  +25.7%   0.8x   57
+🥉9  HEMI       68       +13.1%   +6.0%   +2.7%   5.1x   59
+🥉10 BAT        67        +7.9%  +24.5%  +27.1%   0.7x   76
+  11 HBAR       66       +11.4%  +19.1%  +19.2%   1.1x   79
+  12 US         66       +11.4%   +8.3%  +18.0%   1.3x   56
+  13 BASED      65       +23.0%  +20.7%  +10.9%   3.6x   73
+  14 LIT        63        +9.0%   +4.7%  +14.3%   1.7x   60
+  15 LAB        62       +46.2%  +51.8%  +40.3%   0.8x   81
+  16 MSFT       58        +5.5%   +8.7%   +8.2%   0.9x   97
+  17 INJ        56       +17.5%   +9.8%  +34.0%   1.0x   64
+  18 AR         55        +5.8%   +9.5%  +19.7%   0.4x   55
+  19 BAS        53        +7.2%  +14.6%  +47.1%   0.3x   71
+  20 DEXE       53        +7.3%  +13.0%  +33.1%   0.4x   90
+
+══════════════════════════════════════════════════════════════════════
+📊 PHÂN TÍCH THEO HỆ SINH THÁI
+══════════════════════════════════════════════════════════════════════
+
+Hệ sinh thái                    Tokens  Avg Score    Tổng Vol 24h
+-----------------------------------------------------------------
+🔥 🟡 BNB Chain (BSC)                1         79   $      0.21B
+🔥 🏦 DeFi Blue Chips                2         58   $      2.34B
+📈 🟣 Ethereum (ETH)                 2         48   $      0.04B
+📈 ❓ Khác                          49         48   $      6.08B
+📈 🔥 Hyperliquid                    1         46   $      2.31B
+📈 🎮 Gaming / Metaverse             2         46   $      0.09B
+📈 📦 Infra / Oracle                 2         40   $      0.04B
+📈 ⚪ Cosmos                         3         37   $      0.30B
+📈 🤖 AI / DePIN                     5         35   $      0.29B
+📊 💎 Layer 1 Mới                    4         32   $      2.41B
+📊 🟢 Solana (SOL)                   1         29   $      0.05B
+📊 🐕 Meme / Culture                 1         29   $      0.01B
+📊 🔐 ZK / Privacy                   1         26   $      0.04B
+📊 🌐 Polkadot                       1         26   $      0.02B
+
+──────────────────────────────────────────────────────────────────────
+🟡 BNB Chain (BSC)  🔥🔥🔥 Avg Score: 79
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐⭐ ID         Score: 79   | 24h: +36.1% | 3d: +30.1% | Vol: 2.1x | RSI: 72
+           🔥🔥 Vol tăng 2.1x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 35.1%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🏦 DeFi Blue Chips  🔥🔥🔥 Avg Score: 58
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐⭐ DYDX       Score: 70   | 24h: +12.4% | 3d:  +7.7% | Vol: 0.8x | RSI: 57
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 17.5%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐ HYPE       Score: 46   | 24h:  +4.6% | 3d:  +3.8% | Vol: 0.8x | RSI: 62
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 13.7%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🟣 Ethereum (ETH)  🔥🔥 Avg Score: 48
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐⭐ DYDX       Score: 70   | 24h: +12.4% | 3d:  +7.7% | Vol: 0.8x | RSI: 57
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 17.5%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+   PHA        Score: 26   | 24h:  +1.3% | 3d: -16.3% | Vol: 0.2x | RSI: 31
+           📉 Vol bình thường 0.2x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 8.5%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+❓ Khác  🔥🔥 Avg Score: 48
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐⭐ HEI        Score: 85   | 24h: +82.8% | 3d: +80.2% | Vol: 3.3x | RSI: 78
+           🔥🔥🔥 Vol SURGE 3.3x
+           🟠 EMA hỗn hợp
+           Range 75.8%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ HOOD       Score: 83   | 24h: +10.1% | 3d: +26.3% | Vol: 1.3x | RSI: 90
+           📊 Vol nhích 1.3x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 15.9%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ XLM        Score: 82   | 24h: +30.7% | 3d: +81.3% | Vol: 0.9x | RSI: 92
+           📉 Vol bình thường 0.9x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 32.3%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ PLTR       Score: 73   | 24h:  +8.0% | 3d: +15.2% | Vol: 0.5x | RSI: 89
+           📉 Vol bình thường 0.5x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 11.4%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ IOTA       Score: 73   | 24h: +12.2% | 3d: +20.2% | Vol: 0.9x | RSI: 85
+           📉 Vol bình thường 0.9x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 19.4%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ ALLO       Score: 72   | 24h: +66.3% | 3d: +202.3% | Vol: 0.8x | RSI: 84
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 81.9%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ HEMI       Score: 68   | 24h: +13.1% | 3d:  +6.0% | Vol: 5.1x | RSI: 59
+           🔥🔥🔥 Vol SURGE 5.1x
+           🟠 EMA hỗn hợp
+           Range 19.0%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ BAT        Score: 67   | 24h:  +7.9% | 3d: +24.5% | Vol: 0.7x | RSI: 76
+           📉 Vol bình thường 0.7x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 13.1%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ HBAR       Score: 66   | 24h: +11.4% | 3d: +19.1% | Vol: 1.1x | RSI: 79
+           📉 Vol bình thường 1.1x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 15.0%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ US         Score: 66   | 24h: +11.4% | 3d:  +8.3% | Vol: 1.3x | RSI: 56
+           📊 Vol nhích 1.3x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 19.4%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🔥 Hyperliquid  🔥🔥 Avg Score: 46
+──────────────────────────────────────────────────────────────────────
+  ⭐ HYPE       Score: 46   | 24h:  +4.6% | 3d:  +3.8% | Vol: 0.8x | RSI: 62
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 13.7%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🎮 Gaming / Metaverse  🔥🔥 Avg Score: 46
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐ DEXE       Score: 53   | 24h:  +7.3% | 3d: +13.0% | Vol: 0.4x | RSI: 90
+           📉 Vol bình thường 0.4x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 9.0%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐ BEAT       Score: 38   | 24h: +12.8% | 3d:  -1.2% | Vol: 0.3x | RSI: 47
+           📉 Vol bình thường 0.3x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 19.5%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+📦 Infra / Oracle  🔥 Avg Score: 40
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐ AR         Score: 55   | 24h:  +5.8% | 3d:  +9.5% | Vol: 0.4x | RSI: 55
+           📉 Vol bình thường 0.4x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 15.7%
+           💰 OBV tăng — Tiền đang chảy vào
+   PHA        Score: 26   | 24h:  +1.3% | 3d: -16.3% | Vol: 0.2x | RSI: 31
+           📉 Vol bình thường 0.2x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 8.5%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+⚪ Cosmos  🔥 Avg Score: 37
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐ INJ        Score: 56   | 24h: +17.5% | 3d:  +9.8% | Vol: 1.0x | RSI: 64
+           📉 Vol bình thường 1.0x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 22.3%
+           📉 OBV giảm
+   SEI        Score: 29   | 24h:  -0.9% | 3d:  -6.7% | Vol: 0.5x | RSI: 44
+           📉 Vol bình thường 0.5x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 6.2%
+           💰 OBV tăng — Tiền đang chảy vào
+   NIL        Score: 26   | 24h:  -0.5% | 3d:  -8.2% | Vol: 0.6x | RSI: 38
+           📉 Vol bình thường 0.6x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 16.2%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🤖 AI / DePIN  🔥 Avg Score: 35
+──────────────────────────────────────────────────────────────────────
+  ⭐ IO         Score: 48   | 24h:  +5.8% | 3d:  +3.1% | Vol: 0.6x | RSI: 49
+           📉 Vol bình thường 0.6x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 16.6%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐ FET        Score: 43   | 24h:  +5.7% | 3d:  -0.8% | Vol: 1.1x | RSI: 48
+           📉 Vol bình thường 1.1x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 12.0%
+           💰 OBV tăng — Tiền đang chảy vào
+   ARKM       Score: 34   | 24h:  +2.4% | 3d:  -5.6% | Vol: 0.5x | RSI: 39
+           📉 Vol bình thường 0.5x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 8.5%
+           💰 OBV tăng — Tiền đang chảy vào
+   NIL        Score: 26   | 24h:  -0.5% | 3d:  -8.2% | Vol: 0.6x | RSI: 38
+           📉 Vol bình thường 0.6x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 16.2%
+           💰 OBV tăng — Tiền đang chảy vào
+   PHA        Score: 26   | 24h:  +1.3% | 3d: -16.3% | Vol: 0.2x | RSI: 31
+           📉 Vol bình thường 0.2x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 8.5%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+💎 Layer 1 Mới  📊 Avg Score: 32
+──────────────────────────────────────────────────────────────────────
+  ⭐ HYPE       Score: 46   | 24h:  +4.6% | 3d:  +3.8% | Vol: 0.8x | RSI: 62
+           📉 Vol bình thường 0.8x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 13.7%
+           💰 OBV tăng — Tiền đang chảy vào
+   SEI        Score: 29   | 24h:  -0.9% | 3d:  -6.7% | Vol: 0.5x | RSI: 44
+           📉 Vol bình thường 0.5x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 6.2%
+           💰 OBV tăng — Tiền đang chảy vào
+   HMSTR      Score: 29   | 24h:  -1.9% | 3d:  -1.7% | Vol: 0.3x | RSI: 46
+           📉 Vol bình thường 0.3x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 12.7%
+           💰 OBV tăng — Tiền đang chảy vào
+   NIL        Score: 26   | 24h:  -0.5% | 3d:  -8.2% | Vol: 0.6x | RSI: 38
+           📉 Vol bình thường 0.6x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 16.2%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🟢 Solana (SOL)  📊 Avg Score: 29
+──────────────────────────────────────────────────────────────────────
+   JTO        Score: 29   | 24h:  +8.1% | 3d:  +4.1% | Vol: 0.7x | RSI: 39
+           📉 Vol bình thường 0.7x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 15.0%
+           📉 OBV giảm
+
+──────────────────────────────────────────────────────────────────────
+🐕 Meme / Culture  📊 Avg Score: 29
+──────────────────────────────────────────────────────────────────────
+   HMSTR      Score: 29   | 24h:  -1.9% | 3d:  -1.7% | Vol: 0.3x | RSI: 46
+           📉 Vol bình thường 0.3x
+           🟢 EMA bullish hoàn hảo (P > 34 > 89 > 200)
+           Range 12.7%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🔐 ZK / Privacy  📊 Avg Score: 26
+──────────────────────────────────────────────────────────────────────
+   NIL        Score: 26   | 24h:  -0.5% | 3d:  -8.2% | Vol: 0.6x | RSI: 38
+           📉 Vol bình thường 0.6x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 16.2%
+           💰 OBV tăng — Tiền đang chảy vào
+
+──────────────────────────────────────────────────────────────────────
+🌐 Polkadot  📊 Avg Score: 26
+──────────────────────────────────────────────────────────────────────
+   PHA        Score: 26   | 24h:  +1.3% | 3d: -16.3% | Vol: 0.2x | RSI: 31
+           📉 Vol bình thường 0.2x
+           🟡 EMA gần bullish (P > 34 > 89)
+           Range 8.5%
+           💰 OBV tăng — Tiền đang chảy vào
+
+══════════════════════════════════════════════════════════════════════
+🎯 KẾT LUẬN & KHUYẾN NGHỊ
+══════════════════════════════════════════════════════════════════════
+
+💰 TOP 3 HỆ SINH THÁI DÒNG TIỀN MẠNH NHẤT:
+  1. 🟡 BNB Chain (BSC) — Avg: 79 | Best: ID(79)
+  2. 🏦 DeFi Blue Chips — Avg: 58 | Best: DYDX(70), HYPE(46)
+  3. 🟣 Ethereum (ETH) — Avg: 48 | Best: DYDX(70), PHA(26)
+
+🔥 TOKEN DÒNG TIỀN CỰC MẠNH (Score ≥ 50):
+  ⭐ HEI        Score: 85   | ❓ Khác | 24h: +82.8% | Vol: 3.3x
+  ⭐ HOOD       Score: 83   | ❓ Khác | 24h: +10.1% | Vol: 1.3x
+  ⭐ XLM        Score: 82   | ❓ Khác | 24h: +30.7% | Vol: 0.9x
+  ⭐ ID         Score: 79   | 🟡 BNB Chain (BSC) | 24h: +36.1% | Vol: 2.1x
+  ⭐ PLTR       Score: 73   | ❓ Khác | 24h:  +8.0% | Vol: 0.5x
+  ⭐ IOTA       Score: 73   | ❓ Khác | 24h: +12.2% | Vol: 0.9x
+  ⭐ ALLO       Score: 72   | ❓ Khác | 24h: +66.3% | Vol: 0.8x
+  ⭐ DYDX       Score: 70   | 🟣 Ethereum (ETH) & 🏦 DeFi Blue Chips | 24h: +12.4% | Vol: 0.8x
+  ⭐ HEMI       Score: 68   | ❓ Khác | 24h: +13.1% | Vol: 5.1x
+  ⭐ BAT        Score: 67   | ❓ Khác | 24h:  +7.9% | Vol: 0.7x
+  ⭐ HBAR       Score: 66   | ❓ Khác | 24h: +11.4% | Vol: 1.1x
+  ⭐ US         Score: 66   | ❓ Khác | 24h: +11.4% | Vol: 1.3x
+  ⭐ BASED      Score: 65   | ❓ Khác | 24h: +23.0% | Vol: 3.6x
+  ⭐ LIT        Score: 63   | ❓ Khác | 24h:  +9.0% | Vol: 1.7x
+  ⭐ LAB        Score: 62   | ❓ Khác | 24h: +46.2% | Vol: 0.8x
+
+══════════════════════════════════════════════════════════════════════
+⏰ Cập nhật lúc: 2026-05-30 07:19
+══════════════════════════════════════════════════════════════════════

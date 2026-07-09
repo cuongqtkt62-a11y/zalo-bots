@@ -1,0 +1,36 @@
+============================================================
+🎣 **HỆ THỐNG PHÂN TÍCH MIROFISH — CORRELATION ENGINE**
+📅 Thời gian: 2026-06-08 14:59:54
+============================================================
+
+📊 **CHỈ SỐ MIROFISH INDEX: 52.0/100**
+⚠️ Mức độ rủi ro: 🟠 CAO (HIGH GEOPOLITICAL RISK)
+
+🧩 **Yếu tố tác động:**
+  • OSINT Geopolitical Score: 27.0/35
+  • Oil Price Volatility Score: 25.0/25
+  • Gold Price Volatility Score: 0.0/25
+
+💵 **Giá cả hàng hóa & tương quan:**
+  • Vàng XAU: $4,323.60 (-0.96%)
+  • Dầu WTI: $94.34 (+4.20%)
+  • Chỉ số DXY: 100.05 (-0.02%)
+
+📰 **Tin tức OSINT trọng điểm (Đã dịch tự động):**
+  1. Israel và Iran đình công thương mại, đe dọa kéo khu vực trở lại chiến tranh toàn diện - NPR (Google News Geopolitics)
+     🔗 Link: https://news.google.com/rss/articles/CBMia0FVX3lxTFBTNHQ1RXBOWlhKdEhLUHd2V2x0WTU1YWFtZzNmbVN0X0laSjlPT0Q3ZXBWWlVTZ2pubHVYUWI1X0otMDZnSDV4QnVtQ1hxVjI1ZHVsVFVYVlFsZDhfMnQwblFrejRBU3J5QTNZ?oc=5
+  2. Israel tấn công nhà máy hóa dầu của Iran trong cuộc đình công mới sau khi bị Trump khiển trách - Reuters (Google News Geopolitics)
+     🔗 Link: https://news.google.com/rss/articles/CBMisAFBVV95cUxNbTR6aGlfWGhCWWdKS05SWUxZSDk0RU0zcVRxSDEzM3dYcWVubTExaTE4cTRpb3VnS2IxVFoyRUpqLTVhMEhXWkpCUjNDTmpCZUpra1lVMWY2X0xjel9xQmtIdnhMX1hWRmk1d09oZHd2MnlBNDhfaktHNEFRa1RqWmFZaW1aTlo1Sk8yM3NMaFYzeFNkRHU0aHlMRTU3RVBPOUlLVW9ydGY1ZEdxaHg5ZQ?oc=5
+  3. Israel tấn công Iran sau khi Tehran bắn loạt tên lửa - The Washington Post (Google News Geopolitics)
+     🔗 Link: https://news.google.com/rss/articles/CBMixgFBVV95cUxOMVFqaTlpQkZ5Z1lyZ3dSTHNEcGdqeExaOTlmSHZpeHhzZzhMcUJzVW8xRkQwV0s4T3lPRGpfTVlxMkk4LUQ3MW9LSWVseW83a1dfbHdBUG96dlNFWE9LRVRvWnJmcVJuWDNKVGFiZUdlUzhZSVZzZ0MwS2J1ek1tWnBOWlVaREU2bTk1S3pzcUhndTRqUGdaVllfSmkybmV3VzNyZmxUM2lVNTUxN0NuZnpBU2ZrZjgzb2xkdjZueEtveEZ2ZGc?oc=5
+  4. Israel tấn công Iran bất chấp lời cầu xin của Trump khi khủng hoảng Trung Đông có nguy cơ leo thang - The Guardian (Google News Geopolitics)
+     🔗 Link: https://news.google.com/rss/articles/CBMipgFBVV95cUxOQ3BHTEpYOFluc2ozbWxhV00zem8yZEdlcHlkNXB2am9hNldOWHBBSUdOOFQzdXExZHp1R25oTW12RzRmbGVRLWN5VEh6TWJuQ3pRbEYtM3J5UHpTV2JYT1ZFTzRCOVU0dmJpYlVsQkNldWxnRzIyX2UyZzNKS01iekJfWndRUmVpUjcyeVJZd0lhaDBORFN5ZWloWk16RWVCREJDN0h3?oc=5
+  5. Chiến tranh Iran ngày 101: Căng thẳng leo thang khi Iran và Israel không kích lẫn nhau - Al Jazeera (Google News Geopolitics)
+     🔗 Link: https://news.google.com/rss/articles/CBMisAFBVV95cUxNaFZpU1c2SGVHTkNxVGdrYTA2TnduOVRaRUo3WnY5YnFHNHlPektpTjE0UXJFSnItU2Z4TVo4ZUExZVdPQ2hHS0pzTU9IclBTd3lnWE5pVFNyWUFoWkxTVnh2YnQxQmpmYXp3U0JwRWkxdVpNTEp4OTNmdEM5TTRGaEtqMWV0WHJIcXVVOE5abmowb2FkRnB5T3dreEZmT0gxOTNOQm0zVUFNdHRyelpjc9IBtgFBVV95cUxQU3dvOWhVUzVZMFBUTEpsbnlCSGhqWHF0NDNCZnBpd1I1WnFEXy03SHgtZmtVUjZ2blNLSDdfamFaRFBxRWdNdE1CRVNyempGMkRTd0tqRC1vSWFaYlJSdnMxdFB1ZjdoT20xTXZncHRseW9JRk1JSDc1eHhjUEkwZDVmY3BZRS12UGl2UElPdTZHWVdDaV9TQUJPUG1rQ2c2TGlKbFE1RDN3emxuRDVERVJEOEhaQQ?oc=5
+
+🎯 **KHUYẾN NGHỊ HÀNH ĐỘNG CHO ANH CƯỜNG:**
+⚠️ **CĂNG THẲNG LEO THANG**
+• **XAU/USD:** Ưu tiên canh LONG khi giá test lại dải Dragon hoặc FVG Discount của khung H5.
+• **Dầu WTI:** Có biến động mạnh, ưu tiên Long thuận xu hướng ngắn hạn.
+• **Crypto:** Giảm đòn bẩy gợi ý xuống còn 1/2. Hạn chế giữ lệnh qua đêm.
+============================================================

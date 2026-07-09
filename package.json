@@ -1,0 +1,19 @@
+{
+  "name": "zalo-bots-cloud-deployment",
+  "version": "1.0.0",
+  "description": "Unified PM2 deployment for Zalo assistants and Trading bot on Cloud",
+  "type": "module",
+  "main": "sync-state.js",
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "axios": "^1.18.1",
+    "dotenv": "^16.4.5",
+    "node-cron": "^4.6.0",
+    "node-telegram-bot-api": "^1.1.2",
+    "openai": "^6.45.0",
+    "pm2": "^7.0.1",
+    "satori": "^0.26.0",
+    "satori-html": "^0.3.2"
+  }
+}

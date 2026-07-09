@@ -1,0 +1,32 @@
+{
+  "name": "zalo-ai-assistant",
+  "version": "2.0.0",
+  "description": "Trợ Lý Ảo AI trên Zalo Cá Nhân — OPC Doanh Nghiệp Một Người (zca-js)",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "login": "node src/login.js",
+    "test:ai": "node src/tests/test-ai.js"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "axios": "^1.7.0",
+    "dotenv": "^16.4.0",
+    "google-tts-api": "^2.0.2",
+    "node-cron": "^3.0.3",
+    "node-edge-tts": "^1.2.10",
+    "openai": "^6.45.0",
+    "pg": "^8.13.0",
+    "sharp": "^0.35.1",
+    "uuid": "^10.0.0",
+    "winston": "^3.14.0",
+    "zca-js": "^2.1.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "author": "OPC Cường",
+  "license": "MIT"
+}

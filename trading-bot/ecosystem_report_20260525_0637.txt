@@ -1,0 +1,120 @@
+======================================================================
+🔥🔥🔥 BÁO CÁO DÒNG TIỀN THEO HỆ SINH THÁI
+📅 2026-05-25 06:37
+📊 Tổng: 71 token có dòng tiền mạnh (score ≥ 25)
+======================================================================
+
+=====================🏆 TOP 20 DÒNG TIỀN MẠNH NHẤT=====================
+#   Token      Score       24h      3d      7d   Vol↑   RSI
+------------------------------------------------------------
+🥇1  NIL        97       +19.5%  +29.2%  +58.6%   4.1x   71
+🥇2  AGT        90       +35.7%  +71.4% +105.9%   2.3x   76
+🥇3  SUPER      81       +11.5%   +9.2%  +12.1%   2.4x   60
+🥈4  GENIUS     78       +11.3%  +61.7%  +62.2%   0.9x   64
+🥈5  TRUST      75        +7.2%   +8.8%  +14.0%   3.2x   61
+🥈6  MORPHO     71        +6.9%  +11.9%  +26.9%   2.2x   72
+🥉7  HYPE       69        +8.7%  +10.4%  +39.6%   0.9x   68
+🥉8  TAG        68        +3.1%  +17.9%  +35.8%   0.3x   56
+🥉9  FLUX       68        +6.1%   +3.3%   +7.8%   4.5x   57
+🥉10 PLUME      67        +5.2%   +6.7%  +34.3%   1.3x   50
+  11 VIC        66       +12.1%  +12.7%   -6.3%   3.6x   82
+  12 PHA        63        +5.0%   +4.7%  +20.0%   1.8x   58
+  13 HUMA       61        +8.3%   +8.3%  +14.2%   1.3x   64
+  14 NEAR       59        -1.6%  +13.8%  +60.5%   0.8x   64
+  15 BEAT       59        -6.2%  +61.3%  +83.2%   0.5x   55
+  16 GRASS      57        -2.4%  +21.9%  +73.6%   0.8x   72
+  17 BAN        57        -1.1%  +27.6%  +26.8%   0.5x   78
+  18 YB         57        +5.7%   +5.1%  +24.8%   1.4x   59
+  19 DEXE       54       +11.8%   +8.8%  +12.0%   1.3x   77
+  20 AKT        53        +7.3%   +7.3%  +14.0%   1.5x   52
+
+══════════════════════════════════════════════════════════════════════
+📊 PHÂN TÍCH THEO HỆ SINH THÁI
+══════════════════════════════════════════════════════════════════════
+
+Hệ sinh thái                    Tokens  Avg Score    Tổng Vol 24h
+-----------------------------------------------------------------
+📈 ❓ Khác                          71         46   $      8.60B
+
+──────────────────────────────────────────────────────────────────────
+❓ Khác  🔥🔥 Avg Score: 46
+──────────────────────────────────────────────────────────────────────
+  ⭐⭐⭐ NIL        Score: 97   | 24h: +19.5% | 3d: +29.2% | Vol: 4.1x | RSI: 71
+           🔥🔥🔥 Vol SURGE 4.1x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 41.8%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ AGT        Score: 90   | 24h: +35.7% | 3d: +71.4% | Vol: 2.3x | RSI: 76
+           🔥🔥 Vol tăng 2.3x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 47.3%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ SUPER      Score: 81   | 24h: +11.5% | 3d:  +9.2% | Vol: 2.4x | RSI: 60
+           🔥🔥 Vol tăng 2.4x
+           🟡 EMA gần bullish
+           Range 20.1%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ GENIUS     Score: 78   | 24h: +11.3% | 3d: +61.7% | Vol: 0.9x | RSI: 64
+           📉 Vol bình thường 0.9x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 16.4%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐⭐ TRUST      Score: 75   | 24h:  +7.2% | 3d:  +8.8% | Vol: 3.2x | RSI: 61
+           🔥🔥🔥 Vol SURGE 3.2x
+           🟡 EMA gần bullish
+           Range 13.7%
+           📉 OBV giảm
+  ⭐⭐⭐ MORPHO     Score: 71   | 24h:  +6.9% | 3d: +11.9% | Vol: 2.2x | RSI: 72
+           🔥🔥 Vol tăng 2.2x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 16.6%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ HYPE       Score: 69   | 24h:  +8.7% | 3d: +10.4% | Vol: 0.9x | RSI: 68
+           📉 Vol bình thường 0.9x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 14.4%
+           🚀 Gần ATH 20 ngày — sắp breakout!
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ TAG        Score: 68   | 24h:  +3.1% | 3d: +17.9% | Vol: 0.3x | RSI: 56
+           📉 Vol bình thường 0.3x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 8.4%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ FLUX       Score: 68   | 24h:  +6.1% | 3d:  +3.3% | Vol: 4.5x | RSI: 57
+           🔥🔥🔥 Vol SURGE 4.5x
+           🟠 EMA hỗn hợp
+           Range 14.6%
+           💰 OBV tăng — Tiền đang chảy vào
+  ⭐⭐ PLUME      Score: 67   | 24h:  +5.2% | 3d:  +6.7% | Vol: 1.3x | RSI: 50
+           📊 Vol nhích 1.3x
+           🟢 EMA bullish hoàn hảo (P > 20 > 50 > 100)
+           Range 25.7%
+           💰 OBV tăng — Tiền đang chảy vào
+
+══════════════════════════════════════════════════════════════════════
+🎯 KẾT LUẬN & KHUYẾN NGHỊ
+══════════════════════════════════════════════════════════════════════
+
+💰 TOP 3 HỆ SINH THÁI DÒNG TIỀN MẠNH NHẤT:
+  1. ❓ Khác — Avg: 46 | Best: NIL(97), AGT(90), SUPER(81)
+
+🔥 TOKEN DÒNG TIỀN CỰC MẠNH (Score ≥ 50):
+  ⭐ NIL        Score: 97   | ❓ Khác | 24h: +19.5% | Vol: 4.1x
+  ⭐ AGT        Score: 90   | ❓ Khác | 24h: +35.7% | Vol: 2.3x
+  ⭐ SUPER      Score: 81   | ❓ Khác | 24h: +11.5% | Vol: 2.4x
+  ⭐ GENIUS     Score: 78   | ❓ Khác | 24h: +11.3% | Vol: 0.9x
+  ⭐ TRUST      Score: 75   | ❓ Khác | 24h:  +7.2% | Vol: 3.2x
+  ⭐ MORPHO     Score: 71   | ❓ Khác | 24h:  +6.9% | Vol: 2.2x
+  ⭐ HYPE       Score: 69   | ❓ Khác | 24h:  +8.7% | Vol: 0.9x
+  ⭐ TAG        Score: 68   | ❓ Khác | 24h:  +3.1% | Vol: 0.3x
+  ⭐ FLUX       Score: 68   | ❓ Khác | 24h:  +6.1% | Vol: 4.5x
+  ⭐ PLUME      Score: 67   | ❓ Khác | 24h:  +5.2% | Vol: 1.3x
+  ⭐ VIC        Score: 66   | ❓ Khác | 24h: +12.1% | Vol: 3.6x
+  ⭐ PHA        Score: 63   | ❓ Khác | 24h:  +5.0% | Vol: 1.8x
+  ⭐ HUMA       Score: 61   | ❓ Khác | 24h:  +8.3% | Vol: 1.3x
+  ⭐ NEAR       Score: 59   | ❓ Khác | 24h:  -1.6% | Vol: 0.8x
+  ⭐ BEAT       Score: 59   | ❓ Khác | 24h:  -6.2% | Vol: 0.5x
+
+══════════════════════════════════════════════════════════════════════
+⏰ Cập nhật lúc: 2026-05-25 06:37
+══════════════════════════════════════════════════════════════════════

@@ -1,0 +1,21 @@
+Category,Token,Score,Grade,RSI,Volume_Surge,7D_Change,EMA_Status,Entry_Price,Stop_Loss,Risk_Pct
+AI Intelligence & Agents,ARKM,59,A,52,1.0x,-1.5%,Bullish,0.1476,0.1385,-6.1%
+AI Intelligence & Agents,FET,58,A,52,0.8x,+13.4%,Bullish,0.2728,0.2506,-8.1%
+AI Agent Frameworks,NIL,57,A,53,0.7x,-8.7%,Bullish,0.0664,0.0632,-4.9%
+Decentralized Compute,RENDER,55,A,53,1.2x,-11.1%,Bullish,2.0990,2.0133,-4.1%
+AI Intelligence & Agents,WLD,47,B,68,1.2x,+19.8%,Bullish,0.4342,0.3937,-9.3%
+DePIN Infrastructure,GRASS,44,B,47,0.8x,-12.0%,Bullish,0.4996,0.4629,-7.4%
+AI Data & Oracles,PYTH,42,B,51,0.9x,+3.6%,Mixed,0.0421,0.0396,-5.9%
+AI Agent Frameworks,VIRTUAL,34,C,52,1.2x,-5.7%,Mixed,0.7361,-,-
+AI Intelligence & Agents,TAO,11,D,48,1.0x,-10.5%,Bearish,251.78,-,-
+Decentralized Compute,IO,5,D,33,0.3x,-2.7%,Bearish,0.1649,-,-
+DePIN Infrastructure,IOTX,5,D,40,0.4x,+3.1%,Bearish,0.0043,-,-
+AI Data & Oracles,AR,5,D,36,0.7x,+8.6%,Bearish,2.2540,-,-
+AI Agent Frameworks,PHA,5,D,26,0.5x,-22.2%,Bearish,0.0375,-,-
+Decentralized Compute,ATH,3,D,48,0.9x,-1.8%,Bearish,0.0059,-,-
+AI Agent Frameworks,JASMY,3,D,50,0.8x,-0.9%,Bearish,0.0055,-,-
+Decentralized Compute,AKT,-5,D,37,0.7x,-15.8%,Bearish,0.7431,-,-
+Decentralized Compute,FLUX,-5,D,43,0.6x,-17.6%,Bearish,0.0664,-,-
+AI Data & Oracles,GRT,-5,D,38,0.9x,-11.9%,Bearish,0.0248,-,-
+AI Data & Oracles,LINK,-5,D,39,0.7x,-5.0%,Bearish,9.0070,-,-
+AI Data & Oracles,FIL,-5,D,43,0.9x,-3.8%,Bearish,0.9480,-,-

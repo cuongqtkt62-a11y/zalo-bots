@@ -1,0 +1,16 @@
+{
+  "totalMessages": 100,
+  "totalUsers": 10,
+  "startDate": "2026-06-08T02:55:39.865Z",
+  "rotationIndex": {
+    "2": 1
+  },
+  "groupIdeaIndices": {
+    "1": 6,
+    "2": 0,
+    "3": 0,
+    "4": 6,
+    "5": 0
+  },
+  "lastScenarioId": 12
+}
