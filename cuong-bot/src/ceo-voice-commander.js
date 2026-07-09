@@ -45,9 +45,9 @@ export async function processCeoCommand(audioBuffer, mimeType, api, threadId, se
     
     logger.info(`[CEO Mode] Đang phân tích lệnh giọng nói...`);
 
-    // 2. Gọi Gemini 2.0 Flash phân tích giọng nói (Multimodal)
+    // 2. Gọi Gemini phân tích giọng nói (Multimodal)
     const response = await ai.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
       contents: [{
         role: 'user',
         parts: [{
