@@ -72,9 +72,9 @@ export async function processCeoCommand(audioBuffer, mimeType, api, threadId, se
       logger.info(`[CEO Mode] AI gọi hàm: ${call.name}`);
 
       if (call.name === 'get_daily_report') {
-        const stats = dataStore.getStats();
-        const groups = dataStore.getAllApprovedGroups();
-        textResponse = `Dạ báo cáo Sếp, hôm nay hệ thống ghi nhận ${stats.messagesReceived || 0} tin nhắn đến. Hiện tại em đang chăm sóc tổng cộng ${Object.keys(groups).length} nhóm Zalo VIP ạ. Hệ thống vẫn đang vận hành 24/7 ổn định. Sếp cứ yên tâm công tác nhé!`;
+        const stats = dataStore.getDailyStats();
+        const groups = dataStore.getApprovedGroups();
+        textResponse = `Dạ báo cáo Sếp, hôm nay hệ thống ghi nhận ${stats.totalMessages || 0} tin nhắn. Hiện tại em đang chăm sóc tổng cộng ${groups.length} nhóm Zalo VIP ạ. Hệ thống vẫn đang vận hành 24/7 ổn định. Sếp cứ yên tâm công tác nhé!`;
       } else if (call.name === 'post_to_group') {
         const { groupId, content } = call.args;
         // Gọi Zalo API để gửi tin nhắn
