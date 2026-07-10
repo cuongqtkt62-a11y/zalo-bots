@@ -95,6 +95,10 @@ export async function processCeoCommand(audioBuffer, mimeType, api, threadId, se
     });
     
     const audioPath = path.join(__dirname, `../data/temp_images/ceo_reply_${Date.now()}.mp3`);
+    const audioDir = path.dirname(audioPath);
+    if (!fs.existsSync(audioDir)) {
+      fs.mkdirSync(audioDir, { recursive: true });
+    }
     await edge.ttsPromise(textResponse, audioPath);
     
     // 5. Gửi Voice về cho Zalo của Sếp
