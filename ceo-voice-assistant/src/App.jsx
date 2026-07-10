@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const [micError, setMicError] = useState(false);
   const isRecordingRef = useRef(false);
   const [logs, setLogs] = useState([]);
@@ -165,6 +166,31 @@ function App() {
     }
   };
 
+  const handleInitialize = async () => {
+    try {
+      // 1. Dùng onClick chuẩn để vượt qua kiểm duyệt chặn popup/mic của Safari
+      initAudioPlayback();
+      if (!recordingAudioContextRef.current) {
+        recordingAudioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+      }
+      if (recordingAudioContextRef.current.state === 'suspended') {
+        recordingAudioContextRef.current.resume();
+      }
+      
+      // 2. Xin quyền Micro 1 lần duy nhất để Safari hiện bảng hỏi "Cho phép"
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      // Tắt stream ngay vì chỉ cần xin quyền
+      stream.getTracks().forEach(track => track.stop());
+      
+      setIsInitialized(true);
+      addLog('✅ Khởi tạo thành công, đã có quyền Micro!');
+    } catch (err) {
+      setMicError(true);
+      addLog('❌ Microphone access denied during init');
+      console.error(err);
+    }
+  };
+
   const startRecording = async () => {
     if (isRecordingRef.current) return;
     isRecordingRef.current = true;
@@ -280,9 +306,12 @@ function App() {
       {micError && (
         <div className="mic-error-overlay">
           <h2>⚠️ LỖI MICROPHONE</h2>
-          <p>Trình duyệt ẩn của Zalo/Facebook đang <b>CHẶN</b> quyền ghi âm!</p>
-          <p>👉 Vui lòng bấm vào <b>biểu tượng 3 chấm (⋮)</b> ở góc phải trên cùng màn hình.</p>
-          <p>👉 Chọn <b>"Mở bằng trình duyệt"</b> (Open in Browser / Safari / Chrome) để sử dụng.</p>
+          <p>Trình duyệt đang <b>CHẶN</b> quyền ghi âm của bạn!</p>
+          <div style={{ textAlign: 'left', padding: '10px 20px' }}>
+            <p>👉 <b>Nếu đang dùng Zalo/FB:</b> Bấm dấu 3 chấm (⋮) góc phải, chọn "Mở bằng trình duyệt".</p>
+            <p>👉 <b>Nếu đang dùng iPhone (Safari):</b> Bạn đã lỡ bấm "Từ chối" trước đó. Hãy vào <b>Cài đặt &gt; Safari &gt; Micrô</b> và chọn <b>Cho phép</b> hoặc <b>Hỏi</b>, sau đó tải lại trang.</p>
+            <p>👉 <b>Nếu đang dùng Android (Chrome):</b> Bấm vào biểu tượng ổ khóa cạnh thanh địa chỉ web, chọn Quyền (Permissions) và Bật Micro.</p>
+          </div>
           <button className="btn-close-error" onClick={() => setMicError(false)}>Đã hiểu</button>
         </div>
       )}
@@ -292,15 +321,24 @@ function App() {
       <div className="voice-container">
         <div className={`orb ${isRecording ? 'pulsing' : ''} ${isConnected ? 'active' : ''}`}></div>
         
-        <button 
-          className="btn-mic"
-          onPointerDown={(e) => { e.preventDefault(); startRecording(); }}
-          onPointerUp={(e) => { e.preventDefault(); stopRecording(); }}
-          onPointerCancel={(e) => { e.preventDefault(); stopRecording(); }}
-          onPointerOut={(e) => { e.preventDefault(); stopRecording(); }}
-        >
-          {isRecording ? "ĐANG LẮNG NGHE..." : "GIỮ ĐỂ NÓI"}
-        </button>
+        {!isInitialized ? (
+          <button 
+            className="btn-mic"
+            onClick={handleInitialize}
+          >
+            BẤM ĐỂ BẮT ĐẦU
+          </button>
+        ) : (
+          <button 
+            className="btn-mic"
+            onPointerDown={(e) => { e.preventDefault(); startRecording(); }}
+            onPointerUp={(e) => { e.preventDefault(); stopRecording(); }}
+            onPointerCancel={(e) => { e.preventDefault(); stopRecording(); }}
+            onPointerOut={(e) => { e.preventDefault(); stopRecording(); }}
+          >
+            {isRecording ? "ĐANG LẮNG NGHE..." : "GIỮ ĐỂ NÓI"}
+          </button>
+        )}
       </div>
 
       <div className="logs">
