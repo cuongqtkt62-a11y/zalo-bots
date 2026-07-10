@@ -76,6 +76,18 @@ h1 {
   transform: scale(0.95);
 }
 
+.btn-mic.recording {
+  background: rgba(255, 0, 0, 0.2);
+  color: #ff4444;
+  border-color: #ff4444;
+  animation: pulse-red 1s infinite alternate;
+}
+
+@keyframes pulse-red {
+  0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+  100% { box-shadow: 0 0 30px rgba(255, 0, 0, 0.8), inset 0 0 10px rgba(255, 0, 0, 0.3); }
+}
+
 .logs {
   margin-top: 50px;
   font-family: monospace;

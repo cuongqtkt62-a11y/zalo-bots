@@ -166,31 +166,6 @@ function App() {
     }
   };
 
-  const handleInitialize = async () => {
-    try {
-      // 1. Dùng onClick chuẩn để vượt qua kiểm duyệt chặn popup/mic của Safari
-      initAudioPlayback();
-      if (!recordingAudioContextRef.current) {
-        recordingAudioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-      }
-      if (recordingAudioContextRef.current.state === 'suspended') {
-        recordingAudioContextRef.current.resume();
-      }
-      
-      // 2. Xin quyền Micro 1 lần duy nhất để Safari hiện bảng hỏi "Cho phép"
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      // Tắt stream ngay vì chỉ cần xin quyền
-      stream.getTracks().forEach(track => track.stop());
-      
-      setIsInitialized(true);
-      addLog('✅ Khởi tạo thành công, đã có quyền Micro!');
-    } catch (err) {
-      setMicError(true);
-      addLog('❌ Microphone access denied during init');
-      console.error(err);
-    }
-  };
-
   const startRecording = async () => {
     if (isRecordingRef.current) return;
     isRecordingRef.current = true;
@@ -207,7 +182,6 @@ function App() {
     
     if (!isConnected) {
       connectWS();
-      // Đợi tối đa 3 giây cho WebSocket mở thay vì fix cứng 1 giây
       for (let i = 0; i < 30; i++) {
         if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) break;
         await new Promise(r => setTimeout(r, 100));
@@ -297,6 +271,14 @@ function App() {
     }
   };
 
+  const toggleRecording = () => {
+    if (isRecordingRef.current) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+
   const addLog = (msg) => {
     setLogs(prev => [...prev, msg].slice(-5));
   };
@@ -321,24 +303,12 @@ function App() {
       <div className="voice-container">
         <div className={`orb ${isRecording ? 'pulsing' : ''} ${isConnected ? 'active' : ''}`}></div>
         
-        {!isInitialized ? (
-          <button 
-            className="btn-mic"
-            onClick={handleInitialize}
-          >
-            BẤM ĐỂ BẮT ĐẦU
-          </button>
-        ) : (
-          <button 
-            className="btn-mic"
-            onPointerDown={(e) => { e.preventDefault(); startRecording(); }}
-            onPointerUp={(e) => { e.preventDefault(); stopRecording(); }}
-            onPointerCancel={(e) => { e.preventDefault(); stopRecording(); }}
-            onPointerOut={(e) => { e.preventDefault(); stopRecording(); }}
-          >
-            {isRecording ? "ĐANG LẮNG NGHE..." : "GIỮ ĐỂ NÓI"}
-          </button>
-        )}
+        <button 
+          className={`btn-mic ${isRecording ? 'recording' : ''}`}
+          onClick={toggleRecording}
+        >
+          {isRecording ? "🔴 ĐANG THU ÂM (BẤM ĐỂ DỪNG)" : "BẤM 1 LẦN ĐỂ NÓI"}
+        </button>
       </div>
 
       <div className="logs">
