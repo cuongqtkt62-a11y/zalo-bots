@@ -88,8 +88,11 @@ export async function processCeoCommand(audioBuffer, mimeType, api, threadId, se
     logger.info(`[CEO Mode] Phản hồi văn bản: ${textResponse}`);
 
     // 4. Chuyển Text thành Voice (Edge TTS) để gửi lại Sếp
-    const edge = new edgeTTS.EdgeTTS();
-    await edge.voice('vi-VN-HoaiMyNeural');
+    const edge = new edgeTTS.EdgeTTS({
+      voice: 'vi-VN-HoaiMyNeural',
+      lang: 'vi-VN',
+      outputFormat: 'audio-24khz-48kbitrate-mono-mp3'
+    });
     
     const audioPath = path.join(__dirname, `../data/temp_images/ceo_reply_${Date.now()}.mp3`);
     await edge.ttsPromise(textResponse, audioPath);
