@@ -20,3 +20,15 @@ services:
         sync: false
       - key: ADMIN_ZALO_ID
         value: "690136550523054881,6114894381239760462"
+
+  - type: web
+    name: ceo-voice-assistant
+    env: node
+    rootDir: ceo-voice-assistant
+    region: singapore
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: GEMINI_API_KEY
+        sync: false
