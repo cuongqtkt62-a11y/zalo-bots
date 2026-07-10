@@ -99,7 +99,13 @@ function App() {
 
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
-    source.connect(audioContext.destination);
+    
+    // Tăng âm lượng đầu ra x3 lần
+    const gainNode = audioContext.createGain();
+    gainNode.gain.value = 3.0; 
+    
+    source.connect(gainNode);
+    gainNode.connect(audioContext.destination);
     
     // Xếp hàng phát âm thanh để không bị đè lên nhau (Audio Queue)
     if (nextPlayTimeRef.current < audioContext.currentTime) {
