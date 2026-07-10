@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const isRecordingRef = useRef(false);
   const [logs, setLogs] = useState([]);
   
   const wsRef = useRef(null);
@@ -155,6 +156,9 @@ function App() {
   };
 
   const startRecording = async () => {
+    if (isRecordingRef.current) return;
+    isRecordingRef.current = true;
+    
     initAudioPlayback(); // Unlock audio playback context during user gesture (iOS Safari requirement)
     
     if (!isConnected) {
@@ -213,12 +217,16 @@ function App() {
       setIsRecording(true);
       addLog('🎙️ Recording started...');
     } catch (err) {
+      isRecordingRef.current = false;
       addLog('❌ Microphone access denied');
       console.error(err);
     }
   };
 
   const stopRecording = () => {
+    if (!isRecordingRef.current) return;
+    isRecordingRef.current = false;
+    
     setIsRecording(false);
     if (scriptProcessorRef.current) {
       scriptProcessorRef.current.disconnect();
@@ -258,10 +266,10 @@ function App() {
         
         <button 
           className="btn-mic"
-          onMouseDown={startRecording}
-          onMouseUp={stopRecording}
-          onTouchStart={startRecording}
-          onTouchEnd={stopRecording}
+          onPointerDown={(e) => { e.preventDefault(); startRecording(); }}
+          onPointerUp={(e) => { e.preventDefault(); stopRecording(); }}
+          onPointerCancel={(e) => { e.preventDefault(); stopRecording(); }}
+          onPointerOut={(e) => { e.preventDefault(); stopRecording(); }}
         >
           {isRecording ? "ĐANG LẮNG NGHE..." : "GIỮ ĐỂ NÓI"}
         </button>
