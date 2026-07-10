@@ -13,9 +13,8 @@ function App() {
 
   const connectWS = () => {
     // Kết nối tới Backend Proxy
-    const wsUrl = process.env.NODE_ENV === 'production' 
-      ? `wss://${window.location.host}` 
-      : 'ws://localhost:3005';
+    const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const wsUrl = `${wsProtocol}//${window.location.host}`;
       
     const ws = new WebSocket(wsUrl);
     wsRef.current = ws;
@@ -116,7 +115,7 @@ function App() {
     else if (call.name === 'get_assistants_report') {
       addLog('📊 Fetching reports from backend...');
       try {
-        const res = await fetch(process.env.NODE_ENV === 'production' ? '/api/reports' : 'http://localhost:3005/api/reports');
+        const res = await fetch('/api/reports');
         const data = await res.json();
         responseObj = data;
       } catch (err) {
