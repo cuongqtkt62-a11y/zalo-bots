@@ -10,6 +10,7 @@ function App() {
   const audioContextRef = useRef(null);
   const mediaStreamRef = useRef(null);
   const scriptProcessorRef = useRef(null);
+  const nextPlayTimeRef = useRef(0);
 
   const connectWS = () => {
     // Kết nối tới Backend Proxy
@@ -94,7 +95,13 @@ function App() {
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
     source.connect(audioContext.destination);
-    source.start(0);
+    
+    // Xếp hàng phát âm thanh để không bị đè lên nhau (Audio Queue)
+    if (nextPlayTimeRef.current < audioContext.currentTime) {
+      nextPlayTimeRef.current = audioContext.currentTime;
+    }
+    source.start(nextPlayTimeRef.current);
+    nextPlayTimeRef.current += audioBuffer.duration;
   };
 
   const handleToolCall = async (toolCall) => {
