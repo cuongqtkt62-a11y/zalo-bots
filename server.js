@@ -295,15 +295,15 @@ import https from 'https';
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Health check server listening on port ${PORT}`);
   
-  // Self-ping to prevent Hugging Face Space from sleeping
-  const SPACE_URL = 'https://cuongnguyenchi-zalo-bots.hf.space/';
+  // Self-ping to prevent Render Space from sleeping
+  const CURRENT_RENDER_URL = 'https://zalo-bots-1.onrender.com/health';
   const RENDER_URL = 'https://trading-telegram-bot-ozhm.onrender.com/health';
   const SECRETARY_URL = 'https://zalo-bots.onrender.com/';
   
   const pingServices = () => {
-    // Ping Zalo Bots on HF
-    https.get(SPACE_URL, (res) => {
-      console.log(`[Self-Ping] Pinged ${SPACE_URL} with status ${res.statusCode} to keep space awake`);
+    // Ping Current Service
+    https.get(CURRENT_RENDER_URL, (res) => {
+      console.log(`[Self-Ping] Pinged ${CURRENT_RENDER_URL} with status ${res.statusCode} to keep space awake`);
       res.resume();
     }).on('error', (err) => {
       console.error(`[Self-Ping] Error:`, err.message);
