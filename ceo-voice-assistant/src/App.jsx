@@ -11,6 +11,7 @@ function App() {
   const mediaStreamRef = useRef(null);
   const scriptProcessorRef = useRef(null);
   const nextPlayTimeRef = useRef(0);
+  const recordingAudioContextRef = useRef(null);
 
   const connectWS = () => {
     // Kết nối tới Backend Proxy
@@ -158,22 +159,25 @@ function App() {
     
     if (!isConnected) {
       connectWS();
-      // Đợi 1 chút để connect
-      await new Promise(r => setTimeout(r, 1000));
+      // Đợi tối đa 3 giây cho WebSocket mở thay vì fix cứng 1 giây
+      for (let i = 0; i < 30; i++) {
+        if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) break;
+        await new Promise(r => setTimeout(r, 100));
+      }
     }
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
 
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
-      const source = audioContext.createMediaStreamSource(stream);
+      recordingAudioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+      const source = recordingAudioContextRef.current.createMediaStreamSource(stream);
       
-      const processor = audioContext.createScriptProcessor(4096, 1, 1);
+      const processor = recordingAudioContextRef.current.createScriptProcessor(4096, 1, 1);
       scriptProcessorRef.current = processor;
 
       source.connect(processor);
-      processor.connect(audioContext.destination);
+      processor.connect(recordingAudioContextRef.current.destination);
 
       processor.onaudioprocess = (e) => {
         const inputData = e.inputBuffer.getChannelData(0);
@@ -218,9 +222,15 @@ function App() {
     setIsRecording(false);
     if (scriptProcessorRef.current) {
       scriptProcessorRef.current.disconnect();
+      scriptProcessorRef.current = null;
     }
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
+      mediaStreamRef.current = null;
+    }
+    if (recordingAudioContextRef.current) {
+      recordingAudioContextRef.current.close();
+      recordingAudioContextRef.current = null;
     }
     addLog('⏹️ Recording stopped');
 
