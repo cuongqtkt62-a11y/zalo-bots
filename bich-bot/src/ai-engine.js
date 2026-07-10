@@ -120,7 +120,7 @@ class AIEngine {
         const fullHistory = [...history, { role: 'user', content: userMessage }];
 
         const dynamicConfig = await this.getDynamicConfig();
-        let currentSystemPrompt = dynamicConfig.systemPrompt || localConfig.systemPrompt || SYSTEM_PROMPT;
+        let currentSystemPrompt = localConfig.systemPrompt || dynamicConfig.systemPrompt || SYSTEM_PROMPT;
         if (senderName) {
           const pronoun = gender === 0 ? 'Anh' : (gender === 1 ? 'Chị' : 'Anh/Chị');
           currentSystemPrompt += `\n\n- Người đang chat với bạn tên là: "${senderName}". Giới tính của họ là: ${pronoun}. Khen ngợi và gọi họ bằng "${pronoun.toLowerCase()} ${senderName}" (ví dụ: "chị ${senderName}" hoặc "anh ${senderName}"). Hãy luôn xưng mình là "Bích", tuyệt đối không xưng "em" hay "mình", và gọi họ bằng tên Zalo của họ.`;

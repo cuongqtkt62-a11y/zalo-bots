@@ -114,15 +114,14 @@ class AIEngine {
         const fullHistory = [...history, { role: 'user', content: userMessage }];
 
         const dynamicConfig = await this.getDynamicConfig();
-        let systemPrompt = dynamicConfig.systemPrompt || localConfig.systemPrompt || SYSTEM_PROMPT;
+        let currentSystemPrompt = localConfig.systemPrompt || dynamicConfig.systemPrompt || SYSTEM_PROMPT;
         if (isGroup) {
           const groupInfo = dataStore.getApprovedGroup(userId);
           if (groupInfo) {
-            systemPrompt += `\n\n## Ngữ cảnh nhóm Zalo hiện tại:\n- Tên nhóm: "${groupInfo.name}"\n- Mục đích hoạt động: "${groupInfo.purpose}"\n- Bạn đang trả lời tin nhắn trong nhóm chat này. Hãy trả lời ngắn gọn, thân thiện, xưng "em" (trợ lý của anh Cường) và gọi cả nhà là "cả nhà".`;
+            currentSystemPrompt += `\n\n## Ngữ cảnh nhóm Zalo hiện tại:\n- Tên nhóm: "${groupInfo.name}"\n- Mục đích hoạt động: "${groupInfo.purpose}"\n- Bạn đang trả lời tin nhắn trong nhóm chat này. Hãy trả lời ngắn gọn, thân thiện, xưng "em" (trợ lý của anh Cường) và gọi cả nhà là "cả nhà".`;
           }
         }
         
-        let currentSystemPrompt = systemPrompt;
         if (senderName) {
           const pronoun = gender === 0 ? 'Anh' : (gender === 1 ? 'Chị' : 'Anh/Chị');
           currentSystemPrompt += `\n\n- Người đang chat với bạn tên là: "${senderName}". Giới tính của họ là: ${pronoun}. Hãy xưng hô khéo léo và gọi tên họ trong câu trả lời để tạo sự thân thiện.`;
