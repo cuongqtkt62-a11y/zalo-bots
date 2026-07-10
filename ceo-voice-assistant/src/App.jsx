@@ -7,6 +7,7 @@ function App() {
   const [isInitialized, setIsInitialized] = useState(false);
   const [micError, setMicError] = useState(false);
   const [mapPopup, setMapPopup] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const isRecordingRef = useRef(false);
   const [logs, setLogs] = useState([]);
   
@@ -330,6 +331,31 @@ function App() {
             <p>👉 <b>Nếu đang dùng Android (Chrome):</b> Bấm vào biểu tượng ổ khóa cạnh thanh địa chỉ web, chọn Quyền (Permissions) và Bật Micro.</p>
           </div>
           <button className="btn-close-error" onClick={() => setMicError(false)}>Đã hiểu</button>
+        </div>
+      )}
+
+      {/* Hamburger Icon */}
+      <div className="hamburger-menu" onClick={() => setIsSidebarOpen(true)}>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
+
+      {/* Sidebar Overlay & Menu */}
+      {isSidebarOpen && (
+        <div className="sidebar-overlay" onClick={() => setIsSidebarOpen(false)}>
+          <div className="sidebar" onClick={(e) => e.stopPropagation()}>
+            <div className="sidebar-header">
+              <h2>HỆ SINH THÁI AI</h2>
+              <button className="close-btn" onClick={() => setIsSidebarOpen(false)}>✖</button>
+            </div>
+            <ul className="sidebar-menu">
+              <li><a href="#">Trợ lý Anh Cường</a></li>
+              <li><a href="#">Trợ lý Cô Bích</a></li>
+              <li><a href="#">Bot Trading</a></li>
+              <li><a href="#">Thư Kí Anh Cường</a></li>
+            </ul>
+          </div>
         </div>
       )}
 
