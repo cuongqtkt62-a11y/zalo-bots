@@ -4,6 +4,7 @@ import './App.css';
 function App() {
   const [isConnected, setIsConnected] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
+  const [micError, setMicError] = useState(false);
   const isRecordingRef = useRef(false);
   const [logs, setLogs] = useState([]);
   
@@ -234,6 +235,7 @@ function App() {
       addLog('🎙️ Recording started...');
     } catch (err) {
       isRecordingRef.current = false;
+      setMicError(true);
       addLog('❌ Microphone access denied');
       console.error(err);
     }
@@ -275,6 +277,16 @@ function App() {
 
   return (
     <div className="App dark-mode">
+      {micError && (
+        <div className="mic-error-overlay">
+          <h2>⚠️ LỖI MICROPHONE</h2>
+          <p>Trình duyệt ẩn của Zalo/Facebook đang <b>CHẶN</b> quyền ghi âm!</p>
+          <p>👉 Vui lòng bấm vào <b>biểu tượng 3 chấm (⋮)</b> ở góc phải trên cùng màn hình.</p>
+          <p>👉 Chọn <b>"Mở bằng trình duyệt"</b> (Open in Browser / Safari / Chrome) để sử dụng.</p>
+          <button className="btn-close-error" onClick={() => setMicError(false)}>Đã hiểu</button>
+        </div>
+      )}
+
       <h1>OPC CEO Assistant</h1>
       
       <div className="voice-container">
