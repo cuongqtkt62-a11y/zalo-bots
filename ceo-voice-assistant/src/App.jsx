@@ -6,6 +6,7 @@ function App() {
   const [isRecording, setIsRecording] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
   const [micError, setMicError] = useState(false);
+  const [mapPopup, setMapPopup] = useState(null);
   const isRecordingRef = useRef(false);
   const [logs, setLogs] = useState([]);
   
@@ -119,14 +120,16 @@ function App() {
       const encodedAddress = encodeURIComponent(address);
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
       
-      // Simulate click to bypass some popup blockers
-      const link = document.createElement('a');
-      link.href = url;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      // Thử mở tab mới tự động (sẽ bị chặn ở Zalo/Safari trong callback)
+      try {
+        const newWin = window.open(url, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+          // Bị chặn popup -> Hiển thị nút bấm
+          setMapPopup({ url, address });
+        }
+      } catch (e) {
+        setMapPopup({ url, address });
+      }
       
       responseObj = { status: "Success", action: "Google Maps Opened" };
     } 
@@ -309,6 +312,21 @@ function App() {
         >
           {isRecording ? "🔴 ĐANG THU ÂM (BẤM ĐỂ DỪNG)" : "BẤM 1 LẦN ĐỂ NÓI"}
         </button>
+
+        {mapPopup && (
+          <div className="map-popup-container">
+            <p>Đã tìm thấy: <b>{mapPopup.address}</b></p>
+            <button 
+              className="btn-open-map"
+              onClick={() => {
+                window.open(mapPopup.url, '_blank');
+                setMapPopup(null); // Ẩn sau khi bấm
+              }}
+            >
+              🗺️ MỞ BẢN ĐỒ NGAY
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="logs">
