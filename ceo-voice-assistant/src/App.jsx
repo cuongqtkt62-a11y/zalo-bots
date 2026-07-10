@@ -350,10 +350,12 @@ function App() {
               <button className="close-btn" onClick={() => setIsSidebarOpen(false)}>✖</button>
             </div>
             <ul className="sidebar-menu">
-              <li><a href="#">Trợ lý Anh Cường</a></li>
-              <li><a href="#">Trợ lý Cô Bích</a></li>
-              <li><a href="#">Bot Trading</a></li>
-              <li><a href="#">Thư Kí Anh Cường</a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer">Trợ lý Anh Cường</a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer">Trợ lý Cô Bích</a></li>
+              <li><a href="#" target="_blank" rel="noopener noreferrer">Bot Trading</a></li>
+              <li onClick={() => alert("Đây là tài khoản quản trị viên - Vui lòng liên hệ trợ lý anh Cường")}>
+                <a href="#" onClick={(e) => e.preventDefault()}>Thư Kí Anh Cường</a>
+              </li>
             </ul>
           </div>
         </div>
