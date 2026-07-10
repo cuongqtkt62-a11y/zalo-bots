@@ -100,9 +100,9 @@ function App() {
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
     
-    // Tăng âm lượng đầu ra x3 lần
+    // Tăng âm lượng đầu ra x6 lần (rất to)
     const gainNode = audioContext.createGain();
-    gainNode.gain.value = 3.0; 
+    gainNode.gain.value = 6.0; 
     
     source.connect(gainNode);
     gainNode.connect(audioContext.destination);
@@ -139,6 +139,22 @@ function App() {
       
       responseObj = { status: "Success", action: "Google Maps Opened" };
     } 
+    else if (call.name === 'open_url') {
+      const url = call.args.url;
+      const description = call.args.description;
+      addLog(`🌐 Opening URL: ${description}`);
+      
+      try {
+        const newWin = window.open(url, '_blank');
+        if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+          setMapPopup({ url, address: description, isGeneralUrl: true });
+        }
+      } catch (e) {
+        setMapPopup({ url, address: description, isGeneralUrl: true });
+      }
+      
+      responseObj = { status: "Success", action: `URL Opened: ${url}` };
+    }
     else if (call.name === 'get_assistants_report') {
       addLog('📊 Fetching reports from backend...');
       try {
@@ -329,7 +345,7 @@ function App() {
                 setMapPopup(null); // Ẩn sau khi bấm
               }}
             >
-              🗺️ MỞ BẢN ĐỒ NGAY
+              {mapPopup.isGeneralUrl ? "🌍 MỞ LIÊN KẾT NGAY" : "🗺️ MỞ BẢN ĐỒ NGAY"}
             </button>
           </div>
         )}
