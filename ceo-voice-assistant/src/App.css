@@ -157,7 +157,6 @@ h1 {
 /* --- COPYRIGHT MARQUEE --- */
 .copyright-marquee {
   position: fixed;
-  top: 0;
   left: 0;
   width: 100%;
   background-color: rgba(0, 0, 0, 0.8);
@@ -165,7 +164,16 @@ h1 {
   overflow: hidden;
   white-space: nowrap;
   z-index: 1000;
+}
+
+.copyright-marquee.top {
+  top: 0;
   border-bottom: 1px solid #333;
+}
+
+.copyright-marquee.bottom {
+  bottom: 0;
+  border-top: 1px solid #333;
 }
 
 .marquee-content {
@@ -176,6 +184,11 @@ h1 {
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.copyright-marquee.gold .marquee-content {
+  color: #D4AF37; /* Màu vàng đồng / Gold */
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
 }
 
 @keyframes marquee {

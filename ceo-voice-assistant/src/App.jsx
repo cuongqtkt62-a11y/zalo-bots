@@ -391,9 +391,15 @@ function App() {
         {logs.map((l, idx) => <p key={idx}>{l}</p>)}
       </div>
 
-      <div className="copyright-marquee">
+      <div className="copyright-marquee top">
         <div className="marquee-content">
           <b>BẢN QUYỀN THUỘC VỀ CƯỜNG OPC</b>
+        </div>
+      </div>
+
+      <div className="copyright-marquee bottom gold">
+        <div className="marquee-content">
+          <b>TRÂN TRỌNG BIẾT ƠN</b>
         </div>
       </div>
     </div>
