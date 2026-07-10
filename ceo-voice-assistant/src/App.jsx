@@ -116,7 +116,16 @@ function App() {
       addLog(`🗺️ Opening Maps for: ${address}`);
       const encodedAddress = encodeURIComponent(address);
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
-      window.open(url, '_blank');
+      
+      // Simulate click to bypass some popup blockers
+      const link = document.createElement('a');
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
       responseObj = { status: "Success", action: "Google Maps Opened" };
     } 
     else if (call.name === 'get_assistants_report') {
@@ -161,6 +170,14 @@ function App() {
     
     initAudioPlayback(); // Unlock audio playback context during user gesture (iOS Safari requirement)
     
+    // MUST create recording context synchronously during user gesture to bypass iOS suspension!
+    if (!recordingAudioContextRef.current) {
+      recordingAudioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
+    }
+    if (recordingAudioContextRef.current.state === 'suspended') {
+      recordingAudioContextRef.current.resume();
+    }
+    
     if (!isConnected) {
       connectWS();
       // Đợi tối đa 3 giây cho WebSocket mở thay vì fix cứng 1 giây
@@ -174,7 +191,6 @@ function App() {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
 
-      recordingAudioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 16000 });
       const source = recordingAudioContextRef.current.createMediaStreamSource(stream);
       
       const processor = recordingAudioContextRef.current.createScriptProcessor(4096, 1, 1);
