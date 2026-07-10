@@ -75,9 +75,7 @@ function App() {
   };
 
   const playAudioBuffer = async (arrayBuffer) => {
-    if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
-    }
+    if (!audioContextRef.current) return;
     
     // Gemini trả về Raw PCM 16-bit 24kHz. Cần decode.
     // Để đơn giản, Web Audio API decodeAudioData cần header WAV, nhưng Gemini trả Raw PCM.
@@ -139,7 +137,18 @@ function App() {
     }
   };
 
+  const initAudioPlayback = () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)({ sampleRate: 24000 });
+    }
+    if (audioContextRef.current.state === 'suspended') {
+      audioContextRef.current.resume();
+    }
+  };
+
   const startRecording = async () => {
+    initAudioPlayback(); // Unlock audio playback context during user gesture (iOS Safari requirement)
+    
     if (!isConnected) {
       connectWS();
       // Đợi 1 chút để connect
