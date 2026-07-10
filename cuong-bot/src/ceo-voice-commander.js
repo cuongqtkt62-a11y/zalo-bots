@@ -111,6 +111,17 @@ export async function processCeoCommand(audioBuffer, mimeType, api, threadId, se
 
   } catch (error) {
     logger.error("Lỗi trong CEO Mode:", error);
-    await api.sendMessage("❌ Em gặp sự cố khi xử lý lệnh giọng nói của Sếp rồi ạ: " + error.message, threadId);
+    
+    // Fallback AI Array (Rule Compliance)
+    const fallbacks = [
+      "Dạ Sếp ơi, đường truyền mạng chỗ em đang bị nghẽn một chút, Sếp nói lại giúp em với nhé!",
+      "Hệ thống lõi đang quá tải tạm thời Sếp ạ. Sếp cho em xin vài phút rồi gửi lại lệnh nha.",
+      "Em nghe chưa rõ lệnh do cáp quang hơi chập chờn, Sếp nhắn lại hoặc Voice lại giúp em nhé!",
+      "Dạ máy chủ AI đang phản hồi chậm quá, Sếp chờ một chút rồi dặn dò lại em nha.",
+      "Úi, tín hiệu bị đứt quãng mất rồi Sếp ơi. Sếp gửi lại Voice giúp em để em xử lý ngay ạ!"
+    ];
+    const randomFallback = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+    
+    await api.sendMessage(`❌ ${randomFallback}`, threadId, message.type);
   }
 }

@@ -357,22 +357,22 @@ async function startBot() {
         const stats = dataStore.getDailyStats();
         const today = new Date().toISOString().split('T')[0];
         const activeLeads = Object.values(dataStore.users).filter(u => u.lastContact.startsWith(today) && u.leadScore > 0);
-        const leadsList = activeLeads.map(l => `• <b>${l.displayName}</b> (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
+        const leadsList = activeLeads.map(l => `• *${l.displayName}* (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
 
         const reportMsg = 
-          `📊 <b>BÁO CÁO CEO TRỰC TIẾP</b> 📊\n` +
-          `📅 Ngày: <b>${stats.date}</b>\n` +
+          `📊 *BÁO CÁO CEO TRỰC TIẾP* 📊\n` +
+          `📅 Ngày: *${stats.date}*\n` +
           `━━━━━━━━━━━━━━━━━━━\n\n` +
-          `👥 <b>Tương tác trong ngày:</b>\n` +
-          `• Số khách hàng chat: <b>${stats.uniqueUsers} người</b>\n` +
-          `• Tổng số tin nhắn: <b>${stats.totalMessages} tin</b>\n` +
-          `  - Tin gửi đến Zalo: <b>${stats.incoming} tin</b>\n` +
-          `  - Bot phản hồi: <b>${stats.outgoing} tin</b>\n\n` +
-          `🎯 <b>Khách hàng tiềm năng & Đối tác hoạt động:</b>\n` +
+          `👥 *Tương tác trong ngày:*\n` +
+          `• Số khách hàng chat: *${stats.uniqueUsers} người*\n` +
+          `• Tổng số tin nhắn: *${stats.totalMessages} tin*\n` +
+          `  - Tin gửi đến Zalo: *${stats.incoming} tin*\n` +
+          `  - Bot phản hồi: *${stats.outgoing} tin*\n\n` +
+          `🎯 *Khách hàng tiềm năng & Đối tác hoạt động:*\n` +
           `${leadsList}\n\n` +
-          `📈 <b>Tổng số khách hàng tích lũy:</b> <b>${stats.totalUsersAllTime} người</b>\n` +
-          `💬 <b>Tổng số tin nhắn tích lũy:</b> <b>${stats.totalMessagesAllTime} tin</b>\n\n` +
-          `🚀 <i>Hệ thống hoạt động bình thường!</i>`;
+          `📈 *Tổng số khách hàng tích lũy:* *${stats.totalUsersAllTime} người*\n` +
+          `💬 *Tổng số tin nhắn tích lũy:* *${stats.totalMessagesAllTime} tin*\n\n` +
+          `🚀 _Hệ thống hoạt động bình thường!_`;
 
         try {
           const admin1 = config.zalo.adminId.split(',')[0];
@@ -905,22 +905,22 @@ async function startBot() {
       // Get leads and partners added today
       const today = new Date().toISOString().split('T')[0];
       const activeLeads = Object.values(dataStore.users).filter(u => u.lastContact.startsWith(today) && u.leadScore > 0);
-      const leadsList = activeLeads.map(l => `• <b>${l.displayName}</b> (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
+      const leadsList = activeLeads.map(l => `• *${l.displayName}* (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
 
       const reportMsg = 
-        `📊 <b>BÁO CÁO CEO MỖI SÁNG</b> 📊\n` +
-        `📅 Ngày: <b>${stats.date}</b>\n` +
+        `📊 *BÁO CÁO CEO MỖI SÁNG* 📊\n` +
+        `📅 Ngày: *${stats.date}*\n` +
         `━━━━━━━━━━━━━━━━━━━\n\n` +
-        `👥 <b>Tương tác trong ngày:</b>\n` +
-        `• Số khách hàng chat: <b>${stats.uniqueUsers} người</b>\n` +
-        `• Tổng số tin nhắn: <b>${stats.totalMessages} tin</b>\n` +
-        `  - Tin gửi đến Zalo: <b>${stats.incoming} tin</b>\n` +
-        `  - Bot phản hồi: <b>${stats.outgoing} tin</b>\n\n` +
-        `🎯 <b>Khách hàng tiềm năng & Đối tác hoạt động:</b>\n` +
+        `👥 *Tương tác trong ngày:*\n` +
+        `• Số khách hàng chat: *${stats.uniqueUsers} người*\n` +
+        `• Tổng số tin nhắn: *${stats.totalMessages} tin*\n` +
+        `  - Tin gửi đến Zalo: *${stats.incoming} tin*\n` +
+        `  - Bot phản hồi: *${stats.outgoing} tin*\n\n` +
+        `🎯 *Khách hàng tiềm năng & Đối tác hoạt động:*\n` +
         `${leadsList}\n\n` +
-        `📈 <b>Tổng số khách hàng tích lũy:</b> <b>${stats.totalUsersAllTime} người</b>\n` +
-        `💬 <b>Tổng số tin nhắn tích lũy:</b> <b>${stats.totalMessagesAllTime} tin</b>\n\n` +
-        `🚀 <i>Chúc anh Cường một ngày làm việc tràn đầy năng lượng!</i>`;
+        `📈 *Tổng số khách hàng tích lũy:* *${stats.totalUsersAllTime} người*\n` +
+        `💬 *Tổng số tin nhắn tích lũy:* *${stats.totalMessagesAllTime} tin*\n\n` +
+        `🚀 _Chúc anh Cường một ngày làm việc tràn đầy năng lượng!_`;
 
       const admin1 = config.zalo.adminId.split(',')[0];
       await api.sendMessage(reportMsg, admin1);
