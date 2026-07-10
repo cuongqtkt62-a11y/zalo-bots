@@ -1076,6 +1076,88 @@ async function startBot() {
     }
   }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
+  // ── Personal Nurturing (Skill 02) ────────────────────────
+  let isPersonalNurturingRunning = false;
+  cron.schedule('0 9 * * *', async () => {
+    if (isPersonalNurturingRunning) return;
+    
+    const dateStr = new Date().toISOString().split('T')[0];
+    const sessionFile = path.join(__dirname, '../data/personal_nurturing_session.json');
+    let sessionData = {};
+    if (existsSync(sessionFile)) {
+      try { sessionData = JSON.parse(readFileSync(sessionFile, 'utf8')); } catch (e) {}
+    }
+    
+    if (sessionData.date !== dateStr) {
+      sessionData = {
+        date: dateStr,
+        completedUsers: [],
+        lastRunStartedAt: 0
+      };
+    }
+
+    if (Date.now() - sessionData.lastRunStartedAt < 65000) return;
+    sessionData.lastRunStartedAt = Date.now();
+    writeFileSync(sessionFile, JSON.stringify(sessionData));
+
+    isPersonalNurturingRunning = true;
+    try {
+      logger.info('⏰ Running Personal Nurturing job...');
+      const users = Object.values(dataStore.users);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      
+      const eligibleUsers = users.filter(u => {
+        if (u.leadScore <= 0 || (u.tags && u.tags.includes('Spam'))) return false;
+        if (!u.lastContact) return false;
+        const lastContactTime = new Date(u.lastContact).getTime();
+        return lastContactTime < sevenDaysAgo;
+      });
+
+      const pendingUsers = eligibleUsers.filter(u => !sessionData.completedUsers.includes(u.id));
+
+      if (pendingUsers.length === 0) {
+        logger.info('⏰ No eligible users for personal nurturing.');
+        return;
+      }
+
+      const targetUsers = pendingUsers.slice(0, 3); // Max 3 users
+      logger.info(`⏰ Nurturing ${targetUsers.length} users...`);
+
+      const templates = [
+        "Dạ Bích chào {name}, lâu rồi không trò chuyện cùng anh/chị! 😊\nBích vừa có thêm một số thông tin hữu ích về chăm sóc sức khỏe tự nhiên. Nếu anh/chị quan tâm, Bích gửi tham khảo nhé!",
+        "Dạ Bích chào {name}, dạo này sức khỏe của anh/chị và gia đình vẫn tốt chứ ạ? 🌿\nNếu cần Bích tư vấn gì thêm về các sản phẩm tự nhiên, anh/chị cứ nhắn Bích nhé!",
+        "Dạ Bích chào {name}! Dạo này thời tiết thay đổi, anh/chị nhớ giữ gìn sức khỏe nhé. Nếu cần Bích hỗ trợ gì, anh/chị đừng ngại nhắn Bích ạ. 🥰"
+      ];
+
+      for (let i = 0; i < targetUsers.length; i++) {
+        const user = targetUsers[i];
+        if (sessionData.completedUsers.includes(user.id)) continue;
+
+        const template = templates[Math.floor(Math.random() * templates.length)];
+        const msg = template.replace('{name}', user.displayName || 'anh/chị');
+
+        try {
+          await api.sendMessage(msg, user.id);
+          logger.info(`✅ Sent personal nurturing to ${user.id}`);
+          dataStore.logMessage(user.id, 'outgoing', msg);
+          
+          sessionData.completedUsers.push(user.id);
+          writeFileSync(sessionFile, JSON.stringify(sessionData));
+          
+          if (i < targetUsers.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 60000));
+          }
+        } catch (err) {
+          logger.error(`❌ Failed to nurture user ${user.id}`, { error: err.message });
+        }
+      }
+    } catch (err) {
+      logger.error('❌ Personal Nurturing Error', { error: err.message });
+    } finally {
+      setTimeout(() => { isPersonalNurturingRunning = false; }, 65000);
+    }
+  }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
   // ══════════════════════════════════════════════════════════
   // SKILL 05 — GROUP CARE MANAGER (Cron 08:00/12:00/19:00)
   // ══════════════════════════════════════════════════════════

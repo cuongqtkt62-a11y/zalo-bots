@@ -934,6 +934,88 @@ async function startBot() {
     }
   }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
+  // ── Personal Nurturing (Skill 02) ────────────────────────
+  let isPersonalNurturingRunning = false;
+  cron.schedule('0 9 * * *', async () => {
+    if (isPersonalNurturingRunning) return;
+    
+    const dateStr = new Date().toISOString().split('T')[0];
+    const sessionFile = path.join(__dirname, '../data/personal_nurturing_session.json');
+    let sessionData = {};
+    if (existsSync(sessionFile)) {
+      try { sessionData = JSON.parse(readFileSync(sessionFile, 'utf8')); } catch (e) {}
+    }
+    
+    if (sessionData.date !== dateStr) {
+      sessionData = {
+        date: dateStr,
+        completedUsers: [],
+        lastRunStartedAt: 0
+      };
+    }
+
+    if (Date.now() - sessionData.lastRunStartedAt < 65000) return;
+    sessionData.lastRunStartedAt = Date.now();
+    writeFileSync(sessionFile, JSON.stringify(sessionData));
+
+    isPersonalNurturingRunning = true;
+    try {
+      logger.info('⏰ Running Personal Nurturing job...');
+      const users = Object.values(dataStore.users);
+      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+      
+      const eligibleUsers = users.filter(u => {
+        if (u.leadScore <= 0 || (u.tags && u.tags.includes('Spam'))) return false;
+        if (!u.lastContact) return false;
+        const lastContactTime = new Date(u.lastContact).getTime();
+        return lastContactTime < sevenDaysAgo;
+      });
+
+      const pendingUsers = eligibleUsers.filter(u => !sessionData.completedUsers.includes(u.id));
+
+      if (pendingUsers.length === 0) {
+        logger.info('⏰ No eligible users for personal nurturing.');
+        return;
+      }
+
+      const targetUsers = pendingUsers.slice(0, 3); // Max 3 users
+      logger.info(`⏰ Nurturing ${targetUsers.length} users...`);
+
+      const templates = [
+        "Dạ chào {name}, lâu rồi không trò chuyện cùng anh/chị! 😊\nEm vừa cập nhật thêm một số tài liệu hay về Trading và tự động hóa. Nếu anh/chị quan tâm, em gửi tham khảo nhé!",
+        "Dạ chào {name}, anh/chị dạo này công việc và trading thế nào rồi ạ? 📈\nNếu cần hỗ trợ gì từ em hay anh Cường, anh/chị cứ nhắn em nhé!",
+        "Dạ chào {name}! Hệ thống bot tín hiệu mới bên em vừa được nâng cấp mượt hơn nhiều ạ. Anh/chị có muốn em giới thiệu qua không? 🤖"
+      ];
+
+      for (let i = 0; i < targetUsers.length; i++) {
+        const user = targetUsers[i];
+        if (sessionData.completedUsers.includes(user.id)) continue;
+
+        const template = templates[Math.floor(Math.random() * templates.length)];
+        const msg = template.replace('{name}', user.displayName || 'anh/chị');
+
+        try {
+          await api.sendMessage(msg, user.id);
+          logger.info(`✅ Sent personal nurturing to ${user.id}`);
+          dataStore.logMessage(user.id, 'outgoing', msg);
+          
+          sessionData.completedUsers.push(user.id);
+          writeFileSync(sessionFile, JSON.stringify(sessionData));
+          
+          if (i < targetUsers.length - 1) {
+            await new Promise(resolve => setTimeout(resolve, 60000));
+          }
+        } catch (err) {
+          logger.error(`❌ Failed to nurture user ${user.id}`, { error: err.message });
+        }
+      }
+    } catch (err) {
+      logger.error('❌ Personal Nurturing Error', { error: err.message });
+    } finally {
+      setTimeout(() => { isPersonalNurturingRunning = false; }, 65000);
+    }
+  }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
   // ── Daily Group Nurturing (Skill 04) ────────────────────
   let isNurturingRunning = false;
   async function runGroupNurturing(timeOfDay) {
