@@ -390,6 +390,12 @@ function App() {
       <div className="logs">
         {logs.map((l, idx) => <p key={idx}>{l}</p>)}
       </div>
+
+      <div className="copyright-marquee">
+        <div className="marquee-content">
+          <b>BẢN QUYỀN THUỘC VỀ CƯỜNG OPC</b>
+        </div>
+      </div>
     </div>
   );
 }
