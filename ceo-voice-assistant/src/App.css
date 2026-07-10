@@ -3,17 +3,23 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
   background-color: #050505;
   background-image: 
-    radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.08) 0%, transparent 60%),
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 100% 100%, 30px 30px, 30px 30px;
-  background-position: center center, center center, center center;
+    radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.15) 0%, transparent 50%),
+    linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px);
+  background-size: 100% 100%, 40px 40px, 40px 40px;
+  background-position: center center, 0 0, 0 0;
   color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   overflow: hidden;
+  animation: grid-move 20s linear infinite;
+}
+
+@keyframes grid-move {
+  0% { background-position: center center, 0 0, 0 0; }
+  100% { background-position: center center, 40px 40px, 40px 40px; }
 }
 
 .App {
