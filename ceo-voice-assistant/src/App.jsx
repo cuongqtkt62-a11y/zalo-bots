@@ -160,7 +160,6 @@ function App() {
       processor.connect(audioContext.destination);
 
       processor.onaudioprocess = (e) => {
-        if (!isRecording) return;
         const inputData = e.inputBuffer.getChannelData(0);
         
         // Chuyển Float32 sang Int16
@@ -208,6 +207,16 @@ function App() {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
     }
     addLog('⏹️ Recording stopped');
+
+    // Force Gemini to respond immediately since user released the button
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({
+        clientContent: {
+          turns: [],
+          turnComplete: true
+        }
+      }));
+    }
   };
 
   const addLog = (msg) => {
