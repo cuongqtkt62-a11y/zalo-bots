@@ -126,15 +126,15 @@ function App() {
       const encodedAddress = encodeURIComponent(address);
       const url = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
       
-      // Thử mở tab mới tự động (sẽ bị chặn ở Zalo/Safari trong callback)
+      // Thử mở tab mới tự động
       try {
         const newWin = window.open(url, '_blank');
         if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
-          // Bị chặn popup -> Hiển thị nút bấm
-          setMapPopup({ url, address });
+          // Bị chặn popup -> ÉP CHUYỂN HƯỚNG TRỰC TIẾP (Tự động mở App Bản Đồ)
+          window.location.href = url;
         }
       } catch (e) {
-        setMapPopup({ url, address });
+        window.location.href = url;
       }
       
       responseObj = { status: "Success", action: "Google Maps Opened" };
@@ -147,10 +147,11 @@ function App() {
       try {
         const newWin = window.open(url, '_blank');
         if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
-          setMapPopup({ url, address: description, isGeneralUrl: true });
+          // Bị chặn popup -> ÉP CHUYỂN HƯỚNG TRỰC TIẾP (Tự động mở App YouTube)
+          window.location.href = url;
         }
       } catch (e) {
-        setMapPopup({ url, address: description, isGeneralUrl: true });
+        window.location.href = url;
       }
       
       responseObj = { status: "Success", action: `URL Opened: ${url}` };
