@@ -278,8 +278,17 @@ function App() {
     }
     if (mediaStreamRef.current) {
       mediaStreamRef.current.getTracks().forEach(track => track.stop());
-      mediaStreamRef.current = null;
     }
+
+    // Ép Gemini trả lời NGAY LẬP TỨC thay vì chờ 2-3 giây khoảng lặng
+    if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+      wsRef.current.send(JSON.stringify({
+        clientContent: {
+          turnComplete: true
+        }
+      }));
+    }
+    mediaStreamRef.current = null;
     if (recordingAudioContextRef.current) {
       recordingAudioContextRef.current.close();
       recordingAudioContextRef.current = null;
