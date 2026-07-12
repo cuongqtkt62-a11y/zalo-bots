@@ -32,3 +32,11 @@ services:
     envVars:
       - key: GEMINI_API_KEY
         sync: false
+
+  - type: cron
+    name: keep-alive-pinger
+    env: node
+    region: singapore
+    schedule: "*/10 * * * *"
+    buildCommand: "echo 'No build needed'"
+    startCommand: "node -e \"const https = require('https'); ['https://zalo-bots-opc.onrender.com/health', 'https://trading-telegram-bot-ozhm.onrender.com/health', 'https://zalo-bots.onrender.com/health', 'https://zalo-bots-1.onrender.com/health'].forEach(url => https.get(url, res => console.log('Ping', url, res.statusCode)).on('error', console.error));\""
