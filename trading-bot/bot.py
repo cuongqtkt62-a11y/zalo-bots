@@ -17,8 +17,6 @@ import time
 from datetime import datetime, timedelta
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.cron import CronTrigger
-from telegram.ext import Application, MessageHandler, filters
-import re
 from config import Config
 from signal_scanner import SignalScanner
 from telegram_notifier import TelegramNotifier
@@ -26,7 +24,6 @@ from market_bulletin import MarketBulletin
 from market_pulse import MarketPulse
 from ai_convergence_scanner import AIDePINScanner
 from mirofish_analyzer import MiroFishAnalyzer
-from ai_news_summarizer import summarize_news
 
 logging.basicConfig(
     level=logging.INFO,
@@ -53,10 +50,6 @@ class TradingBot:
         self.start_time = None
         self.consecutive_errors = 0
         self.max_consecutive_errors = 5
-
-        # Bật Application Polling để nghe tin nhắn
-        self.application = Application.builder().token(Config.TELEGRAM_BOT_TOKEN).build()
-        self.application.add_handler(MessageHandler(filters.TEXT & filters.Entity("url"), self.handle_url_message))
 
         # Signal deduplication
         self.sent_signals = {}  # {symbol: (direction, setup_type, timestamp)}
@@ -431,44 +424,17 @@ class TradingBot:
         # )
 
         self.scheduler.start()
-        logger.info("✅ Bot đang chạy. Nhịp Đập mỗi giờ, Bản tin 7h & 20h, AI Report 8h & 20h30.")
-
-        await self.application.initialize()
-        await self.application.start()
-        await self.application.updater.start_polling()
-        logger.info("✅ Đã kích hoạt tính năng Lắng nghe Tin nhắn (URL Summarizer). Ctrl+C để dừng.")
+        logger.info("✅ Bot đang chạy. Nhịp Đập mỗi giờ, Bản tin 7h & 20h, AI Report 8h & 20h30. Ctrl+C để dừng.")
 
         try:
             while True:
-                await asyncio.sleep(3600)
+                await asyncio.sleep(1)
         except (KeyboardInterrupt, SystemExit):
             logger.info("🛑 Đang dừng bot...")
             self.scheduler.shutdown()
-            await self.application.updater.stop()
-            await self.application.stop()
-            await self.application.shutdown()
             await self.scanner.data_fetcher.close()
             await self.notifier.send_status("🛑 <b>Sonic R Bot đã dừng</b>")
             logger.info("👋 Bot đã dừng.")
-
-    async def handle_url_message(self, update, context):
-        text = update.message.text
-        urls = re.findall(r'(https?://[^\s]+)', text)
-        if not urls:
-            return
-        
-        # Chỉ nhận lệnh từ Admin (Chat ID đã cấu hình)
-        if str(update.message.chat_id) != str(Config.TELEGRAM_CHAT_ID):
-            return
-
-        url = urls[0]
-        logger.info(f"Nhận URL từ Sếp: {url}")
-        
-        processing_msg = await update.message.reply_text("⏳ Đang tải và phân tích bài báo...")
-        
-        summary = await summarize_news(url)
-        
-        await processing_msg.edit_text(f"🌐 <b>Tóm tắt Phân tích AI</b>\n<a href='{url}'>Nguồn bài báo</a>\n\n{summary}", parse_mode='HTML', disable_web_page_preview=True)
 
 
 async def main():
