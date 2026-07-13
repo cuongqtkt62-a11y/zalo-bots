@@ -1160,14 +1160,8 @@ async function startBot() {
     }
   }
 
-  // Chạy lúc 08:01 sáng hàng ngày (lệch 1 phút sau CEO Briefing để tránh conflict)
-  cron.schedule('1 8 * * *', () => runGroupNurturing('Buổi sáng (8:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
-  
-  // Chạy lúc 12:00 trưa hàng ngày
-  cron.schedule('0 12 * * *', () => runGroupNurturing('Buổi trưa (12:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
-
-  // Chạy lúc 19:00 tối hàng ngày
-  cron.schedule('0 19 * * *', () => runGroupNurturing('Buổi tối (19:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+  // Sếp yêu cầu: Chỉ đăng bài nhóm đúng 1 khung giờ duy nhất là 11h AM mỗi ngày
+  cron.schedule('0 11 * * *', () => runGroupNurturing('Buổi sáng (11:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
 
   console.log('\n╔══════════════════════════════════════════════════════════╗');

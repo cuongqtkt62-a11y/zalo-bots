@@ -281,23 +281,11 @@ async function checkSystemHealthAndReport(scheduleName) {
   }
 }
 
-// Báo cáo trước giờ sáng (08:00) -> Cron lúc 07:50
-cron.schedule('50 7 * * *', () => {
-  console.log('[Cron] Running morning audit report');
-  checkSystemHealthAndReport('Sáng 07:50');
+// Báo cáo trước giờ đăng bài nhóm (11:00) -> Cron lúc 10:50
+cron.schedule('50 10 * * *', () => {
+  console.log('[Cron] Running pre-flight audit report');
+  checkSystemHealthAndReport('Sáng 10:50');
 }, { timezone: 'Asia/Ho_Chi_Minh' });
 
-// Báo cáo trước giờ trưa (12:00) -> Cron lúc 11:50
-cron.schedule('50 11 * * *', () => {
-  console.log('[Cron] Running noon audit report');
-  checkSystemHealthAndReport('Trưa 11:50');
-}, { timezone: 'Asia/Ho_Chi_Minh' });
-
-// Báo cáo trước giờ tối (19:00) -> Cron lúc 18:50
-cron.schedule('50 18 * * *', () => {
-  console.log('[Cron] Running evening audit report');
-  checkSystemHealthAndReport('Tối 18:50');
-}, { timezone: 'Asia/Ho_Chi_Minh' });
-
-console.log('⏰ Đã thiết lập Cronjob báo cáo giám sát 24/7 (07:50, 11:50, 18:50 GMT+7).');
+console.log('⏰ Đã thiết lập Cronjob báo cáo giám sát 24/7 (10:50 GMT+7).');
 
