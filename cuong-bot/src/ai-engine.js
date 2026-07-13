@@ -371,7 +371,7 @@ ${postSummaries}
     const suggestedTopic = topicCategories[topicIdx];
 
     const dynamicConfig = await this.getDynamicConfig();
-    let basePrompt = dynamicConfig.nurturingPrompt || localConfig.nurturingPrompt || `Bạn là Trợ Lý AI của anh Cường. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do anh Cường quản lý.
+    let basePrompt = localConfig.nurturingPrompt || dynamicConfig.nurturingPrompt || `Bạn là Trợ Lý AI của anh Cường. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do anh Cường quản lý.
 Hãy trả về kết quả duy nhất dưới định dạng JSON với cấu trúc sau (không thêm bất kỳ từ giải thích nào ngoài JSON):
 {
   "post": "nội dung bài đăng đầy đủ",

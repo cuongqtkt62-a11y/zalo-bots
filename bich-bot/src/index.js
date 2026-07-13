@@ -136,7 +136,7 @@ async function startBot() {
 
       // ── Smart Grace Period ──────────────────────────────
       // Chỉ bỏ qua tin nhắn 15s đầu tiên nếu ổ cứng KHÔNG có file lưu lịch sử.
-      // (Xảy ra khi Hugging Face Docker Rebuild bị mất dữ liệu).
+      // (Xảy ra khi Cloud Server Docker Rebuild bị mất dữ liệu).
       // Nếu là PM2 restart bình thường, dataStore sẽ có Persistent Cache -> Không cần chờ 15s!
       if (!dataStore.hasPersistentCache() && (Date.now() - STARTUP_TIME < 15000)) {
         return;
@@ -303,7 +303,7 @@ async function startBot() {
               
               // Tạo link tải trực tiếp từ server
               const relativePath = result.videoPath.split('/cloud-deployment/')[1] || result.videoPath.split('/app/')[1] || `bich-bot/scratch/video_temps/${require('path').basename(result.videoPath)}`;
-              const downloadLink = `https://cuongnguyenchi-zalo-bots.hf.space/download?file=${relativePath}`;
+              const downloadLink = `https://zalo-bots-1.onrender.com/download?file=${relativePath}`;
               
               await api.sendMessage(`⚠️ Zalo từ chối upload trực tiếp file video dung lượng lớn.\n\n📥 Sếp bấm vào link này để tải video tốc độ cao từ máy chủ Cloud nhé:\n${downloadLink}\n\n(Link sẽ tự hủy sau 1 giờ)`, threadId, message.type);
               
@@ -1596,7 +1596,10 @@ process.on('uncaughtException', (err) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('💥 Unhandled Rejection!', { reason: String(reason) });
+  logger.error('💥 Unhandled Rejection (Swallowed to prevent crash)!', { 
+    reason: String(reason),
+    stack: reason && reason.stack ? reason.stack : 'No stack trace'
+  });
 });
 
 // ── Start ────────────────────────────────────────────────

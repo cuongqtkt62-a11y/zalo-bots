@@ -13,8 +13,8 @@ if (!process.env.SPACE_ID) {
 const token = process.env.SECRETARY_BOT_TOKEN;
 const adminId = process.env.ADMIN_TELEGRAM_ID || process.env.TELEGRAM_CHAT_ID;
 
-// HF Server URL - nơi lưu trữ config.json thực tế
-const HF_API_URL = 'https://cuongnguyenchi-zalo-bots.hf.space';
+// Render Server URL - nơi lưu trữ config.json thực tế
+const CLOUD_API_URL = 'https://zalo-bots-1.onrender.com';
 
 if (!token) {
   console.error('⚠️ Thiếu biến môi trường (SECRETARY_BOT_TOKEN). Bot Thư Kí sẽ không chạy.');
@@ -33,7 +33,7 @@ const bot = new TelegramBot(token, {
 
 // Hàm gọi Gemini AI qua Proxy của HF Server
 async function callGemini(systemPrompt, userPrompt, temperature = 0.7) {
-  const url = `${HF_API_URL}/proxy/gemini/v1beta/models/gemini-2.5-flash:generateContent`;
+  const url = `${CLOUD_API_URL}/proxy/gemini/v1beta/models/gemini-2.5-flash:generateContent`;
   
   const body = {
     system_instruction: { parts: [{ text: systemPrompt }] },
@@ -64,7 +64,7 @@ console.log(`📍 Admin ID: ${adminId}`);
 
 // Hàm đọc config từ HF server
 async function readConfig(botName) {
-  const url = `${HF_API_URL}/config/${botName}?t=${Date.now()}`;
+  const url = `${CLOUD_API_URL}/config/${botName}?t=${Date.now()}`;
   const response = await fetch(url);
   if (!response.ok) {
     const errText = await response.text();
@@ -75,7 +75,7 @@ async function readConfig(botName) {
 
 // Hàm ghi config lên HF server
 async function writeConfig(botName, config) {
-  const url = `${HF_API_URL}/config/${botName}`;
+  const url = `${CLOUD_API_URL}/config/${botName}`;
   const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -203,13 +203,11 @@ Lưu ý quan trọng:
 // ══════════════════════════════════════════════════════════════
 
 
-const HF_TOKEN = process.env.HF_TOKEN || ['hf', 'NZRKbqHzPqUEeCHEaQjGrxHnOlSuDqamzP'].join('_');
-
 const KEEP_ALIVE_TARGETS = [
   {
-    name: 'Hugging Face (Zalo Bots)',
-    url: 'https://cuongnguyenchi-zalo-bots.hf.space/health',
-    headers: HF_TOKEN ? { 'Authorization': `Bearer ${HF_TOKEN}` } : {}
+    name: 'Render (Zalo Bots)',
+    url: 'https://zalo-bots-1.onrender.com/health',
+    headers: {}
   },
   {
     name: 'Render (Trading Bot)',
@@ -253,8 +251,8 @@ console.log('🏥 Keep-Alive System: Sẽ ping tất cả server mỗi 10 phút'
 process.on('uncaughtException', (err) => {
   console.error('Uncaught Exception in Secretary Bot:', err);
 });
-process.on('unhandledRejection', (err) => {
-  console.error('Unhandled Rejection in Secretary Bot:', err);
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('💥 [TELEGRAM BOT] Unhandled Rejection (Swallowed to prevent crash)!', reason);
 });
 
 // ══════════════════════════════════════════════════════════════
@@ -264,22 +262,22 @@ process.on('unhandledRejection', (err) => {
 
 async function checkSystemHealthAndReport(scheduleName) {
   try {
-    const url = 'https://cuongnguyenchi-zalo-bots.hf.space/health';
+    const url = 'https://zalo-bots-1.onrender.com/health';
     const res = await fetch(url, { timeout: 15000 });
     
     if (res.ok) {
       const data = await res.json();
       const report = `📊 <b>BÁO CÁO TRƯỚC GIỜ ĐĂNG BÀI (${scheduleName})</b>\n\n` +
-                     `🟢 <b>Hugging Face Server:</b> ONLINE\n` +
+                     `🟢 <b>Cloud Server:</b> ONLINE\n` +
                      `✅ <b>Uptime:</b> ${Math.floor(data.uptime / 3600)} giờ ${Math.floor((data.uptime % 3600) / 60)} phút\n` +
                      `✅ <b>Services:</b> ${data.services.join(', ')}\n\n` +
                      `🚀 Hệ thống Zalo Bot (Bích & Cường) đã sẵn sàng đăng bài và chăm sóc nhóm!`;
       bot.sendMessage(adminId, report, { parse_mode: 'HTML' });
     } else {
-      bot.sendMessage(adminId, `⚠️ <b>CẢNH BÁO (${scheduleName}):</b>\n\nHugging Face Server phản hồi lỗi HTTP ${res.status}. Hệ thống Zalo Bot có thể đang gặp sự cố trước giờ đăng bài!`, { parse_mode: 'HTML' });
+      bot.sendMessage(adminId, `⚠️ <b>CẢNH BÁO (${scheduleName}):</b>\n\nCloud Server phản hồi lỗi HTTP ${res.status}. Hệ thống Zalo Bot có thể đang gặp sự cố trước giờ đăng bài!`, { parse_mode: 'HTML' });
     }
   } catch (error) {
-    bot.sendMessage(adminId, `🆘 <b>CẢNH BÁO KHẨN CẤP (${scheduleName}):</b>\n\nKhông thể kết nối đến Hugging Face Server! Toàn bộ Zalo Bot có thể đã sập (Ngoại lệ: ${error.message}). Sếp vui lòng kiểm tra ngay!`, { parse_mode: 'HTML' });
+    bot.sendMessage(adminId, `🆘 <b>CẢNH BÁO KHẨN CẤP (${scheduleName}):</b>\n\nKhông thể kết nối đến Cloud Server! Toàn bộ Zalo Bot có thể đã sập (Ngoại lệ: ${error.message}). Sếp vui lòng kiểm tra ngay!`, { parse_mode: 'HTML' });
   }
 }
 

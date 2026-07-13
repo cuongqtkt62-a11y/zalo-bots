@@ -199,14 +199,14 @@ const server = http.createServer((req, res) => {
       });
     });
   } else if (req.url.startsWith('/proxy/openai/')) {
-    // Proxy OpenAI requests via Hugging Face to inject the correct API key
+    // Proxy OpenAI requests via Cloud Server to inject the correct API key
     // This allows Render bots to use HF's secrets without manual configuration
     const targetUrl = 'https://api.groq.com' + req.url.replace('/proxy', '');
     const apiKey = process.env.OPENAI_API_KEY;
     
     if (!apiKey) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: { message: 'OPENAI_API_KEY missing on Hugging Face Server' } }));
+      res.end(JSON.stringify({ error: { message: 'OPENAI_API_KEY missing on Cloud Server' } }));
       return;
     }
 
@@ -242,13 +242,13 @@ const server = http.createServer((req, res) => {
       });
     });
   } else if (req.url.startsWith('/proxy/gemini/')) {
-    // Proxy Gemini requests via Hugging Face to inject the correct API key
+    // Proxy Gemini requests via Cloud Server to inject the correct API key
     const targetUrl = 'https://generativelanguage.googleapis.com' + req.url.replace('/proxy/gemini', '');
     const apiKey = process.env.GEMINI_API_KEY;
     
     if (!apiKey) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: { message: 'GEMINI_API_KEY missing on Hugging Face Server' } }));
+      res.end(JSON.stringify({ error: { message: 'GEMINI_API_KEY missing on Cloud Server' } }));
       return;
     }
 

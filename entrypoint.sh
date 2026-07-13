@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-echo "🚀 Starting Hugging Face Deployment Entrypoint..."
+echo "🚀 Starting Cloud Server Deployment Entrypoint..."
 
 # 1. Tải dữ liệu từ GitHub Gist
 node gist-sync.js download || true

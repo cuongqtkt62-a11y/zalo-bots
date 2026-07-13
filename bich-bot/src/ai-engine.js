@@ -360,7 +360,7 @@ ${postSummaries}
     const suggestedTopic = topicCategories[topicIdx];
 
     const dynamicConfig = await this.getDynamicConfig();
-    let basePrompt = dynamicConfig.nurturingPrompt || localConfig.nurturingPrompt || `Bạn là Trợ Lý AI của cô Lưu Bích. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do cô Lưu Bích quản lý.
+    let basePrompt = localConfig.nurturingPrompt || dynamicConfig.nurturingPrompt || `Bạn là Trợ Lý AI của cô Lưu Bích. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do cô Lưu Bích quản lý.
 Hãy trả về kết quả duy nhất dưới định dạng JSON với cấu trúc sau (không thêm bất kỳ từ giải thích nào ngoài JSON):
 {
   "post": "nội dung bài đăng đầy đủ (dưới 120 từ, xưng là Bích và gọi người nhận là các anh/chị. BẮT BUỘC CÓ XUỐNG DÒNG RÕ RÀNG GIỮA CÁC Ý bằng ký tự \\n để bài viết chia thành 2-3 đoạn ngắn dễ đọc. Sử dụng emoji thanh lịch, tinh tế như 🌸, 🌿, ✨, ☕️ thay vì lạm dụng icon sặc sỡ. Cuối bài có câu hỏi thảo luận mở tách riêng thành 1 đoạn. Tuyệt đối KHÔNG có lời chào hỏi xã giao ở đầu như 'Chào các anh/chị', 'Xin chào', 'Chúc ngày mới', đi thẳng vào nội dung)",

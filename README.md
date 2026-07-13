@@ -7,7 +7,7 @@ sdk: docker
 pinned: false
 ---
 
-# Zalo Bots Deployment on Hugging Face Spaces
+# Zalo Bots Deployment on Render
 
 This repository contains the deployment files for:
 1. Zalo Assistant (Bích)
