@@ -421,7 +421,7 @@ async function startBot() {
           const timeOfDay = 'Buổi sáng (8:00)'; // Giả lập buổi sáng để test
           
           const nurturingData = await aiEngine.generateGroupNurturingPost(groupName, group.purpose, timeOfDay);
-          tempImagePath = await createCard(nurturingData.quote, timeOfDay, threadId, groupName, group.purpose);
+          tempImagePath = await createCard(nurturingData, timeOfDay, threadId, groupName, group.purpose);
 
           const msgObject = {
             msg: nurturingData.post,
@@ -1096,7 +1096,7 @@ async function startBot() {
           const nurturingData = await aiEngine.generateGroupNurturingPost(groupName, group.purpose, timeOfDay, group.id);
           
           // Tạo Quote/Tip card tương ứng
-          tempImagePath = await createCard(nurturingData.quote, timeOfDay, group.id, groupName, group.purpose);
+          tempImagePath = await createCard(nurturingData, timeOfDay, group.id, groupName, group.purpose);
 
           // Gửi tin nhắn kèm ảnh lên Zalo nhóm bằng đường dẫn file để zca-js tự upload
           const msgObject = {
