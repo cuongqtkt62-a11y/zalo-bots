@@ -197,7 +197,7 @@ async function startBot() {
           }
 
           dataStore.approveGroup(targetGroupId, groupName, purpose);
-          const welcomeMsg = `Chào cả nhà,\nBích rất biết ơn cả nhà đã đồng hành cùng Bích ạ !`;
+          const welcomeMsg = `Dạ Bích chào các anh/chị ạ! 🌸\nBích rất vui được đồng hành cùng các anh/chị!`;
           try {
             await api.sendMessage(welcomeMsg, targetGroupId, ThreadType.Group);
             logger.info('✅ Approved group welcome greeting sent successfully', { targetGroupId });
@@ -588,7 +588,7 @@ async function startBot() {
         const currentStep = groupObj.greetingStep || 0;
 
         if (currentStep < 2) {
-          const greeting2 = `Cả nhà muốn tìm hiểu thêm thông tin gì cứ nhắn em`;
+          const greeting2 = `Các anh/chị quan tâm đến chủ đề nào, cứ nhắn Bích nhé ạ! ✨`;
           
           // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
           const replyDelay = 1500 + Math.random() * 1500;
@@ -604,9 +604,9 @@ async function startBot() {
         } else if (currentStep === 2) {
           const greeting3 = `Thông tin lớp học bên dưới:\n` +
             `MỚI NHẤT: Khoá học tạo phim hoạt hình cho trẻ em: https://forms.gle/JLGRTW6FoTCffdvm6\n\n` +
-            `Nếu bạn muốn xây nhân hiệu cá nhân trên MXH?\n` +
-            `Nếu bạn mong muốn tìm ra động lực kiếm tạo mục tiêu hay sứ mệnh thật sự của mình? \n` +
-            `Xin mời bạn dành chút thời gian cho Bích Bích nhé!\n` +
+            `Nếu các anh/chị muốn xây nhân hiệu cá nhân trên MXH?\n` +
+            `Nếu các anh/chị mong muốn tìm ra động lực kiến tạo mục tiêu hay sứ mệnh thật sự của các anh/chị?\n` +
+            `Mời các anh/chị dành chút thời gian tìm hiểu nhé!\n` +
             ` ✅ Đặt lịch coach 1:1 với Bích: \n` +
             `https://cohenvoituonglai.lovable.app \n\n` +
             `✅ Lộ trình chuyển giao nhân hiệu nhà đào tạo:\n` +
@@ -618,7 +618,7 @@ async function startBot() {
             `✅ Thông tin thêm về Lưu Bích:\n` +
             `https://luuphanngocbich.com/\n` +
             `==================\n` +
-            `Biết ơn các bạn đã ghé thăm trang cá nhân của Bích Bích!`;
+            `Biết ơn các anh/chị đã ghé thăm trang cá nhân của Bích! 🌸`;
 
           // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
           const replyDelay = 1500 + Math.random() * 1500;
@@ -853,7 +853,7 @@ async function startBot() {
         const userId = event.threadId;
         logger.info('👤 New friend added, sending auto greeting', { userId });
 
-        const greeting = `Dạ Bích chào bạn,\nRất biết ơn bạn đã kết bạn cùng Bích ạ !`;
+        const greeting = `Dạ Bích chào anh/chị ạ! 🌸\nBích rất vui được kết nối với anh/chị.\nAnh/chị cần tìm hiểu gì cứ nhắn Bích nhé ạ!`;
 
         // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
         const replyDelay = 1500 + Math.random() * 1500;
@@ -927,7 +927,7 @@ async function startBot() {
         }
 
         logger.info('👥 Bot added to an approved group, sending welcome greeting', { groupId, groupName });
-        const greeting = `Chào cả nhà,\nBích rất biết ơn cả nhà đã đồng hành cùng Bích ạ !`;
+        const greeting = `Dạ Bích chào các anh/chị ạ! 🌸\nBích rất vui được đồng hành cùng các anh/chị!`;
 
         // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
         const replyDelay = 1500 + Math.random() * 1500;
