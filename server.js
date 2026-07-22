@@ -284,11 +284,20 @@ import https from 'https';
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Health check server listening on port ${PORT}`);
   
-  // Self-ping to prevent Zalo Bot Space from sleeping
+  // Self-ping to prevent Render from sleeping (Render Native Cron Job backup)
+  const SELF_URL = 'https://zalo-bots-1.onrender.com/health';
   const RENDER_URL = 'https://trading-telegram-bot-ozhm.onrender.com/health';
   const SECRETARY_URL = 'https://zalo-bots.onrender.com/';
   
   const pingServices = () => {
+    // Self-ping qua public URL — Render tính là external traffic
+    https.get(SELF_URL, (res) => {
+      console.log(`[Self-Ping] Pinged ${SELF_URL} with status ${res.statusCode}`);
+      res.resume();
+    }).on('error', (err) => {
+      console.error(`[Self-Ping] Error:`, err.message);
+    });
+
     // Ping Trading Bot on Render to keep it awake 24/7
     https.get(RENDER_URL, (res) => {
       console.log(`[Render-Ping] Pinged Trading Bot ${RENDER_URL} with status ${res.statusCode}`);
@@ -308,6 +317,6 @@ server.listen(PORT, '0.0.0.0', () => {
 
   // Ping ngay khi khởi động
   pingServices();
-  // Sau đó lặp lại mỗi 10 phút để giữ cho Zalo Bot (Và các dịch vụ khác) luôn thức
+  // Lặp lại mỗi 10 phút để giữ server thức 24/7
   setInterval(pingServices, 10 * 60 * 1000);
 });
