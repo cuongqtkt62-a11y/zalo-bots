@@ -50,7 +50,10 @@ const zaloBots = [
   }
 ];
 
-// Bỏ chặn Render vì chúng ta đã chính thức di dời sang Render 24/7
+// NẾU CHẠY TRÊN RENDER (BỊ NHẦM DOCKER), CHỈ CHẠY HEALTH SERVER ĐỂ KHÔNG ĐỤNG ĐỘ VỚI HUGGING FACE
+const isRender = !!process.env.RENDER;
+const activeApps = isRender ? [zaloBots[2]] : zaloBots;
+
 module.exports = {
-  apps: zaloBots
+  apps: activeApps
 };

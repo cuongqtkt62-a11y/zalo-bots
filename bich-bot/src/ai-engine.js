@@ -120,7 +120,7 @@ class AIEngine {
         const fullHistory = [...history, { role: 'user', content: userMessage }];
 
         const dynamicConfig = await this.getDynamicConfig();
-        let currentSystemPrompt = localConfig.systemPrompt || dynamicConfig.systemPrompt || SYSTEM_PROMPT;
+        let currentSystemPrompt = dynamicConfig.systemPrompt || localConfig.systemPrompt || SYSTEM_PROMPT;
         if (senderName) {
           const pronoun = gender === 0 ? 'Anh' : (gender === 1 ? 'Chị' : 'Anh/Chị');
           currentSystemPrompt += `\n\n- Người đang chat với bạn tên là: "${senderName}". Giới tính của họ là: ${pronoun}. Khen ngợi và gọi họ bằng "${pronoun.toLowerCase()} ${senderName}" (ví dụ: "chị ${senderName}" hoặc "anh ${senderName}"). Hãy luôn xưng mình là "Bích", tuyệt đối không xưng "em" hay "mình", và gọi họ bằng tên Zalo của họ.`;
@@ -360,7 +360,7 @@ ${postSummaries}
     const suggestedTopic = topicCategories[topicIdx];
 
     const dynamicConfig = await this.getDynamicConfig();
-    let basePrompt = localConfig.nurturingPrompt || dynamicConfig.nurturingPrompt || `Bạn là Trợ Lý AI của cô Lưu Bích. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do cô Lưu Bích quản lý.
+    let basePrompt = dynamicConfig.nurturingPrompt || localConfig.nurturingPrompt || `Bạn là Trợ Lý AI của cô Lưu Bích. Bạn cần chuẩn bị nội dung chăm sóc cho nhóm Zalo do cô Lưu Bích quản lý.
 Hãy trả về kết quả duy nhất dưới định dạng JSON với cấu trúc sau (không thêm bất kỳ từ giải thích nào ngoài JSON):
 {
   "post": "nội dung bài đăng đầy đủ (dưới 120 từ, xưng là Bích và gọi người nhận là các anh/chị. BẮT BUỘC CÓ XUỐNG DÒNG RÕ RÀNG GIỮA CÁC Ý bằng ký tự \\n để bài viết chia thành 2-3 đoạn ngắn dễ đọc. Sử dụng emoji thanh lịch, tinh tế như 🌸, 🌿, ✨, ☕️ thay vì lạm dụng icon sặc sỡ. Cuối bài có câu hỏi thảo luận mở tách riêng thành 1 đoạn. Tuyệt đối KHÔNG có lời chào hỏi xã giao ở đầu như 'Chào các anh/chị', 'Xin chào', 'Chúc ngày mới', đi thẳng vào nội dung)",
@@ -427,37 +427,34 @@ Thông tin nhóm:
 
     } catch (error) {
       logger.error('Failed to generate group nurturing post via AI, using fallback', { groupName, error: error.message });
-
-      // Fallback bám sát mục đích nhóm, ngắn gọn, KHÔNG chào hỏi — đúng phong cách Bích
-      const purposeLabel = groupPurpose || groupName || 'phát triển bản thân';
-
+      
       if (timeOfDay.includes('sáng') || timeOfDay.includes('8') || timeOfDay.includes('10')) {
         const fallbacks = [
-          { post: `🌿 Muốn đi xa trong ${purposeLabel}, hãy bắt đầu bằng 1 thói quen nhỏ mỗi sáng.\n\nKhông cần hoàn hảo — chỉ cần kiên trì mỗi ngày 1%.\n\nHôm nay các anh/chị đặt mục tiêu gì cho mình? 🎯`, quote: 'Kiên trì mỗi ngày, thành công sẽ đến', cursive_quote: 'Mỗi ngày tiến một bước để', highlight_quote: 'KIÊN TRÌ TẠO THÀNH CÔNG' },
-          { post: `✨ Người thành công trong ${purposeLabel} không phải giỏi nhất — mà là người không bỏ cuộc.\n\nMỗi sáng thức dậy, hãy tự hỏi: "Hôm nay mình sẽ tiến thêm được bước nào?"\n\nCác anh/chị đang tập trung vào điều gì? 🎯`, quote: 'Không bỏ cuộc là đã thắng một nửa', cursive_quote: 'Kiên định mỗi ngày để', highlight_quote: 'KHÔNG BAO GIỜ BỎ CUỘC' },
-          { post: `☕️ Một nguyên tắc Bích luôn áp dụng trong ${purposeLabel}:\n\nLàm việc quan trọng nhất TRƯỚC — khi đầu óc còn tỉnh táo nhất.\n\nĐừng để việc gấp lấn át việc quan trọng. Các anh/chị thử áp dụng xem sao? 🌿`, quote: 'Ưu tiên đúng, kết quả đúng', cursive_quote: 'Tập trung làm đúng việc để', highlight_quote: 'ƯU TIÊN VIỆC QUAN TRỌNG' },
-          { post: `🌸 Trong ${purposeLabel}, nhiều người chỉ lên kế hoạch mà quên hành động.\n\nBích thấy rằng: 1 hành động nhỏ hôm nay > 10 kế hoạch hoàn hảo trên giấy.\n\nCác anh/chị hôm nay đã hành động gì chưa? 💪`, quote: 'Hành động hơn lời nói', cursive_quote: 'Bắt tay vào làm ngay để', highlight_quote: 'HÀNH ĐỘNG NGAY HÔM NAY' },
-          { post: `🌿 Sai lầm lớn nhất khi theo đuổi ${purposeLabel}?\n\nĐó là cố làm mọi thứ cùng lúc. Hãy chọn 1 việc — làm cho tốt — rồi mới chuyển sang việc tiếp theo.\n\nCác anh/chị đang tập trung vào 1 việc duy nhất nào? ✨`, quote: 'Tập trung là sức mạnh', cursive_quote: 'Làm ít nhưng làm sâu để', highlight_quote: 'TẬP TRUNG LÀ SỨC MẠNH' }
+          { post: `☀️ Bích chúc các anh/chị ngày mới tràn đầy năng lượng nhé! Hy vọng hôm nay chúng ta sẽ có nhiều kết quả tốt đẹp và luôn giữ vững động lực phát triển bản thân. Các anh/chị đã lên kế hoạch cho ngày hôm nay chưa ạ? 🎯`, quote: `Giữ vững động lực, ngày mới thành công!` },
+          { post: `🌸 Chào buổi sáng cả nhà! Một ngày mới lại bắt đầu, Bích mong rằng mỗi anh/chị đều mang trong mình một ý chí mạnh mẽ để hoàn thành mọi mục tiêu đã đề ra. Cùng chia sẻ năng lượng tích cực vào nhóm nhé! ✨`, quote: `Bắt đầu ngày mới với niềm tin và năng lượng!` },
+          { post: `🌿 Sáng nay thức dậy, điều đầu tiên các anh/chị nghĩ đến là gì? Bích chúc cả nhà một buổi sáng thật trong lành, công việc hanh thông và có những quyết định sáng suốt nhé! ☀️`, quote: `Ngày mới hanh thông, công việc thuận lợi!` },
+          { post: `☕️ Một ly cà phê sáng và một mục tiêu rõ ràng sẽ giúp ngày mới hiệu quả hơn bao giờ hết. Bích chúc các anh/chị một ngày làm việc năng suất và tràn đầy niềm vui! 🌸`, quote: `Hành động kiên định, kết quả xứng đáng!` },
+          { post: `✨ Khởi đầu ngày mới với nụ cười và sự quyết tâm nhé các anh/chị ơi! Đừng quên ghi xuống 3 việc quan trọng nhất cần làm hôm nay để luôn đi đúng hướng ạ. Chúc cả nhà ngày mới tuyệt vời! 🎯`, quote: `Tập trung mục tiêu, chinh phục thành công!` }
         ];
         const selected = fallbacks[new Date().getDate() % fallbacks.length];
         return selected;
       } else if (timeOfDay.includes('trưa') || timeOfDay.includes('12')) {
         const fallbacks = [
-          { post: `☕️ Nửa ngày đã trôi qua — các anh/chị đã hoàn thành được bao nhiêu % kế hoạch trong ${purposeLabel}?\n\nNếu chưa đạt, đừng lo. Buổi chiều vẫn còn cơ hội.\n\nĐiều quan trọng là KHÔNG DỪNG LẠI 🌿`, quote: 'Buổi chiều vẫn còn cơ hội', cursive_quote: 'Không ngừng nỗ lực để', highlight_quote: 'KHÔNG BAO GIỜ DỪNG LẠI' },
-          { post: `🌸 Mẹo nhỏ trong ${purposeLabel} mà Bích hay áp dụng:\n\nSau bữa trưa, dành 10 phút ghi lại 1 bài học từ buổi sáng. Kiến thức chỉ thành của mình khi được viết ra.\n\nCác anh/chị thử xem? ✨`, quote: 'Ghi chép là cách học nhanh nhất', cursive_quote: 'Viết ra để nhớ mãi và', highlight_quote: 'GHI CHÉP LÀ SỨC MẠNH' },
-          { post: `🌿 Giữa ngày bận rộn, đừng quên nghỉ ngơi đúng lúc.\n\nTrong ${purposeLabel}, sức bền quan trọng hơn tốc độ. Người đi xa không phải người chạy nhanh nhất.\n\nCác anh/chị có đang biết cách nghỉ đúng cách không? ☕️`, quote: 'Sức bền hơn tốc độ', cursive_quote: 'Nghỉ ngơi đúng lúc để', highlight_quote: 'ĐI XA HƠN MỖI NGÀY' },
-          { post: `✨ Buổi trưa — thời điểm tốt để tự hỏi:\n\n"Trong ${purposeLabel}, điều gì đang cản trở mình nhất?"\n\nXác định rào cản = đã giải quyết được 50% vấn đề.\n\nCác anh/chị thấy rào cản lớn nhất của mình là gì? 🎯`, quote: 'Nhận diện vấn đề là bước đầu giải quyết', cursive_quote: 'Dám đối diện để', highlight_quote: 'VƯỢT QUA RÀO CẢN' },
-          { post: `🌸 Một thực tế trong ${purposeLabel}:\n\nKhông ai thành công một mình. Hãy tìm cộng đồng, tìm mentor, tìm người đồng hành.\n\nCác anh/chị đã có nhóm đồng hành cho mình chưa? 🌿`, quote: 'Đồng hành để đi xa hơn', cursive_quote: 'Kết nối đúng người để', highlight_quote: 'ĐỒNG HÀNH ĐI XA HƠN' }
+          { post: `☕️ Chúc cả nhà buổi trưa thong dong và vui vẻ nhé ạ! Mọi người nửa ngày qua công việc thế nào rồi, cùng chia sẻ chút niềm vui vào nhóm nhé!`, quote: `Nghỉ ngơi nhẹ nhàng, hồi phục năng lượng.` },
+          { post: `🌸 Buổi trưa là khoảng thời gian tuyệt vời để F5 lại tinh thần. Bích chúc các anh/chị có một bữa trưa ngon miệng và nghỉ ngơi thật thoải mái nhé! ✨`, quote: `Nạp lại năng lượng, sẵn sàng bứt phá.` },
+          { post: `🌿 Đã quá nửa ngày rồi, các anh/chị hãy tạm gác lại công việc, hít thở sâu và thư giãn nhé. Một chút nghỉ ngơi sẽ giúp buổi chiều làm việc hiệu quả hơn rất nhiều ạ! ☀️`, quote: `Thư giãn tinh thần, hiệu quả công việc cao.` },
+          { post: `🥗 Cả nhà đã dùng bữa trưa chưa ạ? Một bữa ăn ngon và 15 phút chợp mắt sẽ giúp buổi chiều chúng ta bùng nổ năng lượng đó ạ. Chúc anh/chị buổi trưa an lành!`, quote: `Sức khỏe là vàng, nghỉ ngơi hợp lý.` },
+          { post: `✨ Giờ nghỉ trưa đến rồi! Bích chúc mọi người có những phút giây thư giãn thật thoải mái để xốc lại tinh thần cho phiên làm việc buổi chiều nhé. 🌟`, quote: `Tái tạo năng lượng, sẵn sàng chiến đấu!` }
         ];
         const selected = fallbacks[new Date().getDate() % fallbacks.length];
         return selected;
       } else {
         const fallbacks = [
-          { post: `🌙 Kết thúc một ngày trong ${purposeLabel} — hãy tự hỏi:\n\n"Hôm nay mình đã tiến bộ hơn hôm qua ở điểm nào?"\n\nDù chỉ 1% cũng đáng tự hào. Các anh/chị hôm nay đã làm được gì? ✨`, quote: 'Mỗi ngày tiến bộ 1%', cursive_quote: 'Nhìn lại để tiến về phía', highlight_quote: 'TIẾN BỘ MỖI NGÀY' },
-          { post: `✨ Trước khi nghỉ ngơi, Bích muốn nhắc các anh/chị:\n\nThất bại hôm nay trong ${purposeLabel} không phải là kết thúc — đó là bài học cho ngày mai.\n\nViết ra 1 điều rút ra được hôm nay nhé 🌿`, quote: 'Thất bại là bài học quý giá', cursive_quote: 'Rút kinh nghiệm để', highlight_quote: 'HỌC TỪ THẤT BẠI' },
-          { post: `🌿 Cuối ngày rồi — đừng mang áp lực ${purposeLabel} lên giường.\n\nNghỉ ngơi cũng là một phần của thành công. Não bộ cần thời gian để sắp xếp lại mọi thứ.\n\nCác anh/chị đã có thói quen "tắt công việc" buổi tối chưa? 🌙`, quote: 'Nghỉ ngơi là một phần của thành công', cursive_quote: 'Thư giãn để ngày mai', highlight_quote: 'NGHỈ NGƠI ĐÚNG CÁCH' },
-          { post: `🌸 Bích tin rằng: những người kiên trì trong ${purposeLabel} sẽ nhìn thấy kết quả.\n\nKhông phải ngày mai, có thể tuần sau, tháng sau. Nhưng CHẮC CHẮN sẽ đến.\n\nCác anh/chị có đang giữ vững niềm tin không? 💪`, quote: 'Kiên trì sẽ thấy kết quả', cursive_quote: 'Giữ vững niềm tin để', highlight_quote: 'KIÊN TRÌ KHÔNG BỎ CUỘC' },
-          { post: `💫 Một ngày nữa khép lại. Dù kết quả trong ${purposeLabel} hôm nay thế nào, hãy biết ơn vì mình đã cố gắng.\n\nNgày mai lại là cơ hội mới. Nghỉ ngơi thật tốt nhé các anh/chị 🌙`, quote: 'Biết ơn và tiếp tục tiến bước', cursive_quote: 'Biết ơn hôm nay để', highlight_quote: 'NGÀY MAI TỐT ĐẸP HƠN' }
+          { post: `🌙 Cuối ngày rồi, cả nhà mình hôm nay thế nào ạ? Đừng quên dành thời gian review lại công việc và nghỉ ngơi thật tốt nhé. Mọi người hôm nay có điều gì tâm đắc nhất muốn chia sẻ không ạ?`, quote: `Review lại ngày cũ, sẵn sàng cho ngày mới.` },
+          { post: `✨ Một ngày nữa lại khép lại. Bích hy vọng các anh/chị đã có một ngày thật ý nghĩa. Hãy thư giãn và tận hưởng buổi tối bình yên bên gia đình nhé! 🌸`, quote: `Tận hưởng bình yên, nạp lại năng lượng.` },
+          { post: `🌿 Cảm ơn các anh/chị vì những nỗ lực trong suốt ngày hôm nay. Hãy để mọi muộn phiền lại phía sau và có một giấc ngủ thật ngon nhé. Chúc cả nhà ngủ ngon! 🌙`, quote: `Ngủ ngon và mơ đẹp, chào đón ngày mai.` },
+          { post: `🌟 Đêm muộn rồi, Bích chúc cả nhà nghỉ ngơi dưỡng sức thật tốt. Những vất vả hôm nay chắc chắn sẽ là hạt mầm cho thành công ngày mai!`, quote: `Khép lại ngày dài, chào đón tương lai.` },
+          { post: `💫 Trước khi đi ngủ, hãy tự thưởng cho mình một nụ cười vì đã hoàn thành xuất sắc ngày hôm nay nhé các anh/chị. Bích chúc cả nhà một đêm an giấc!`, quote: `Nụ cười hôm nay, năng lượng ngày mai.` }
         ];
         const selected = fallbacks[new Date().getDate() % fallbacks.length];
         return selected;

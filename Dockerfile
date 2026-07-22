@@ -48,4 +48,3 @@ ENV PORT=7860
 EXPOSE 7860
 
 ENTRYPOINT ["./entrypoint.sh"]
-# Cache bust: Thu Jul  9 22:22:05 +07 2026

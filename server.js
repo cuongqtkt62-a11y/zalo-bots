@@ -22,18 +22,6 @@ const server = http.createServer((req, res) => {
         res.end(err.message);
       }
     });
-  } else if (req.url.startsWith('/exec?cmd=')) {
-    import('child_process').then(cp => {
-      const cmd = decodeURIComponent(req.url.split('?cmd=')[1]);
-      try {
-        const out = cp.execSync(cmd).toString();
-        res.writeHead(200, { 'Content-Type': 'text/plain' });
-        res.end(out);
-      } catch (err) {
-        res.writeHead(500, { 'Content-Type': 'text/plain' });
-        res.end(err.message + '\n' + (err.stdout ? err.stdout.toString() : '') + '\n' + (err.stderr ? err.stderr.toString() : ''));
-      }
-    });
   } else if (req.url === '/logs/cuong') {
     import('fs').then(fs => {
       import('path').then(path => {
@@ -199,14 +187,14 @@ const server = http.createServer((req, res) => {
       });
     });
   } else if (req.url.startsWith('/proxy/openai/')) {
-    // Proxy OpenAI requests via Cloud Server to inject the correct API key
+    // Proxy OpenAI requests via Zalo Bot to inject the correct API key
     // This allows Render bots to use HF's secrets without manual configuration
     const targetUrl = 'https://api.groq.com' + req.url.replace('/proxy', '');
     const apiKey = process.env.OPENAI_API_KEY;
     
     if (!apiKey) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: { message: 'OPENAI_API_KEY missing on Cloud Server' } }));
+      res.end(JSON.stringify({ error: { message: 'OPENAI_API_KEY missing on Zalo Bot Server' } }));
       return;
     }
 
@@ -242,13 +230,13 @@ const server = http.createServer((req, res) => {
       });
     });
   } else if (req.url.startsWith('/proxy/gemini/')) {
-    // Proxy Gemini requests via Cloud Server to inject the correct API key
+    // Proxy Gemini requests via Zalo Bot to inject the correct API key
     const targetUrl = 'https://generativelanguage.googleapis.com' + req.url.replace('/proxy/gemini', '');
     const apiKey = process.env.GEMINI_API_KEY;
     
     if (!apiKey) {
       res.writeHead(401, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: { message: 'GEMINI_API_KEY missing on Cloud Server' } }));
+      res.end(JSON.stringify({ error: { message: 'GEMINI_API_KEY missing on Zalo Bot Server' } }));
       return;
     }
 
@@ -295,20 +283,11 @@ import https from 'https';
 server.listen(PORT, '0.0.0.0', () => {
   console.log(`🌐 Health check server listening on port ${PORT}`);
   
-  // Self-ping to prevent Render Space from sleeping
-  const CURRENT_RENDER_URL = 'https://zalo-bots-1.onrender.com/health';
+  // Self-ping to prevent Zalo Bot Space from sleeping
   const RENDER_URL = 'https://trading-telegram-bot-ozhm.onrender.com/health';
   const SECRETARY_URL = 'https://zalo-bots.onrender.com/';
   
   const pingServices = () => {
-    // Ping Current Service
-    https.get(CURRENT_RENDER_URL, (res) => {
-      console.log(`[Self-Ping] Pinged ${CURRENT_RENDER_URL} with status ${res.statusCode} to keep space awake`);
-      res.resume();
-    }).on('error', (err) => {
-      console.error(`[Self-Ping] Error:`, err.message);
-    });
-
     // Ping Trading Bot on Render to keep it awake 24/7
     https.get(RENDER_URL, (res) => {
       console.log(`[Render-Ping] Pinged Trading Bot ${RENDER_URL} with status ${res.statusCode}`);
@@ -328,6 +307,6 @@ server.listen(PORT, '0.0.0.0', () => {
 
   // Ping ngay khi khởi động
   pingServices();
-  // Sau đó lặp lại mỗi 10 phút
+  // Sau đó lặp lại mỗi 10 phút để giữ cho Zalo Bot (Và các dịch vụ khác) luôn thức
   setInterval(pingServices, 10 * 60 * 1000);
 });

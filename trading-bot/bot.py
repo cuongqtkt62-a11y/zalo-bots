@@ -24,8 +24,6 @@ from market_bulletin import MarketBulletin
 from market_pulse import MarketPulse
 from ai_convergence_scanner import AIDePINScanner
 from mirofish_analyzer import MiroFishAnalyzer
-from ai_news_summarizer import AINewsSummarizer
-import httpx
 
 logging.basicConfig(
     level=logging.INFO,
@@ -62,10 +60,6 @@ class TradingBot:
 
         # A+ Reminder queue: [(signal, remaining_attempts, next_send_time)]
         self.pending_reminders = []
-        
-        # AI News Summarizer
-        self.news_summarizer = AINewsSummarizer()
-        self.last_update_id = 0
 
     def _reset_daily_if_needed(self):
         """Reset tracking mỗi ngày mới"""
@@ -434,62 +428,13 @@ class TradingBot:
 
         try:
             while True:
-                await self.poll_telegram_messages()
-                await asyncio.sleep(2)
+                await asyncio.sleep(1)
         except (KeyboardInterrupt, SystemExit):
             logger.info("🛑 Đang dừng bot...")
             self.scheduler.shutdown()
             await self.scanner.data_fetcher.close()
             await self.notifier.send_status("🛑 <b>Sonic R Bot đã dừng</b>")
             logger.info("👋 Bot đã dừng.")
-
-    async def poll_telegram_messages(self):
-        """Lắng nghe tin nhắn từ Telegram bằng Long Polling"""
-        url = f"https://api.telegram.org/bot{Config.TELEGRAM_BOT_TOKEN}/getUpdates"
-        params = {"offset": self.last_update_id + 1, "timeout": 2}
-        try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                resp = await client.get(url, params=params)
-                if resp.status_code == 200:
-                    data = resp.json()
-                    for update in data.get('result', []):
-                        self.last_update_id = update['update_id']
-                        if 'message' in update and 'text' in update['message']:
-                            await self.handle_user_message(update['message'])
-        except Exception as e:
-            # Ignore network timeouts
-            pass
-
-    async def handle_user_message(self, message):
-        """Xử lý tin nhắn của user gửi cho Bot"""
-        chat_id = str(message['chat']['id'])
-        if chat_id != str(Config.TELEGRAM_CHAT_ID):
-            return  # Bỏ qua nếu không phải Sếp
-
-        text = message.get('text', '').strip()
-        if not text:
-            return
-
-        logger.info(f"Đang xử lý tin nhắn: {text[:50]}...")
-        loading_msg = await self.notifier.bot.send_message(chat_id=chat_id, text="🔄 AI đang phân tích dữ liệu...")
-        
-        content = text
-        if text.startswith('http://') or text.startswith('https://'):
-            # 1. Fetch Text from link
-            fetched = await self.news_summarizer.fetch_article_text(text)
-            content = f"Link: {text}\n\nNội dung:\n{fetched}"
-            
-        # 2. Analyze
-        analysis = await self.news_summarizer.analyze_with_ai(content)
-        
-        # 3. Send back
-        try:
-            await self.notifier.bot.send_message(chat_id=chat_id, text=analysis, parse_mode="HTML")
-        except Exception:
-            # Fallback nếu HTML lỗi
-            await self.notifier.bot.send_message(chat_id=chat_id, text=analysis)
-        finally:
-            await self.notifier.bot.delete_message(chat_id=chat_id, message_id=loading_msg.message_id)
 
 
 async def main():

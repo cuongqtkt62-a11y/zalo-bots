@@ -21,8 +21,7 @@
 // ============================================================
 
 import { Zalo, ThreadType, FriendEventType, GroupEventType } from 'zca-js';
-import { readFileSync, existsSync, unlinkSync, statSync, writeFileSync, promises as fsPromises } from 'fs';
-import sharp from 'sharp';
+import { readFileSync, existsSync, unlinkSync, statSync, writeFileSync } from 'fs';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import path from 'path';
@@ -97,17 +96,7 @@ async function startBot() {
   // ── Step 2: Connect to Zalo ────────────────────────────
   logger.info('🔌 Connecting to Zalo...');
 
-  async function imageMetadataGetter(filePath) {
-      const data = await fsPromises.readFile(filePath);
-      const metadata = await sharp(data).metadata();
-      return {
-          height: metadata.height,
-          width: metadata.width,
-          size: metadata.size || data.length,
-      };
-  }
-
-  const zalo = new Zalo({ selfListen: true, imageMetadataGetter });
+  const zalo = new Zalo({ selfListen: true });
 
   let api;
   try {
@@ -136,7 +125,7 @@ async function startBot() {
 
       // ── Smart Grace Period ──────────────────────────────
       // Chỉ bỏ qua tin nhắn 15s đầu tiên nếu ổ cứng KHÔNG có file lưu lịch sử.
-      // (Xảy ra khi Cloud Server Docker Rebuild bị mất dữ liệu).
+      // (Xảy ra khi Hugging Face Docker Rebuild bị mất dữ liệu).
       // Nếu là PM2 restart bình thường, dataStore sẽ có Persistent Cache -> Không cần chờ 15s!
       if (!dataStore.hasPersistentCache() && (Date.now() - STARTUP_TIME < 15000)) {
         return;
@@ -197,7 +186,7 @@ async function startBot() {
           }
 
           dataStore.approveGroup(targetGroupId, groupName, purpose);
-          const welcomeMsg = `Dạ Bích chào các anh/chị ạ! 🌸\nBích rất vui được đồng hành cùng các anh/chị!`;
+          const welcomeMsg = `Chào cả nhà,\nBích rất biết ơn cả nhà đã đồng hành cùng Bích ạ !`;
           try {
             await api.sendMessage(welcomeMsg, targetGroupId, ThreadType.Group);
             logger.info('✅ Approved group welcome greeting sent successfully', { targetGroupId });
@@ -303,7 +292,7 @@ async function startBot() {
               
               // Tạo link tải trực tiếp từ server
               const relativePath = result.videoPath.split('/cloud-deployment/')[1] || result.videoPath.split('/app/')[1] || `bich-bot/scratch/video_temps/${require('path').basename(result.videoPath)}`;
-              const downloadLink = `https://zalo-bots-1.onrender.com/download?file=${relativePath}`;
+              const downloadLink = `https://cuongnguyenchi-zalo-bots.hf.space/download?file=${relativePath}`;
               
               await api.sendMessage(`⚠️ Zalo từ chối upload trực tiếp file video dung lượng lớn.\n\n📥 Sếp bấm vào link này để tải video tốc độ cao từ máy chủ Cloud nhé:\n${downloadLink}\n\n(Link sẽ tự hủy sau 1 giờ)`, threadId, message.type);
               
@@ -337,22 +326,22 @@ async function startBot() {
         const stats = dataStore.getDailyStats();
         const today = new Date().toISOString().split('T')[0];
         const activeLeads = Object.values(dataStore.users).filter(u => u.lastContact.startsWith(today) && u.leadScore > 0);
-        const leadsList = activeLeads.map(l => `• *${l.displayName}* (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
+        const leadsList = activeLeads.map(l => `• <b>${l.displayName}</b> (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
 
         const reportMsg = 
-          `📊 *BÁO CÁO CEO TRỰC TIẾP (TRỢ LÝ CÔ BÍCH)* 📊\n` +
-          `📅 Ngày: *${stats.date}*\n` +
+          `📊 <b>BÁO CÁO CEO TRỰC TIẾP (TRỢ LÝ CÔ BÍCH)</b> 📊\n` +
+          `📅 Ngày: <b>${stats.date}</b>\n` +
           `━━━━━━━━━━━━━━━━━━━\n\n` +
-          `👥 *Tương tác trong ngày:*\n` +
-          `• Số khách hàng chat: *${stats.uniqueUsers} người*\n` +
-          `• Tổng số tin nhắn: *${stats.totalMessages} tin*\n` +
-          `  - Tin gửi đến Zalo: *${stats.incoming} tin*\n` +
-          `  - Bot phản hồi: *${stats.outgoing} tin*\n\n` +
-          `🎯 *Khách hàng tiềm năng & Đối tác hoạt động:*\n` +
+          `👥 <b>Tương tác trong ngày:</b>\n` +
+          `• Số khách hàng chat: <b>${stats.uniqueUsers} người</b>\n` +
+          `• Tổng số tin nhắn: <b>${stats.totalMessages} tin</b>\n` +
+          `  - Tin gửi đến Zalo: <b>${stats.incoming} tin</b>\n` +
+          `  - Bot phản hồi: <b>${stats.outgoing} tin</b>\n\n` +
+          `🎯 <b>Khách hàng tiềm năng & Đối tác hoạt động:</b>\n` +
           `${leadsList}\n\n` +
-          `📈 *Tổng số khách hàng tích lũy:* *${stats.totalUsersAllTime} người*\n` +
-          `💬 *Tổng số tin nhắn tích lũy:* *${stats.totalMessagesAllTime} tin*\n\n` +
-          `🚀 _Hệ thống hoạt động bình thường!_`;
+          `📈 <b>Tổng số khách hàng tích lũy:</b> <b>${stats.totalUsersAllTime} người</b>\n` +
+          `💬 <b>Tổng số tin nhắn tích lũy:</b> <b>${stats.totalMessagesAllTime} tin</b>\n\n` +
+          `🚀 <i>Hệ thống hoạt động bình thường!</i>`;
 
         try {
           const admin1 = config.zalo.adminId.split(',')[0];
@@ -506,9 +495,21 @@ async function startBot() {
           const nurturingData = await aiEngine.generateGroupNurturingPost(groupName, group.purpose, timeOfDay, group.id);
           tempImagePath = await createCard(nurturingData, timeOfDay, group.id, groupName, group.purpose);
 
+          const imageBuffer = readFileSync(tempImagePath);
+          const imgStats = statSync(tempImagePath);
+          const attachment = {
+            data: imageBuffer,
+            filename: `nurturing_${threadId}.png`,
+            metadata: {
+              totalSize: imgStats.size,
+              width: 800,
+              height: 800
+            }
+          };
+
           const msgObject = {
             msg: nurturingData.post,
-            attachments: [tempImagePath]
+            attachments: [attachment]
           };
 
           await api.sendMessage(msgObject, threadId, ThreadType.Group);
@@ -588,7 +589,7 @@ async function startBot() {
         const currentStep = groupObj.greetingStep || 0;
 
         if (currentStep < 2) {
-          const greeting2 = `Các anh/chị quan tâm đến chủ đề nào, cứ nhắn Bích nhé ạ! ✨`;
+          const greeting2 = `Cả nhà muốn tìm hiểu thêm thông tin gì cứ nhắn em`;
           
           // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
           const replyDelay = 1500 + Math.random() * 1500;
@@ -604,9 +605,9 @@ async function startBot() {
         } else if (currentStep === 2) {
           const greeting3 = `Thông tin lớp học bên dưới:\n` +
             `MỚI NHẤT: Khoá học tạo phim hoạt hình cho trẻ em: https://forms.gle/JLGRTW6FoTCffdvm6\n\n` +
-            `Nếu các anh/chị muốn xây nhân hiệu cá nhân trên MXH?\n` +
-            `Nếu các anh/chị mong muốn tìm ra động lực kiến tạo mục tiêu hay sứ mệnh thật sự của các anh/chị?\n` +
-            `Mời các anh/chị dành chút thời gian tìm hiểu nhé!\n` +
+            `Nếu bạn muốn xây nhân hiệu cá nhân trên MXH?\n` +
+            `Nếu bạn mong muốn tìm ra động lực kiếm tạo mục tiêu hay sứ mệnh thật sự của mình? \n` +
+            `Xin mời bạn dành chút thời gian cho Bích Bích nhé!\n` +
             ` ✅ Đặt lịch coach 1:1 với Bích: \n` +
             `https://cohenvoituonglai.lovable.app \n\n` +
             `✅ Lộ trình chuyển giao nhân hiệu nhà đào tạo:\n` +
@@ -618,7 +619,7 @@ async function startBot() {
             `✅ Thông tin thêm về Lưu Bích:\n` +
             `https://luuphanngocbich.com/\n` +
             `==================\n` +
-            `Biết ơn các anh/chị đã ghé thăm trang cá nhân của Bích! 🌸`;
+            `Biết ơn các bạn đã ghé thăm trang cá nhân của Bích Bích!`;
 
           // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
           const replyDelay = 1500 + Math.random() * 1500;
@@ -853,7 +854,7 @@ async function startBot() {
         const userId = event.threadId;
         logger.info('👤 New friend added, sending auto greeting', { userId });
 
-        const greeting = `Dạ Bích chào anh/chị ạ! 🌸\nBích rất vui được kết nối với anh/chị.\nAnh/chị cần tìm hiểu gì cứ nhắn Bích nhé ạ!`;
+        const greeting = `Dạ Bích chào bạn,\nRất biết ơn bạn đã kết bạn cùng Bích ạ !`;
 
         // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
         const replyDelay = 1500 + Math.random() * 1500;
@@ -927,7 +928,7 @@ async function startBot() {
         }
 
         logger.info('👥 Bot added to an approved group, sending welcome greeting', { groupId, groupName });
-        const greeting = `Dạ Bích chào các anh/chị ạ! 🌸\nBích rất vui được đồng hành cùng các anh/chị!`;
+        const greeting = `Chào cả nhà,\nBích rất biết ơn cả nhà đã đồng hành cùng Bích ạ !`;
 
         // Delay ngẫu nhiên để tự nhiên hơn (1.5 - 3 giây)
         const replyDelay = 1500 + Math.random() * 1500;
@@ -1046,22 +1047,22 @@ async function startBot() {
       
       const today = new Date().toISOString().split('T')[0];
       const activeLeads = Object.values(dataStore.users).filter(u => u.lastContact.startsWith(today) && u.leadScore > 0);
-      const leadsList = activeLeads.map(l => `• *${l.displayName}* (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
+      const leadsList = activeLeads.map(l => `• <b>${l.displayName}</b> (Score: ${l.leadScore}, Tags: ${l.tags.join(', ') || 'Chưa gắn'})`).join('\n') || '• Không có Lead mới tương tác.';
 
       const reportMsg = 
-        `📊 *BÁO CÁO CEO MỖI SÁNG (TRỢ LÝ CÔ BÍCH)* 📊\n` +
-        `📅 Ngày: *${stats.date}*\n` +
+        `📊 <b>BÁO CÁO CEO MỖI SÁNG (TRỢ LÝ CÔ BÍCH)</b> 📊\n` +
+        `📅 Ngày: <b>${stats.date}</b>\n` +
         `━━━━━━━━━━━━━━━━━━━\n\n` +
-        `👥 *Tương tác trong ngày:*\n` +
-        `• Số khách hàng chat: *${stats.uniqueUsers} người*\n` +
-        `• Tổng số tin nhắn: *${stats.totalMessages} tin*\n` +
-        `  - Tin gửi đến Zalo: *${stats.incoming} tin*\n` +
-        `  - Bot phản hồi: *${stats.outgoing} tin*\n\n` +
-        `🎯 *Khách hàng tiềm năng & Đối tác hoạt động:*\n` +
+        `👥 <b>Tương tác trong ngày:</b>\n` +
+        `• Số khách hàng chat: <b>${stats.uniqueUsers} người</b>\n` +
+        `• Tổng số tin nhắn: <b>${stats.totalMessages} tin</b>\n` +
+        `  - Tin gửi đến Zalo: <b>${stats.incoming} tin</b>\n` +
+        `  - Bot phản hồi: <b>${stats.outgoing} tin</b>\n\n` +
+        `🎯 <b>Khách hàng tiềm năng & Đối tác hoạt động:</b>\n` +
         `${leadsList}\n\n` +
-        `📈 *Tổng số khách hàng tích lũy:* *${stats.totalUsersAllTime} người*\n` +
-        `💬 *Tổng số tin nhắn tích lũy:* *${stats.totalMessagesAllTime} tin*\n\n` +
-        `🚀 _Chúc Sếp một ngày làm việc tràn đầy năng lượng!_`;
+        `📈 <b>Tổng số khách hàng tích lũy:</b> <b>${stats.totalUsersAllTime} người</b>\n` +
+        `💬 <b>Tổng số tin nhắn tích lũy:</b> <b>${stats.totalMessagesAllTime} tin</b>\n\n` +
+        `🚀 <i>Chúc anh Cường một ngày làm việc tràn đầy năng lượng!</i>`;
 
       const admin1 = config.zalo.adminId.split(',')[0];
       await api.sendMessage(reportMsg, admin1);
@@ -1073,88 +1074,6 @@ async function startBot() {
       logger.error('❌ Failed to run Daily CEO Briefing', { error: err.message });
     } finally {
       setTimeout(() => { isBriefingRunning = false; }, 65000);
-    }
-  }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
-
-  // ── Personal Nurturing (Skill 02) ────────────────────────
-  let isPersonalNurturingRunning = false;
-  cron.schedule('0 9 * * *', async () => {
-    if (isPersonalNurturingRunning) return;
-    
-    const dateStr = new Date().toISOString().split('T')[0];
-    const sessionFile = path.join(__dirname, '../data/personal_nurturing_session.json');
-    let sessionData = {};
-    if (existsSync(sessionFile)) {
-      try { sessionData = JSON.parse(readFileSync(sessionFile, 'utf8')); } catch (e) {}
-    }
-    
-    if (sessionData.date !== dateStr) {
-      sessionData = {
-        date: dateStr,
-        completedUsers: [],
-        lastRunStartedAt: 0
-      };
-    }
-
-    if (Date.now() - sessionData.lastRunStartedAt < 65000) return;
-    sessionData.lastRunStartedAt = Date.now();
-    writeFileSync(sessionFile, JSON.stringify(sessionData));
-
-    isPersonalNurturingRunning = true;
-    try {
-      logger.info('⏰ Running Personal Nurturing job...');
-      const users = Object.values(dataStore.users);
-      const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-      
-      const eligibleUsers = users.filter(u => {
-        if (u.leadScore <= 0 || (u.tags && u.tags.includes('Spam'))) return false;
-        if (!u.lastContact) return false;
-        const lastContactTime = new Date(u.lastContact).getTime();
-        return lastContactTime < sevenDaysAgo;
-      });
-
-      const pendingUsers = eligibleUsers.filter(u => !sessionData.completedUsers.includes(u.id));
-
-      if (pendingUsers.length === 0) {
-        logger.info('⏰ No eligible users for personal nurturing.');
-        return;
-      }
-
-      const targetUsers = pendingUsers.slice(0, 3); // Max 3 users
-      logger.info(`⏰ Nurturing ${targetUsers.length} users...`);
-
-      const templates = [
-        "Dạ Bích chào {name}, lâu rồi không trò chuyện cùng anh/chị! 😊\nBích vừa có thêm một số thông tin hữu ích về chăm sóc sức khỏe tự nhiên. Nếu anh/chị quan tâm, Bích gửi tham khảo nhé!",
-        "Dạ Bích chào {name}, dạo này sức khỏe của anh/chị và gia đình vẫn tốt chứ ạ? 🌿\nNếu cần Bích tư vấn gì thêm về các sản phẩm tự nhiên, anh/chị cứ nhắn Bích nhé!",
-        "Dạ Bích chào {name}! Dạo này thời tiết thay đổi, anh/chị nhớ giữ gìn sức khỏe nhé. Nếu cần Bích hỗ trợ gì, anh/chị đừng ngại nhắn Bích ạ. 🥰"
-      ];
-
-      for (let i = 0; i < targetUsers.length; i++) {
-        const user = targetUsers[i];
-        if (sessionData.completedUsers.includes(user.id)) continue;
-
-        const template = templates[Math.floor(Math.random() * templates.length)];
-        const msg = template.replace('{name}', user.displayName || 'anh/chị');
-
-        try {
-          await api.sendMessage(msg, user.id);
-          logger.info(`✅ Sent personal nurturing to ${user.id}`);
-          dataStore.logMessage(user.id, 'outgoing', msg);
-          
-          sessionData.completedUsers.push(user.id);
-          writeFileSync(sessionFile, JSON.stringify(sessionData));
-          
-          if (i < targetUsers.length - 1) {
-            await new Promise(resolve => setTimeout(resolve, 60000));
-          }
-        } catch (err) {
-          logger.error(`❌ Failed to nurture user ${user.id}`, { error: err.message });
-        }
-      }
-    } catch (err) {
-      logger.error('❌ Personal Nurturing Error', { error: err.message });
-    } finally {
-      setTimeout(() => { isPersonalNurturingRunning = false; }, 65000);
     }
   }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
@@ -1258,7 +1177,7 @@ async function startBot() {
           const nurturingData = await aiEngine.generateGroupNurturingPost(groupName, group.purpose, timeOfDay, group.id);
           
           // Tạo Quote/Tip card tương ứng
-          tempImagePath = await createCard(nurturingData, timeOfDay, group.id, groupName, group.purpose);
+          tempImagePath = await createCard(nurturingData.quote, timeOfDay, group.id, groupName, group.purpose);
 
           // Gửi tin nhắn kèm ảnh lên Zalo nhóm bằng đường dẫn file để zca-js tự upload
           const msgObject = {
@@ -1321,8 +1240,17 @@ async function startBot() {
     }
   }
 
-  // Sếp yêu cầu: Chỉ đăng bài nhóm đúng 1 khung giờ duy nhất là 11h AM mỗi ngày
-  cron.schedule('0 11 * * *', () => runGroupNurturing('Buổi sáng (11:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+  // Chạy lúc 08:01 sáng hàng ngày (lệch 1 phút sau CEO Briefing 08:00 để tránh conflict)
+  cron.schedule('1 8 * * *', () => runGroupNurturing('Buổi sáng (8:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+  
+  // Chạy lúc 12:00 trưa hàng ngày
+  cron.schedule('0 12 * * *', () => runGroupNurturing('Buổi trưa (12:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
+  // Chạy lúc 10:00 sáng hàng ngày (riêng cho nhóm Làm chủ AI)
+  cron.schedule('0 10 * * *', () => runGroupNurturing('Buổi sáng (10:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
+  // Chạy lúc 19:00 tối hàng ngày
+  cron.schedule('0 19 * * *', () => runGroupNurturing('Buổi tối (19:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
 
 
@@ -1587,10 +1515,7 @@ process.on('uncaughtException', (err) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  logger.error('💥 Unhandled Rejection (Swallowed to prevent crash)!', { 
-    reason: String(reason),
-    stack: reason && reason.stack ? reason.stack : 'No stack trace'
-  });
+  logger.error('💥 Unhandled Rejection!', { reason: String(reason) });
 });
 
 // ── Start ────────────────────────────────────────────────
