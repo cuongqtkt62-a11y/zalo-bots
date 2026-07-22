@@ -50,10 +50,7 @@ const zaloBots = [
   }
 ];
 
-// NẾU CHẠY TRÊN RENDER (BỊ NHẦM DOCKER), CHỈ CHẠY HEALTH SERVER ĐỂ KHÔNG ĐỤNG ĐỘ VỚI HUGGING FACE
-const isRender = !!process.env.RENDER;
-const activeApps = isRender ? [zaloBots[2]] : zaloBots;
-
+// Render là nền tảng chính — luôn chạy đủ cả 3 tiến trình (Bích, Cường, Health Server)
 module.exports = {
-  apps: activeApps
+  apps: zaloBots
 };
