@@ -28,7 +28,8 @@ const server = http.createServer((req, res) => {
         const paths = [
           path.resolve(process.cwd(), 'logs/cuong-out.log'),
           path.resolve(process.env.HOME || '/root', '.pm2/logs/zalo-assistant-cuong-out.log'),
-          path.resolve(process.env.HOME || '/root', '.pm2/logs/zalo-assistant-cuong-out-0.log')
+          path.resolve(process.env.HOME || '/root', '.pm2/logs/zalo-assistant-cuong-out-0.log'),
+          path.resolve(process.env.HOME || '/root', '.pm2/logs/zalo-assistant-cuong-out-1.log')
         ];
         let found = false;
         for (const p of paths) {
