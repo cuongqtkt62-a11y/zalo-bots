@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: zalo-bots-monolith
+    name: zalo-bots-1
     env: docker
     region: frankfurt
     plan: free
@@ -27,4 +27,5 @@ services:
     region: frankfurt
     schedule: "*/14 * * * *"
     buildCommand: "echo 'No build needed'"
-    startCommand: "node -e \"const https = require('https'); https.get('https://zalo-bots-monolith.onrender.com/ping', res => { console.log('Ping Monolith', res.statusCode); res.resume(); }).on('error', console.error);\""
+    startCommand: "node -e \"const https = require('https'); https.get('https://zalo-bots-1.onrender.com/ping', res => { console.log('Ping Monolith', res.statusCode); res.resume(); }).on('error', console.error);\""
+

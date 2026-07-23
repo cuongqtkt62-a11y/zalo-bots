@@ -111,7 +111,7 @@ setTimeout(() => {
     startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
         PORT: 7861, // Tránh đụng cổng 7860
         TELEGRAM_BOT_TOKEN: THONG_DONG_TOKEN,
-        TELEGRAM_CHAT_ID: CHAT_ID
+        TELEGRAM_CHAT_ID: '-1002344799015' // Group Đầu Tư Thong Dong
     }, 48);
 }, 30000);
 
