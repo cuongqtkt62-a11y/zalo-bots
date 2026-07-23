@@ -1070,6 +1070,121 @@ async function startBot() {
   // Chạy lúc 19:00 tối hàng ngày
   cron.schedule('0 19 * * *', () => runGroupNurturing('Buổi tối (19:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
+  // ── SKILL 03: Follow-Up Engine ──────────────────────────
+  let isFollowUpRunning = false;
+  cron.schedule('30 8 * * *', async () => {
+    if (isFollowUpRunning) return;
+    const sessionFile = path.join(__dirname, '../data/followup_session.json');
+    const todayStr = new Date().toISOString().split('T')[0];
+    let sessionData = {};
+    if (existsSync(sessionFile)) {
+      try { sessionData = JSON.parse(readFileSync(sessionFile, 'utf8')); } catch(e){}
+    }
+    if (sessionData.date === todayStr && sessionData.sent) return;
+    if (Date.now() - (sessionData.lastRunAt || 0) < 65000) return;
+    
+    sessionData = { date: todayStr, sent: false, lastRunAt: Date.now() };
+    writeFileSync(sessionFile, JSON.stringify(sessionData));
+    isFollowUpRunning = true;
+
+    try {
+      logger.info('⏰ Running Follow-Up Engine (Skill 03)...');
+      const allUsers = Object.values(dataStore.users);
+      const now = Date.now();
+      
+      const leads = allUsers.filter(u => {
+        if (!u.lastContact || (u.leadScore || 0) < 10) return false;
+        const lastContactTime = new Date(u.lastContact).getTime();
+        const daysSinceContact = (now - lastContactTime) / (1000 * 3600 * 24);
+        return daysSinceContact >= 2 && daysSinceContact <= 5;
+      });
+
+      if (leads.length > 0) {
+        let msg = `📌 <b>GỢI Ý FOLLOW-UP HÔM NAY</b>\n\n`;
+        leads.forEach((l, idx) => {
+          msg += `<b>${idx+1}️⃣ ${l.displayName}</b> — Score: ${l.leadScore}\n`;
+          msg += `   Lần cuối: ${l.lastContact.split('T')[0]}\n`;
+          msg += `   SĐT: ${l.phone || 'Chưa cung cấp'}\n`;
+          msg += `   Tags: ${(l.tags || []).join(', ') || 'None'}\n\n`;
+        });
+        msg += `💡 <i>Sếp có thể chủ động nhắn tin Zalo cho các lead này để tăng tỷ lệ chốt sale! (Bot KHÔNG tự động gửi tin cho các lead này)</i>`;
+        
+        await sendConnectionAlert(api, { botName: 'Anh Cường (Follow Up)', errorMsg: msg });
+      }
+      
+      sessionData.sent = true;
+      writeFileSync(sessionFile, JSON.stringify(sessionData));
+    } catch(err) {
+      logger.error('❌ Failed Follow Up Engine', { error: err.message });
+    } finally {
+      setTimeout(() => { isFollowUpRunning = false; }, 65000);
+    }
+  }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
+  // ── SKILL 02: Existing Contact Nurturing ────────────────
+  let isPersonalNurturingRunning = false;
+  cron.schedule('0 9 * * *', async () => {
+    if (isPersonalNurturingRunning) return;
+    const sessionFile = path.join(__dirname, '../data/personal_nurture_session.json');
+    const todayStr = new Date().toISOString().split('T')[0];
+    let sessionData = {};
+    if (existsSync(sessionFile)) {
+      try { sessionData = JSON.parse(readFileSync(sessionFile, 'utf8')); } catch(e){}
+    }
+    if (sessionData.date === todayStr && sessionData.sent) return;
+    if (Date.now() - (sessionData.lastRunAt || 0) < 65000) return;
+    
+    sessionData = { date: todayStr, sent: false, lastRunAt: Date.now() };
+    writeFileSync(sessionFile, JSON.stringify(sessionData));
+    isPersonalNurturingRunning = true;
+
+    try {
+      logger.info('⏰ Running Personal Nurturing (Skill 02)...');
+      const allUsers = Object.values(dataStore.users);
+      const now = Date.now();
+      
+      const targets = allUsers.filter(u => {
+        if (!u.lastContact || (u.leadScore || 0) === 0 || (u.tags || []).includes('Spam')) return false;
+        const lastContactTime = new Date(u.lastContact).getTime();
+        const daysSinceContact = (now - lastContactTime) / (1000 * 3600 * 24);
+        
+        const lastNurturedTime = u.lastNurtured ? new Date(u.lastNurtured).getTime() : 0;
+        const daysSinceNurture = (now - lastNurturedTime) / (1000 * 3600 * 24);
+        
+        return daysSinceContact >= 7 && daysSinceNurture >= 30;
+      });
+
+      const selected = targets.slice(0, 3);
+      if (selected.length > 0) {
+        logger.info(`Sending nurturing to ${selected.length} users...`);
+        for (let i = 0; i < selected.length; i++) {
+          const u = selected[i];
+          const templates = [
+            `Chào ${u.displayName}, lâu rồi không gặp! 😊\nEm vừa cập nhật thêm tài liệu mới về Trading và Doanh nghiệp 1 người. Nếu quan tâm, anh/chị nhắn em chia sẻ thêm nhé!`,
+            `Chào ${u.displayName}, dạo này công việc và trading của anh/chị thế nào rồi ạ? 📈\nNếu cần hỗ trợ gì, cứ nhắn em nhé!`,
+            `Chào ${u.displayName}! Bot tín hiệu bên em vừa có các cập nhật mới cực kỳ hay. Anh/chị muốn em giới thiệu qua không ạ? 🤖`
+          ];
+          const msg = templates[i % templates.length];
+          
+          await api.sendMessage(msg, u.id);
+          dataStore.setNurtured(u.id);
+          logger.info(`✅ Nurtured ${u.displayName} (${u.id})`);
+          
+          if (i < selected.length - 1) {
+            await new Promise(res => setTimeout(res, 5 * 60 * 1000));
+          }
+        }
+      }
+      
+      sessionData.sent = true;
+      writeFileSync(sessionFile, JSON.stringify(sessionData));
+    } catch(err) {
+      logger.error('❌ Failed Personal Nurturing', { error: err.message });
+    } finally {
+      setTimeout(() => { isPersonalNurturingRunning = false; }, 65000);
+    }
+  }, { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+
 
   console.log('\n╔══════════════════════════════════════════════════════════╗');
   console.log('║       🎉 BOT IS RUNNING!                                 ║');

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Unified PM2 deployment for Zalo assistants and Trading bot on Cloud",
   "type": "module",
-  "main": "sync-state.js",
+  "main": "monolith.js",
   "dependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "@resvg/resvg-js": "^2.6.2",

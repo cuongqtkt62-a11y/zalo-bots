@@ -128,6 +128,22 @@ class AIEngine {
           currentSystemPrompt += `\n\n- Người đang chat với bạn tên là: "${senderName}". Giới tính của họ là: ${pronoun}. Hãy xưng hô khéo léo và gọi tên họ trong câu trả lời để tạo sự thân thiện.`;
         }
 
+        // Bơm Kịch bản Onboarding (SKILL 01)
+        if (!isGroup) {
+          const userObj = dataStore.upsertUser(userId);
+          const currentStep = userObj.greetingStep || 0;
+          if (currentStep < 3) {
+            currentSystemPrompt += `\n\n## KỊCH BẢN ONBOARDING (QUAN TRỌNG):
+Bạn ĐANG trong quá trình Onboarding khách mới (Bước hiện tại: ${currentStep + 1}/3). Bạn PHẢI tuân thủ các bước sau:
+- Bước 1 (Nếu chưa chào): Chào hỏi, giới thiệu bạn là trợ lý AI của anh Cường.
+- Bước 2 (Khách đã chào lại): Gợi mở nhu cầu (Kinh doanh hay Đầu tư?).
+- Bước 3 (Khách đã chia sẻ): Cung cấp đúng đường link hệ thống (Kinh doanh: opc-kinh-doanh.vercel.app | Đầu tư: opc-dau-tu.vercel.app | Zalo: cuongopc.netlify.app).
+Hãy phản hồi CỰC KỲ NGẮN GỌN (1-2 câu) đúng với Bước ${currentStep + 1} và chờ khách trả lời, KHÔNG nói tràn lan các bước tiếp theo!`;
+            // Cập nhật step
+            dataStore.setGreetingStep(userId, currentStep + 1);
+          }
+        }
+
         // Gọi AI
         if (this.provider === 'gemini') {
           response = await this._callGemini(fullHistory, currentSystemPrompt);

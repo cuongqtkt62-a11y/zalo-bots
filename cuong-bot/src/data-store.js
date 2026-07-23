@@ -147,6 +147,13 @@ class DataStore {
     }
   }
 
+  setNurtured(userId) {
+    if (this.users[userId]) {
+      this.users[userId].lastNurtured = new Date().toISOString();
+      this._saveAll();
+    }
+  }
+
   getUser(userId) {
     return this.users[userId] || null;
   }
