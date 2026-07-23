@@ -12,3 +12,4 @@ assets/*.mp3
 *.png
 
 *.mp3
+.env

@@ -18,32 +18,24 @@ WORKDIR /app
 COPY package.json ./
 RUN npm install
 
-# Copy PM2 config, sync script, health server and entrypoint
-COPY ecosystem.config.cjs ./
-COPY gist-sync.js ./
-COPY server.js ./
-COPY entrypoint.sh ./
-RUN chmod +x entrypoint.sh
-
-# Copy Bích Bot package files and install dependencies
-COPY bich-bot/package*.json ./bich-bot/
-RUN cd bich-bot && npm install
-
-# Copy Cường Bot package files and install dependencies
-COPY cuong-bot/package*.json ./cuong-bot/
-RUN cd cuong-bot && npm install
-
-# Copy Trading Bot requirements and install dependencies
+# Copy Python requirements and install
 COPY trading-bot/requirements.txt ./trading-bot/
 RUN pip3 install --no-cache-dir --break-system-packages -r trading-bot/requirements.txt
 
-# Copy the rest of the application files
-COPY bich-bot/ ./bich-bot/
-COPY cuong-bot/ ./cuong-bot/
-COPY trading-bot/ ./trading-bot/
-COPY telegram-secretary/ ./telegram-secretary/
+# Copy everything
+COPY . .
 
-# Hugging Face Spaces requires port 7860
+# Install dependencies for bots
+RUN cd bich-bot && npm install
+RUN cd cuong-bot && npm install
+
+# Build CEO Voice Assistant
+RUN cd ceo-voice-assistant && npm install && npm run build
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
+# Port configuration
 ENV PORT=7860
 EXPOSE 7860
 

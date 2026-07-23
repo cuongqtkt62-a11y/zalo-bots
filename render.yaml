@@ -1,10 +1,10 @@
 services:
   - type: web
-    name: zalo-bots-opc
+    name: zalo-bots-monolith
     env: docker
-    region: singapore
+    region: frankfurt
     plan: free
-    healthCheckPath: /health
+    healthCheckPath: /ping
     envVars:
       - key: PORT
         value: 7860
@@ -21,22 +21,10 @@ services:
       - key: ADMIN_ZALO_ID
         value: "690136550523054881,6114894381239760462"
 
-  - type: web
-    name: ceo-voice-assistant
-    env: node
-    rootDir: ceo-voice-assistant
-    region: singapore
-    plan: free
-    buildCommand: npm install && npm run build
-    startCommand: npm start
-    envVars:
-      - key: GEMINI_API_KEY
-        sync: false
-
   - type: cron
-    name: keep-alive-pinger
+    name: keep-alive-monolith
     env: node
-    region: singapore
-    schedule: "*/10 * * * *"
+    region: frankfurt
+    schedule: "*/14 * * * *"
     buildCommand: "echo 'No build needed'"
-    startCommand: "node -e \"const https = require('https'); ['https://trading-telegram-bot-ozhm.onrender.com/health', 'https://zalo-bots.onrender.com/health', 'https://zalo-bots-1.onrender.com/health'].forEach(url => https.get(url, res => { console.log('Ping', url, res.statusCode); res.resume(); }).on('error', console.error));\""
+    startCommand: "node -e \"const https = require('https'); https.get('https://zalo-bots-monolith.onrender.com/ping', res => { console.log('Ping Monolith', res.statusCode); res.resume(); }).on('error', console.error);\""
