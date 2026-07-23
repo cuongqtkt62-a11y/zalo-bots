@@ -28,6 +28,7 @@ COPY . .
 # Install dependencies for bots
 RUN cd bich-bot && npm install
 RUN cd cuong-bot && npm install
+RUN cd tradingview-xau-alert && npm install
 
 # Build CEO Voice Assistant
 RUN cd ceo-voice-assistant && npm install && npm run build
