@@ -67,6 +67,8 @@ function startNodeWorker(name, scriptPath, customEnv = {}, maxMemoryMB = 64) {
         }
     });
 
+    workers[name] = worker;
+
     worker.on('message', (msg) => {
         console.log(`[${name}] ${msg}`);
     });
@@ -79,7 +81,25 @@ function startNodeWorker(name, scriptPath, customEnv = {}, maxMemoryMB = 64) {
         console.log(`[${name}] Dừng hoạt động với mã ${code}. Tự động khởi động lại sau 10 giây...`);
         setTimeout(() => startNodeWorker(name, scriptPath, customEnv, maxMemoryMB), 10000);
     });
+    
+    return worker;
 }
+
+// =========================================================
+// HỆ THỐNG CHỐNG SILENT DROP (Khởi động lại Zalo Bot mỗi giờ)
+// =========================================================
+const workers = {};
+
+function restartZaloWorkers() {
+    console.log('🔄 [MONOLITH] Thực thi Cron Restart chống Zalo Silent Drop...');
+    if (workers['Bot-Bich']) {
+        workers['Bot-Bich'].terminate();
+    }
+    if (workers['Bot-Cuong']) {
+        workers['Bot-Cuong'].terminate();
+    }
+}
+setInterval(restartZaloWorkers, 60 * 60 * 1000); // Mỗi 1 giờ
 
 // Các token chuẩn xác cho từng bot
 const TONY_TRADING_TOKEN = '8623878114:AAEvt-qcOGDx2Cykpw-Z-786GLCPZEe3ZKM'; // Dành cho Python Crypto Trading Bot
@@ -92,7 +112,7 @@ console.log('   🔥 KHỞI ĐỘNG HỆ THỐNG ZALO AI MONOLITH 🔥');
 console.log('======================================================\n');
 
 // 1. Khởi động Zalo Bot Bích (96MB)
-startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'), {
+workers['Bot-Bich'] = startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'), {
     ZALO_CREDENTIALS_PATH: './zalo-credentials.json',
     ZALO_ACCOUNT_NAME: 'Cô Lưu Bích',
     TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
@@ -102,7 +122,7 @@ startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'),
 // 2. Khởi động Zalo Bot Cường (96MB)
 // Để tránh tải nặng cùng lúc, delay 10 giây trước khi bật Cường
 setTimeout(() => {
-    startNodeWorker('Bot-Cuong', path.join(__dirname, 'cuong-bot', 'src', 'index.js'), {
+    workers['Bot-Cuong'] = startNodeWorker('Bot-Cuong', path.join(__dirname, 'cuong-bot', 'src', 'index.js'), {
         ZALO_CREDENTIALS_PATH: './zalo-credentials-cuong.json',
         ZALO_ACCOUNT_NAME: 'Trợ Lý Cường',
         TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
@@ -112,7 +132,7 @@ setTimeout(() => {
 
 // 3. Khởi động Telegram Secretary (48MB)
 setTimeout(() => {
-    startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'), {
+    workers['Telegram-Secretary'] = startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'), {
         SECRETARY_BOT_TOKEN: SECRETARY_TOKEN,
         TELEGRAM_CHAT_ID: CHAT_ID
     }, 48);
@@ -120,7 +140,7 @@ setTimeout(() => {
 
 // 4. Khởi động XAU Algo Bot (48MB)
 setTimeout(() => {
-    startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
+    workers['XAU-Algo-Bot'] = startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
         PORT: 7861, // Tránh đụng cổng 7860
         TELEGRAM_BOT_TOKEN: THONG_DONG_TOKEN,
         TELEGRAM_CHAT_ID: CHAT_ID // Tạm thời gửi về sếp Cường vì Group lỗi "chat not found"
