@@ -20,8 +20,8 @@ class Config:
     # Symbols
     SCAN_ALL_SYMBOLS = os.getenv("SCAN_ALL_SYMBOLS", "true").lower() == "true"
     SYMBOLS = [s.strip() for s in os.getenv("SYMBOLS", "BTC/USDT").split(",")]
-    MIN_VOLUME_24H = float(os.getenv("MIN_VOLUME_24H", "5000000"))
-    MAX_SYMBOLS_PER_SCAN = int(os.getenv("MAX_SYMBOLS_PER_SCAN", "150"))
+    MIN_VOLUME_24H = float(os.getenv("MIN_VOLUME_24H", "0"))
+    MAX_SYMBOLS_PER_SCAN = int(os.getenv("MAX_SYMBOLS_PER_SCAN", "500"))
 
     # Timeframes
     TIMEFRAME_ENTRY = os.getenv("TIMEFRAME_ENTRY", "5m")
