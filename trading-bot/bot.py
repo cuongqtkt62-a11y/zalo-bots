@@ -338,7 +338,7 @@ class TradingBot:
         # Bản tin SÁNG 7:00
         self.scheduler.add_job(
             self.send_daily_bulletin,
-            CronTrigger(hour=7, minute=0),
+            CronTrigger(hour=7, minute=0, timezone='Asia/Ho_Chi_Minh'),
             id='bulletin_morning',
             name='Bản tin sáng 7:00',
             misfire_grace_time=300,
@@ -347,7 +347,7 @@ class TradingBot:
         # Bản tin TỐI 20:00
         self.scheduler.add_job(
             self.send_daily_bulletin,
-            CronTrigger(hour=20, minute=0),
+            CronTrigger(hour=20, minute=0, timezone='Asia/Ho_Chi_Minh'),
             id='bulletin_evening',
             name='Bản tin tối 20:00',
             misfire_grace_time=300,
@@ -375,7 +375,7 @@ class TradingBot:
         # Nhịp Đập Thị Trường — mỗi giờ chẵn
         self.scheduler.add_job(
             self.send_market_pulse,
-            CronTrigger(minute=0),
+            CronTrigger(minute=0, timezone='Asia/Ho_Chi_Minh'),
             id='market_pulse_hourly',
             name='Nhịp Đập Thị Trường (mỗi giờ)',
             misfire_grace_time=300,
@@ -384,14 +384,14 @@ class TradingBot:
         # Báo cáo AI Convergence (8:00 và 20:30)
         self.scheduler.add_job(
             self.send_daily_ai_report,
-            CronTrigger(hour=8, minute=0),
+            CronTrigger(hour=8, minute=0, timezone='Asia/Ho_Chi_Minh'),
             id='ai_report_morning',
             name='Báo cáo AI Sáng 8:00',
             misfire_grace_time=300,
         )
         self.scheduler.add_job(
             self.send_daily_ai_report,
-            CronTrigger(hour=20, minute=30),
+            CronTrigger(hour=20, minute=30, timezone='Asia/Ho_Chi_Minh'),
             id='ai_report_evening',
             name='Báo cáo AI Tối 20:30',
             misfire_grace_time=300,
@@ -400,14 +400,14 @@ class TradingBot:
         # Báo cáo Vĩ mô & Chiến lược dòng tiền AI (8:15 và 20:45)
         self.scheduler.add_job(
             self.send_macro_report,
-            CronTrigger(hour=8, minute=15),
+            CronTrigger(hour=8, minute=15, timezone='Asia/Ho_Chi_Minh'),
             id='macro_report_morning',
             name='Báo cáo Vĩ mô Sáng 8:15',
             misfire_grace_time=300,
         )
         self.scheduler.add_job(
             self.send_macro_report,
-            CronTrigger(hour=20, minute=45),
+            CronTrigger(hour=20, minute=45, timezone='Asia/Ho_Chi_Minh'),
             id='macro_report_evening',
             name='Báo cáo Vĩ mô Tối 20:45',
             misfire_grace_time=300,
