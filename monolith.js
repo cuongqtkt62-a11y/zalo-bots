@@ -45,10 +45,22 @@ app.listen(PORT, () => {
 
 // Hàm khởi chạy Node.js Worker
 function startNodeWorker(name, scriptPath, customEnv = {}, maxMemoryMB = 64) {
-    console.log(`[MONOLITH] Khởi động Worker: ${name} (Max RAM: ${maxMemoryMB}MB)...`);
+    const workerDir = path.dirname(scriptPath).replace('/src', '');
+    console.log(`[MONOLITH] Khởi động Worker: ${name} (Max RAM: ${maxMemoryMB}MB, CWD: ${workerDir})...`);
     
-    const worker = new Worker(scriptPath, {
-        execArgv: [`--max-old-space-size=${maxMemoryMB}`],
+    // Inject mã để cô lập process.cwd() cho từng worker
+    const evalCode = `
+        const path = require('path');
+        process.cwd = () => '${workerDir}';
+        import('file://' + '${scriptPath}').catch(err => {
+            console.error('Worker Import Error:', err);
+            process.exit(1);
+        });
+    `;
+
+    const worker = new Worker(evalCode, {
+        eval: true,
+        resourceLimits: { maxOldGenerationSizeMb: maxMemoryMB },
         env: {
             ...process.env,
             ...customEnv
