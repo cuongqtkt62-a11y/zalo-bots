@@ -10,12 +10,30 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 7860;
 
+app.use(express.json()); // Để nhận webhook JSON
+
 // Health check endpoint cho Render
 app.get('/', (req, res) => {
     res.send('Zalo AI Monolith (Bích, Cường, XAU, Telegram) is running 24/7 🚀');
 });
 app.get('/ping', (req, res) => {
     res.status(200).json({ status: 'alive', uptime: process.uptime() });
+});
+
+// Forward Webhook từ TradingView (bên ngoài) vào XAU Bot (nội bộ cổng 7861)
+app.post('/webhook', async (req, res) => {
+    try {
+        const response = await fetch('http://localhost:7861/webhook', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(req.body)
+        });
+        const data = await response.text();
+        res.status(response.status).send(data);
+    } catch (err) {
+        console.error('[MONOLITH WEBHOOK ERROR]', err);
+        res.status(500).send('Internal Monolith Error');
+    }
 });
 
 // Phục vụ tĩnh Web App CEO Voice Assistant
