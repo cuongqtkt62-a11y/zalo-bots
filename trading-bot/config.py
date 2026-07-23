@@ -20,8 +20,8 @@ class Config:
     # Symbols
     SCAN_ALL_SYMBOLS = os.getenv("SCAN_ALL_SYMBOLS", "true").lower() == "true"
     SYMBOLS = [s.strip() for s in os.getenv("SYMBOLS", "BTC/USDT").split(",")]
-    MIN_VOLUME_24H = float(os.getenv("MIN_VOLUME_24H", "10000000"))
-    MAX_SYMBOLS_PER_SCAN = int(os.getenv("MAX_SYMBOLS_PER_SCAN", "50"))
+    MIN_VOLUME_24H = float(os.getenv("MIN_VOLUME_24H", "5000000"))
+    MAX_SYMBOLS_PER_SCAN = int(os.getenv("MAX_SYMBOLS_PER_SCAN", "150"))
 
     # Timeframes
     TIMEFRAME_ENTRY = os.getenv("TIMEFRAME_ENTRY", "5m")
@@ -39,11 +39,11 @@ class Config:
     # ═══════════════════════════════════════
     # SONIC R DETECTION PARAMETERS
     # ═══════════════════════════════════════
-    EMA_SQUEEZE_THRESHOLD_PCT = float(os.getenv("EMA_SQUEEZE_THRESHOLD_PCT", "2.0"))     # 4 EMA spread < 2.0% = squeeze (siết chặt so với 3.5% cũ)
-    DRAGON_NARROW_THRESHOLD_PCT = float(os.getenv("DRAGON_NARROW_THRESHOLD_PCT", "1.2"))   # Dragon band width < 1.2% = narrow
+    EMA_SQUEEZE_THRESHOLD_PCT = float(os.getenv("EMA_SQUEEZE_THRESHOLD_PCT", "3.5"))     # 4 EMA spread < 3.5% = squeeze
+    DRAGON_NARROW_THRESHOLD_PCT = float(os.getenv("DRAGON_NARROW_THRESHOLD_PCT", "1.5"))   # Dragon band width < 1.5% = narrow
     MIN_ATR_PCT = float(os.getenv("MIN_ATR_PCT", "0.15"))                                 # Bỏ qua coin chết/ít thanh khoản nếu ATR 5m < 0.15%
-    MAX_EMA_SPREAD_PCT = float(os.getenv("MAX_EMA_SPREAD_PCT", "6.0"))                    # Max EMA spread % cho nén hợp lệ (>6% = không nén thực sự)
-    MAX_PRICE_DISTANCE_FROM_EMA_PCT = float(os.getenv("MAX_PRICE_DISTANCE_PCT", "1.2"))  # Max khoảng cách giá → cụm EMA 89/200/610 (>1.2% = quá xa, entry muộn)
+    MAX_EMA_SPREAD_PCT = float(os.getenv("MAX_EMA_SPREAD_PCT", "7.0"))                    # Max EMA spread % cho nén hợp lệ (>7% = không nén thực sự)
+    MAX_PRICE_DISTANCE_FROM_EMA_PCT = float(os.getenv("MAX_PRICE_DISTANCE_PCT", "2.0"))  # Max khoảng cách giá → cụm EMA 89/200/610 (>2.0% = quá xa, entry muộn)
     SQUEEZE_LOOKBACK_CANDLES = int(os.getenv("SQUEEZE_LOOKBACK_CANDLES", "5"))            # Số nến lookback để xác nhận squeeze gần đây (5 nến = 25 phút trên 5m)
     DRAGON_MIN_SLOPE = 0.001            # Min slope to confirm trending
     PULLBACK_ZONE_PCT = 0.3             # Price within ±0.3% of EMA = touch
