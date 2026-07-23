@@ -52,12 +52,15 @@ function startNodeWorker(name, scriptPath, customEnv = {}) {
 }
 
 // Hàm khởi chạy Python Process
-function startPythonProcess(name, scriptDir, scriptName) {
+function startPythonProcess(name, scriptDir, scriptName, customEnv = {}) {
     console.log(`[MONOLITH] Khởi động Python Process: ${name}...`);
     
     const py = spawn('python3', [scriptName], {
         cwd: path.join(__dirname, scriptDir),
-        env: process.env,
+        env: {
+            ...process.env,
+            ...customEnv
+        },
         stdio: 'inherit'
     });
 
@@ -67,9 +70,15 @@ function startPythonProcess(name, scriptDir, scriptName) {
 
     py.on('exit', (code) => {
         console.log(`[${name}] Dừng hoạt động với mã ${code}. Tự động khởi động lại sau 5 giây...`);
-        setTimeout(() => startPythonProcess(name, scriptDir, scriptName), 5000);
+        setTimeout(() => startPythonProcess(name, scriptDir, scriptName, customEnv), 5000);
     });
 }
+
+// Các token chuẩn xác cho từng bot
+const TONY_TRADING_TOKEN = '8623878114:AAEvt-qcOGDx2Cykpw-Z-786GLCPZEe3ZKM'; // Dành cho Python Crypto Trading Bot
+const THONG_DONG_TOKEN = '8885833462:AAE-ISO4qQ5KpkzYkEnoFyWeVdZ5YMYAGDA'; // Dành cho XAU Algo Bot
+const SECRETARY_TOKEN = '8968670034:AAEv_aQj3wUJu36OgOLMj1NbfUmy38UPxXQ'; // Dành cho Thư Kí và Zalo Bots
+const CHAT_ID = '1389725436';
 
 console.log('\n======================================================');
 console.log('   🔥 KHỞI ĐỘNG HỆ THỐNG ZALO AI MONOLITH 🔥');
@@ -78,7 +87,9 @@ console.log('======================================================\n');
 // 1. Khởi động Zalo Bot Bích
 startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'), {
     ZALO_CREDENTIALS_PATH: './zalo-credentials.json',
-    ZALO_ACCOUNT_NAME: 'Cô Lưu Bích'
+    ZALO_ACCOUNT_NAME: 'Cô Lưu Bích',
+    TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
+    TELEGRAM_CHAT_ID: CHAT_ID
 });
 
 // 2. Khởi động Zalo Bot Cường
@@ -86,23 +97,33 @@ startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'),
 setTimeout(() => {
     startNodeWorker('Bot-Cuong', path.join(__dirname, 'cuong-bot', 'src', 'index.js'), {
         ZALO_CREDENTIALS_PATH: './zalo-credentials-cuong.json',
-        ZALO_ACCOUNT_NAME: 'Trợ Lý Cường'
+        ZALO_ACCOUNT_NAME: 'Trợ Lý Cường',
+        TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
+        TELEGRAM_CHAT_ID: CHAT_ID
     });
 }, 10000);
 
 // 3. Khởi động Telegram Secretary
 setTimeout(() => {
-    startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'));
+    startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'), {
+        SECRETARY_BOT_TOKEN: SECRETARY_TOKEN,
+        ADMIN_TELEGRAM_ID: CHAT_ID
+    });
 }, 20000);
 
 // 4. Khởi động XAU Algo Bot
 setTimeout(() => {
     startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
-        PORT: 7861 // Tránh đụng cổng 7860
+        PORT: 7861, // Tránh đụng cổng 7860
+        TELEGRAM_BOT_TOKEN: THONG_DONG_TOKEN,
+        TELEGRAM_CHAT_ID: CHAT_ID
     });
 }, 30000);
 
 // 5. Khởi động Python Trading Bot
 setTimeout(() => {
-    startPythonProcess('Python-Trading', 'trading-bot', 'main.py');
+    startPythonProcess('Python-Trading', 'trading-bot', 'bot.py', {
+        TELEGRAM_BOT_TOKEN: TONY_TRADING_TOKEN,
+        TELEGRAM_CHAT_ID: CHAT_ID
+    });
 }, 40000);
