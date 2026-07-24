@@ -3,8 +3,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ============================================================
-//  STANDALONE XAU ALGO BOT — Tự quét M5, tính SMC + 4EMA, báo Telegram
-//  Nguồn dữ liệu: Binance Futures XAUUSDT (≈ XAU/USD — Sát giá OANDA)
+//  STANDALONE XAU ALGO BOT — Tự quét M5, tính SMC + 4EMA Sonic R, báo Telegram
+//  Nguồn dữ liệu: TradingView OANDA:XAUUSD (≈ XAU/USD — Sát giá OANDA)
+//  Hệ thống EMA: Sonic R — Dragon 34, EMA 89, EMA 200, EMA 610
 // ============================================================
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
@@ -25,6 +26,7 @@ let alertedBOS = new Set(); // Chống spam: mỗi BOS chỉ báo 1 lần
 let lastScanTime = null;
 let scanCount = 0;
 const STARTUP_TIME = Date.now();
+let silentSyncDone = false; // Đánh dấu đã qua giai đoạn Silent Sync
 
 const TradingView = require('@mathieuc/tradingview');
 
@@ -70,7 +72,7 @@ async function fetchCandles(limit = 500) {
 }
 
 // ============================================================
-//  2. TÍNH EMA
+//  2. TÍNH EMA — Sonic R System (34, 89, 200, 610)
 // ============================================================
 function calcEMA(closes, period) {
     const k = 2 / (period + 1);
@@ -254,22 +256,32 @@ async function sendTelegram(text) {
     }
 }
 
-function formatSignalMessage(sig, ema147, ema258, ema369) {
+function formatSignalMessage(sig, emaDragon, ema89, ema200, ema610) {
     const emoji = sig.signal === 'LONG' ? '🟢🔼' : '🔴🔽';
     const action = sig.signal === 'LONG' ? 'CANH MUA (LONG)' : 'CANH BÁN (SHORT)';
     
-    // Xác định vị trí giá so với EMA
+    // Xác định vị trí giá so với 4 EMA Sonic R
     const price = parseFloat(sig.price);
     let emaContext = '';
-    if (price > ema147 && price > ema258 && price > ema369) {
-        emaContext = '✅ Giá trên cả 3 EMA → Xu hướng TĂNG mạnh';
-    } else if (price < ema147 && price < ema258 && price < ema369) {
-        emaContext = '⚠️ Giá dưới cả 3 EMA → Xu hướng GIẢM mạnh';
-    } else if (price > ema147) {
-        emaContext = '📊 Giá trên EMA147 → Xu hướng ngắn hạn TĂNG';
+    const aboveAll = price > emaDragon && price > ema89 && price > ema200 && price > ema610;
+    const belowAll = price < emaDragon && price < ema89 && price < ema200 && price < ema610;
+    
+    if (aboveAll) {
+        emaContext = '✅ Giá trên cả 4 EMA Sonic R → Xu hướng TĂNG mạnh';
+    } else if (belowAll) {
+        emaContext = '⚠️ Giá dưới cả 4 EMA Sonic R → Xu hướng GIẢM mạnh';
+    } else if (price > emaDragon && price > ema89) {
+        emaContext = '📊 Giá trên Dragon + EMA89 → Xu hướng ngắn hạn TĂNG';
+    } else if (price < emaDragon && price < ema89) {
+        emaContext = '📊 Giá dưới Dragon + EMA89 → Xu hướng ngắn hạn GIẢM';
     } else {
-        emaContext = '📊 Giá dưới EMA147 → Xu hướng ngắn hạn GIẢM';
+        emaContext = '⚡ Giá nằm giữa cụm EMA → Vùng nén / Xung đột';
     }
+
+    // Tính EMA spread (khoảng cách giữa EMA cao nhất và thấp nhất)
+    const emaMax = Math.max(emaDragon, ema89, ema200, ema610);
+    const emaMin = Math.min(emaDragon, ema89, ema200, ema610);
+    const emaSpreadPct = ((emaMax - emaMin) / emaMin * 100).toFixed(2);
 
     return `${emoji} <b>TÍN HIỆU XAU/USD — ${action}</b>
 
@@ -278,13 +290,15 @@ function formatSignalMessage(sig, ema147, ema258, ema369) {
 💰 Giá hiện tại: <b>${sig.price}</b>
 📦 Vùng bị phá: ${sig.zoneBottom} → ${sig.zoneTop}
 
-📈 EMA 147: ${ema147.toFixed(2)}
-📉 EMA 258: ${ema258.toFixed(2)}
-📊 EMA 369: ${ema369.toFixed(2)}
+🐉 Dragon EMA 34: ${emaDragon.toFixed(2)}
+📈 EMA 89: ${ema89.toFixed(2)}
+📉 EMA 200: ${ema200.toFixed(2)}
+⚪ EMA 610: ${ema610.toFixed(2)}
+📊 EMA Spread: ${emaSpreadPct}%
 
 ${emaContext}
 
-⏰ Khung: M5 | Nguồn: XAU/USDT Futures
+⏰ Khung: M5 | Nguồn: OANDA:XAUUSD
 🕐 ${new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' })}
 
 ⚡ <i>Nhớ đặt Stoploss!</i>`;
@@ -297,24 +311,26 @@ async function runScan() {
     try {
         console.log(`\n[SCAN ${++scanCount}] ${new Date().toISOString()} — Đang quét...`);
 
-        // 1. Kéo 500 nến M5
-        const candles = await fetchCandles(500);
+        // 1. Kéo 800 nến M5 (đủ cho EMA 610 warmup)
+        const candles = await fetchCandles(800);
         console.log(`  → Lấy được ${candles.length} nến M5`);
 
         const closes = candles.map(c => c.close);
         const highs = candles.map(c => c.high);
         const lows = candles.map(c => c.low);
 
-        // 2. Tính 3 đường EMA
-        const ema147 = calcEMA(closes, 147);
-        const ema258 = calcEMA(closes, 258);
-        const ema369 = calcEMA(closes, 369);
+        // 2. Tính 4 đường EMA Sonic R
+        const emaDragon = calcEMA(closes, 34);    // Dragon Band
+        const ema89Arr = calcEMA(closes, 89);      // Trend
+        const ema200Arr = calcEMA(closes, 200);    // Long Trend
+        const ema610Arr = calcEMA(closes, 610);    // Super Trend
 
-        const currentEMA147 = ema147[ema147.length - 1];
-        const currentEMA258 = ema258[ema258.length - 1];
-        const currentEMA369 = ema369[ema369.length - 1];
+        const currentDragon = emaDragon[emaDragon.length - 1];
+        const currentEMA89 = ema89Arr[ema89Arr.length - 1];
+        const currentEMA200 = ema200Arr[ema200Arr.length - 1];
+        const currentEMA610 = ema610Arr[ema610Arr.length - 1];
 
-        console.log(`  → EMA147: ${currentEMA147.toFixed(2)} | EMA258: ${currentEMA258.toFixed(2)} | EMA369: ${currentEMA369.toFixed(2)}`);
+        console.log(`  → Dragon(34): ${currentDragon.toFixed(2)} | EMA89: ${currentEMA89.toFixed(2)} | EMA200: ${currentEMA200.toFixed(2)} | EMA610: ${currentEMA610.toFixed(2)}`);
 
         // 3. Tìm Swing High/Low
         const swingHighs = findSwingHighs(highs, SWING_LENGTH);
@@ -331,25 +347,33 @@ async function runScan() {
         demandZones = demand;
         console.log(`  → Supply Zones: ${supply.length} | Demand Zones: ${demand.length}`);
 
-        // 6. Kiểm tra BOS
-        const signals = detectBOS(candles, supply, demand);
+        // 6. Kiểm tra BOS — CHỈ sau khi qua giai đoạn Silent Sync
+        const isSilentSync = (Date.now() - STARTUP_TIME) < 60000;
+        
+        if (isSilentSync) {
+            // KHÔNG gọi detectBOS trong 60s đầu để tránh đánh dấu BOS "đã báo" mà chưa gửi telegram
+            console.log(`  ⏳ [SILENT SYNC] Bỏ qua phát hiện BOS (${Math.ceil((60000 - (Date.now() - STARTUP_TIME)) / 1000)}s còn lại)`);
+        } else {
+            // Sau khi qua Silent Sync, xóa sạch alertedBOS 1 lần duy nhất để quét lại fresh
+            if (!silentSyncDone) {
+                alertedBOS.clear();
+                silentSyncDone = true;
+                console.log('  🔄 [POST-SYNC] Đã xóa sạch alertedBOS — Quét BOS fresh!');
+            }
 
-        if (signals.length > 0) {
-            console.log(`  🚨 PHÁT HIỆN ${signals.length} TÍN HIỆU BOS!`);
-            
-            const isSilentSync = (Date.now() - STARTUP_TIME) < 60000;
-            
-            for (const sig of signals) {
-                const msg = formatSignalMessage(sig, currentEMA147, currentEMA258, currentEMA369);
-                if (!isSilentSync) {
+            const signals = detectBOS(candles, supply, demand);
+
+            if (signals.length > 0) {
+                console.log(`  🚨 PHÁT HIỆN ${signals.length} TÍN HIỆU BOS!`);
+                
+                for (const sig of signals) {
+                    const msg = formatSignalMessage(sig, currentDragon, currentEMA89, currentEMA200, currentEMA610);
                     await sendTelegram(msg);
                     console.log(`  → Đã gửi Telegram: ${sig.signal} @ ${sig.price}`);
-                } else {
-                    console.log(`  → [SILENT SYNC] Bỏ qua gửi thông báo: ${sig.signal} @ ${sig.price} (khởi động)`);
                 }
+            } else {
+                console.log(`  ✅ Không có tín hiệu BOS mới.`);
             }
-        } else {
-            console.log(`  ✅ Không có tín hiệu BOS mới.`);
         }
 
         lastScanTime = new Date().toISOString();
@@ -372,7 +396,7 @@ async function runScan() {
 app.get('/ping', (req, res) => {
     res.json({
         status: 'alive',
-        bot: 'XAU Algo Bot',
+        bot: 'XAU Algo Bot (Sonic R)',
         lastScan: lastScanTime,
         scanCount,
         supplyZones: supplyZones.length,
@@ -383,8 +407,8 @@ app.get('/ping', (req, res) => {
 
 app.get('/', (req, res) => {
     res.send(`
-        <h1>🏆 XAU Algo Bot — Đang Hoạt Động</h1>
-        <p>Quét nến M5 mỗi 5 phút | Phát hiện BOS → Báo Telegram</p>
+        <h1>🏆 XAU Algo Bot — Sonic R System — Đang Hoạt Động</h1>
+        <p>Quét nến M5 mỗi 5 phút | 4 EMA Sonic R (34/89/200/610) + SMC BOS → Báo Telegram</p>
         <p>Lần quét cuối: ${lastScanTime || 'Chưa quét'}</p>
         <p>Tổng lần quét: ${scanCount}</p>
         <p>Supply Zones: ${supplyZones.length} | Demand Zones: ${demandZones.length}</p>
@@ -395,14 +419,15 @@ app.get('/', (req, res) => {
 //  10. KHỞI ĐỘNG
 // ============================================================
 app.listen(PORT, async () => {
-    console.log(`\n🏆 XAU ALGO BOT — Server khởi động trên cổng ${PORT}`);
-    console.log(`📊 Symbol: ${SYMBOL} | Interval: ${INTERVAL}`);
+    console.log(`\n🏆 XAU ALGO BOT — Sonic R System — Server khởi động trên cổng ${PORT}`);
+    console.log(`📊 Symbol: OANDA:XAUUSD | Interval: ${INTERVAL}`);
+    console.log(`🐉 EMA: Dragon(34) / 89 / 200 / 610 (Sonic R)`);
     console.log(`🔔 Telegram Bot: ${BOT_TOKEN ? 'Đã cấu hình' : '❌ THIẾU'}`);
     console.log(`📡 Chat ID: ${CHAT_ID ? 'Đã cấu hình' : '❌ THIẾU'}`);
     console.log(`⏰ Quét mỗi ${SCAN_INTERVAL_MS / 1000}s\n`);
 
     // Thông báo khởi động
-    await sendTelegram(`🏆 <b>XAU Algo Bot Khởi Động</b>\n\n📊 Symbol: XAU/USDT Futures (≈ XAU/USD OANDA)\n⏰ Khung: M5\n🔄 Quét mỗi 5 phút\n🧠 Thuật toán: SMC + 4EMA\n\n<i>Bot sẽ tự động quét và báo tín hiệu BOS!</i>`);
+    await sendTelegram(`🏆 <b>XAU Algo Bot Khởi Động — Sonic R System</b>\n\n📊 Symbol: OANDA:XAUUSD\n⏰ Khung: M5\n🔄 Quét mỗi 5 phút\n🐉 EMA: Dragon(34) / 89 / 200 / 610\n🧠 Thuật toán: SMC BOS + 4EMA Sonic R\n\n<i>Bot sẽ tự động quét và báo tín hiệu BOS!</i>`);
 
     // Quét lần đầu sau 5 giây (grace period ngắn)
     setTimeout(() => {
@@ -411,3 +436,4 @@ app.listen(PORT, async () => {
         setInterval(runScan, SCAN_INTERVAL_MS);
     }, 5000);
 });
+

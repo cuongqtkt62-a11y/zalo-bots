@@ -125,7 +125,7 @@ class MarketDataFetcher:
     async def fetch_ohlcv(self, symbol: str, timeframe: str, limit: int = 800) -> pd.DataFrame:
         """Lấy dữ liệu OHLCV — limit=800 cho EMA 610 warmup"""
         if symbol == "XAU/USDT:USDT":
-            return await self._fetch_yahoo_ohlcv("PAXG-USD", timeframe, limit)
+            return await self._fetch_yahoo_ohlcv("GC=F", timeframe, limit)  # Gold Futures (sát giá XAU/USD thật)
 
         try:
             ohlcv = await self.exchange.fetch_ohlcv(symbol, timeframe, limit=limit)
