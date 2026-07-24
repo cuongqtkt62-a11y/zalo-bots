@@ -111,41 +111,61 @@ console.log('\n======================================================');
 console.log('   🔥 KHỞI ĐỘNG HỆ THỐNG ZALO AI MONOLITH 🔥');
 console.log('======================================================\n');
 
-// 1. Khởi động Zalo Bot Bích (96MB)
-workers['Bot-Bich'] = startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'), {
-    ZALO_CREDENTIALS_PATH: './zalo-credentials.json',
-    ZALO_ACCOUNT_NAME: 'Cô Lưu Bích',
-    TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
-    TELEGRAM_CHAT_ID: CHAT_ID
-}, 96);
+const renderGroup = process.env.RENDER_GROUP;
 
-// 2. Khởi động Zalo Bot Cường (96MB)
-// Để tránh tải nặng cùng lúc, delay 10 giây trước khi bật Cường
-setTimeout(() => {
-    workers['Bot-Cuong'] = startNodeWorker('Bot-Cuong', path.join(__dirname, 'cuong-bot', 'src', 'index.js'), {
-        ZALO_CREDENTIALS_PATH: './zalo-credentials-cuong.json',
-        ZALO_ACCOUNT_NAME: 'Trợ Lý Cường',
+if (!renderGroup || !['ZALO', 'TELEGRAM', 'ALL'].includes(renderGroup)) {
+    console.error("❌ CRITICAL ERROR: LỖI THIẾU BIẾN MÔI TRƯỜNG 'RENDER_GROUP'");
+    console.error("Vui lòng vào Render Dashboard -> Environment -> Thêm biến RENDER_GROUP = ZALO hoặc TELEGRAM (hoặc ALL để test local)");
+    process.exit(1);
+}
+
+if (renderGroup === 'ZALO' || renderGroup === 'ALL') {
+    // 1. Khởi động Zalo Bot Bích (96MB)
+    workers['Bot-Bich'] = startNodeWorker('Bot-Bich', path.join(__dirname, 'bich-bot', 'src', 'index.js'), {
+        ZALO_CREDENTIALS_PATH: './zalo-credentials.json',
+        ZALO_ACCOUNT_NAME: 'Cô Lưu Bích',
         TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
         TELEGRAM_CHAT_ID: CHAT_ID
     }, 96);
-}, 10000);
 
-// 3. Khởi động Telegram Secretary (48MB)
-setTimeout(() => {
-    workers['Telegram-Secretary'] = startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'), {
-        SECRETARY_BOT_TOKEN: SECRETARY_TOKEN,
-        TELEGRAM_CHAT_ID: CHAT_ID
-    }, 48);
-}, 20000);
+    // 2. Khởi động Zalo Bot Cường (96MB)
+    // Để tránh tải nặng cùng lúc, delay 10 giây trước khi bật Cường
+    setTimeout(() => {
+        workers['Bot-Cuong'] = startNodeWorker('Bot-Cuong', path.join(__dirname, 'cuong-bot', 'src', 'index.js'), {
+            ZALO_CREDENTIALS_PATH: './zalo-credentials-cuong.json',
+            ZALO_ACCOUNT_NAME: 'Trợ Lý Cường',
+            TELEGRAM_BOT_TOKEN: SECRETARY_TOKEN,
+            TELEGRAM_CHAT_ID: CHAT_ID
+        }, 96);
+    }, 10000);
+}
 
-// 4. Khởi động XAU Algo Bot (48MB)
-setTimeout(() => {
-    workers['XAU-Algo-Bot'] = startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
-        PORT: 7861, // Tránh đụng cổng 7860
-        TELEGRAM_BOT_TOKEN: THONG_DONG_TOKEN,
-        TELEGRAM_CHAT_ID: CHAT_ID // Tạm thời gửi về sếp Cường vì Group lỗi "chat not found"
-    }, 48);
-}, 30000);
+if (renderGroup === 'TELEGRAM' || renderGroup === 'ALL') {
+    // 3. Khởi động Telegram Secretary (48MB)
+    setTimeout(() => {
+        workers['Telegram-Secretary'] = startNodeWorker('Telegram-Secretary', path.join(__dirname, 'telegram-secretary', 'bot.js'), {
+            SECRETARY_BOT_TOKEN: SECRETARY_TOKEN,
+            TELEGRAM_CHAT_ID: CHAT_ID
+        }, 48);
+    }, 20000);
+
+    // 4. Khởi động XAU Algo Bot (48MB)
+    setTimeout(() => {
+        workers['XAU-Algo-Bot'] = startNodeWorker('XAU-Algo-Bot', path.join(__dirname, 'tradingview-xau-alert', 'server.js'), {
+            PORT: 7861, // Tránh đụng cổng 7860
+            TELEGRAM_BOT_TOKEN: THONG_DONG_TOKEN,
+            TELEGRAM_CHAT_ID: CHAT_ID // Tạm thời gửi về sếp Cường vì Group lỗi "chat not found"
+        }, 48);
+    }, 30000);
+
+    // 5. Khởi động Python Trading Bot
+    setTimeout(() => {
+        startPythonProcess('Tony-Trading-Bot', 'trading-bot', 'bot.py', {
+            TELEGRAM_BOT_TOKEN: TONY_TRADING_TOKEN,
+            TELEGRAM_CHAT_ID: CHAT_ID
+        });
+    }, 40000);
+}
 
 // Hàm khởi chạy Python Process
 function startPythonProcess(name, scriptDir, scriptName, customEnv = {}) {
@@ -167,11 +187,3 @@ function startPythonProcess(name, scriptDir, scriptName, customEnv = {}) {
         setTimeout(() => startPythonProcess(name, scriptDir, scriptName, customEnv), 10000);
     });
 }
-
-// 5. Khởi động Python Trading Bot
-setTimeout(() => {
-    startPythonProcess('Tony-Trading-Bot', 'trading-bot', 'bot.py', {
-        TELEGRAM_BOT_TOKEN: TONY_TRADING_TOKEN,
-        TELEGRAM_CHAT_ID: CHAT_ID
-    });
-}, 40000);
