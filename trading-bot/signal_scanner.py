@@ -1014,8 +1014,9 @@ class SignalScanner:
     # ═══════════════════════════════════════
 
     async def scan_all(self, on_signal_found=None) -> list:
-        """Quét tất cả symbols song song với Semaphore — GỬI NGAY khi tìm thấy tín hiệu"""
+        """Quét tất cả symbols song song với Chunking — Tránh tràn RAM (OOM) trên Render"""
         import asyncio
+        import gc
         signals = []
 
         if Config.SCAN_ALL_SYMBOLS:
@@ -1024,7 +1025,7 @@ class SignalScanner:
             xau_symbol = "XAU/USDT:USDT"
             if xau_symbol not in symbols:
                 symbols = list(symbols) + [xau_symbol]
-            logger.info(f"🌐 Quét {len(symbols)} cặp USDT Futures dòng tiền mạnh song song...")
+            logger.info(f"🌐 Quét {len(symbols)} cặp USDT Futures dòng tiền mạnh song song (bằng Chunking)...")
         else:
             symbols = list(Config.SYMBOLS)
             xau_symbol = "XAU/USDT:USDT"
@@ -1032,29 +1033,32 @@ class SignalScanner:
                 symbols.append(xau_symbol)
 
         total = len(symbols)
-        sem = asyncio.Semaphore(25)  # Tối đa 25 tác vụ chạy đồng thời (tối ưu hóa tốc độ quét)
 
         async def worker(symbol, index):
             try:
-                async with sem:
-                    signal = await self.scan_symbol(symbol)
-                    if signal and signal.is_valid:
-                        signals.append(signal)
-                        logger.info(
-                            f"   🎯 {signal.grade} {symbol} {signal.direction} | "
-                            f"{signal.setup_type} | R:R 1:{signal.risk_reward:.1f}"
-                        )
-                        if on_signal_found:
-                            await on_signal_found(signal)
+                signal = await self.scan_symbol(symbol)
+                if signal and signal.is_valid:
+                    signals.append(signal)
+                    logger.info(
+                        f"   🎯 {signal.grade} {symbol} {signal.direction} | "
+                        f"{signal.setup_type} | R:R 1:{signal.risk_reward:.1f}"
+                    )
+                    if on_signal_found:
+                        await on_signal_found(signal)
             except Exception as e:
                 logger.debug(f"   Bỏ qua {symbol}: {e}")
             finally:
-                if index % 25 == 0 or index == total:
+                if index % 20 == 0 or index == total:
                     logger.info(f"   Tiến độ quét: {index}/{total}...")
 
-        # Chạy song song các tasks
-        tasks = [worker(sym, i) for i, sym in enumerate(symbols, 1)]
-        await asyncio.gather(*tasks)
+        # Chạy song song các tasks theo Chunk 20 mã
+        chunk_size = 20
+        for i in range(0, len(symbols), chunk_size):
+            chunk = symbols[i:i + chunk_size]
+            tasks = [worker(sym, i + idx + 1) for idx, sym in enumerate(chunk)]
+            await asyncio.gather(*tasks)
+            # Dọn rác RAM ngay lập tức sau mỗi 20 mã để chống tràn bộ nhớ (OOM)
+            gc.collect()
 
         logger.info(f"📊 Hoàn tất: {total} cặp → {len(signals)} tín hiệu")
         return signals
