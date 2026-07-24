@@ -243,11 +243,9 @@ const pingAllServices = () => {
   });
 };
 
-// Ping ngay khi khởi động
-setTimeout(pingAllServices, 10000);
-// Lặp lại mỗi 10 phút (đủ ngắn để chống ngủ đông)
-setInterval(pingAllServices, 10 * 60 * 1000);
-console.log('🏥 Keep-Alive System: Sẽ ping tất cả server mỗi 10 phút');
+// Đã xóa setInterval(pingAllServices) theo luật CẤM DÙNG setInterval để chống ngủ đông.
+// Render sẽ tự động dùng cron trong render.yaml để duy trì sống còn.
+console.log('🏥 Keep-Alive System: Dựa vào ping từ Render Cron (render.yaml)');
 
 // Xử lý lỗi uncaught để bot không bị crash
 process.on('uncaughtException', (err) => {

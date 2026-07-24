@@ -1247,7 +1247,7 @@ async function startBot() {
   cron.schedule('0 12 * * *', () => runGroupNurturing('Buổi trưa (12:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
 
   // Chạy lúc 10:00 sáng hàng ngày (riêng cho nhóm Làm chủ AI)
-  cron.schedule('0 10 * * *', () => runGroupNurturing('Buổi sáng (10:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
+  // Đã vô hiệu hóa để tuân thủ khung giờ chuẩn (08:01, 12:00, 19:00)
 
   // Chạy lúc 19:00 tối hàng ngày
   cron.schedule('0 19 * * *', () => runGroupNurturing('Buổi tối (19:00)'), { scheduled: true, timezone: "Asia/Ho_Chi_Minh" });
